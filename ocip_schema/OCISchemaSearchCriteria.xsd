@@ -1,0 +1,2475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E A R C H   C R I T E R I A   P A R T                -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:include schemaLocation="OCISchemaDataTypes.xsd"/>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Search Criteria specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="EnhancedCallLogsNumberFilter">
+    <xs:annotation>
+      <xs:documentation>
+        Filter criteria based on the called number or number called.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="includeBasicCallType" type="BasicCallType" maxOccurs="unbounded"/>
+        <xs:element name="includeCallCategory" type="CallCategory" maxOccurs="unbounded"/>
+        <xs:element name="includeConfigurableCallType" type="CommunicationBarringCallType" maxOccurs="unbounded"/>
+        <xs:element name="searchCriteriaDialedNumber" type="SearchCriteriaOutgoingDNorSIPURI" maxOccurs="unbounded"/>
+        <xs:element name="searchCriteriaCalledNumber" type="SearchCriteriaOutgoingDNorSIPURI" maxOccurs="unbounded"/>
+        <xs:element name="searchCriteriaNetworkTranslatedNumber" type="SearchCriteriaOutgoingDNorSIPURI" maxOccurs="unbounded"/>
+        <xs:element name="searchCriteriaCallingPresentationNumber" type="SearchCriteriaOutgoingDNorSIPURI" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteria" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        Abstract base type for specifying search criteria. A search criteria is an optional element
+        used to restrict the number of rows returned when requesting a potentially large set of
+        data from the provisioning server.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaAccessDeviceEndpointPrivateIdentity">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a private identity.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="AccessDeviceEndpointPrivateIdentity"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaAccessDeviceVersion">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for an Access Device Version.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="UserAgentHeader"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaAdminFirstName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for an administrator's first name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="FirstName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaAdminId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for an administrator's adminId.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="UserId"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaAdminLastName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for an administrator's last name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="LastName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaAgentThresholdProfile">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching a Call Center Agent Threshold Profile.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="CallCenterAgentThresholdProfileName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaAlternateTrunkIdentity">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified alternate trunk identity.
+        In IMS mode, it only applies to the user part of alternate trunk identity.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="AlternateTrunkIdentity"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaAlternateTrunkIdentityDomain">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for alternate trunk identity domain part.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DomainName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaAlternateUserId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's alternate userId.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="UserId"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaAnnouncementFileName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for an Announcement File Name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="AnnouncementFileName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaCallCenterName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a call center
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ServiceInstanceProfileName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaCallCenterReportTemplateName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular call center enhanced reporting report template.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="CallCenterReportTemplateName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaCallCenterScheduledReportName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a call center enhanced reporting scheduled report name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="CallCenterScheduledReportName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaCallParkName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a call park by name
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ServiceInstanceName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaCallPickupName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a call pickup by name
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ServiceInstanceName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaCommunicationBarringAuthorizationCode">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a Communication Barring Authorization Code.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value">
+            <xs:simpleType>
+              <xs:annotation>
+                <xs:documentation>
+              Authorization Code Search Value.
+              The authorization code data type is at least two digits.
+            This type is defined to provide authorization code search with length 1.
+            </xs:documentation>
+              </xs:annotation>
+              <xs:restriction base="xs:token">
+                <xs:minLength value="1"/>
+                <xs:maxLength value="14"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaCommunicationBarringAuthorizationCodeDescription">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a Communication Barring Authorization Code description.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="CommunicationBarringAuthorizationCodeDescription"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaComposedOr" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        Abstract base type for specifying search criteria where the search criteria params are OR'ed.
+        A search criteria is an optional element
+        used to restrict the number of rows returned when requesting a potentially large set of
+        data from the provisioning server.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaComposedOrDnExtension">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a DN OR an extension.
+        Note: For this search criterion, the searchMode is always ‘Contains’ and the search criteria are always OR’ed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteriaComposedOr">
+        <xs:sequence>
+          <xs:element name="value" type="UserDNExtension"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaComposedOrUserName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's full name.
+        This search criterion will be compared against multiple combinations of first name and last name:
+
+        First Name + ‘ ‘ + Last Name
+        Last Name + ‘ ‘ + First Name
+        Hiragana Last Name + ' ' + Hiragana First Name
+
+        Note: For this search criterion, the searchMode is always ‘Contains’ and the search criteria are always OR’ed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteriaComposedOr">
+        <xs:sequence>
+          <xs:element name="value" minOccurs="1" maxOccurs="unbounded">
+            <xs:simpleType>
+              <xs:annotation/>
+              <xs:restriction base="xs:token">
+                <xs:minLength value="1"/>
+                <xs:maxLength value="255"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDepartmentName">
+    <xs:annotation>
+      <xs:documentation>
+				Criteria for searching for a user's department.
+			</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DepartmentName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDeviceMACAddress">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for device MAC address.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="AccessDeviceMACAddress"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDeviceManagementEventAdditionalInfo">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular additional info of a DeviceManagement event.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DeviceManagementEventAdditionalInfo"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDeviceManagementEventLoginId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular login id.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="UserId"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDeviceName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for device name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="AccessDeviceName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDeviceNetAddress">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for device network address.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="NetAddress"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDeviceSerialNumber">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for device serial number.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="AccessDeviceSerialNumber"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDeviceType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for device type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="AccessDeviceType"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDigitPattern">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for digit pattern.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DigitPattern"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDn">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a DN.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaDomainName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for Domain Names.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DomainName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaEmailAddress">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a email address.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="EmailAddress"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaEnterpriseCommonMultiPartPhoneListName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a multi-part name in an enterprise common phone list.\
+        Note: For this search criterion, the searchMode is always ‘Contains’ and the multi-part search criteria are always AND’ed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="value" type="PhoneListEntryName" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaEnterpriseCommonPhoneListName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a name in an enterprise common phone list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="PhoneListEntryName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaEnterpriseCommonPhoneListNumber">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a phone number in an enterprise common phone list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="OutgoingDN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaEnterpriseTrunkName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for an Enterprise Trunk name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="EnterpriseTrunkName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactAnnouncementFileType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular announcement file type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="type" type="AnnouncementFileType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactAutoAttendantType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular auto-attendant type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="type" type="AutoAttendantType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactCallCenterReportTemplateKey">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular call center enhanced reporting report template.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="reportTemplate" type="CallCenterReportTemplateKey"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactCallCenterScheduledReportCreatedBySupervisor">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for call center scheduled report created by a
+        supervisor or administrator.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="createdBySupervisor" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactCallCenterScheduledReportGroup">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified call center scheduled
+        report's group.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactCallCenterScheduledReportServiceProvider">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular call center scheduled report's service provider.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactCallCenterType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified call center type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="callCenterType" type="CallCenterType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactCustomContactDirectory">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified custom contact directory.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="customContactDirectoryName" type="CustomContactDirectoryName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDeviceLevel">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular device level.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="deviceLevel" type="AccessDeviceLevel"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDeviceManagementEventAction">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified DeviceManagement event action.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="dmEventAction" type="DeviceManagementEventAction"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDeviceManagementEventLevel">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified DeviceManagement event level.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="dmEventLevel" type="DeviceManagementEventLevel"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDeviceManagementEventStatusCompleted">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified Device Management completed event status.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="dmEventStatusCompleted" type="DeviceManagementEventStatusCompleted"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDeviceManagementEventStatusInProgressOrPending">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified Device Management event in progress or pending status.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="dmEventStatusInProgressOrPending" type="DeviceManagementEventStatusInProgressOrPending"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDeviceManagementEventType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified DeviceManagement event type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="dmEventType" type="DeviceManagementEventType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDeviceServiceProvider">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified service provider associated with a device.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDeviceType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified device type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="deviceType" type="AccessDeviceType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDeviceTypeConfigurationOptionType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified DeviceTypeConfigurationOptionType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="deviceConfigOptions" type="DeviceTypeConfigurationOptionType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDnActivation">
+    <xs:annotation>
+      <xs:documentation>
+          Criteria for searching for a particular Dn activation state.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="activated" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDnAvailability">
+    <xs:annotation>
+      <xs:documentation>
+          Criteria for searching for a particular dn availability.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="available" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDnDepartment">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified DN's department.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="departmentKey" type="DepartmentKey"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactDomainLevel">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular domain level.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="domainLevel" type="DomainLevel"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactEndpointType21sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular endpoint type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="endpointType" type="EndpointType21sp1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactGroupAdminType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular group administrator type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="type" type="GroupAdminType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactHuntPolicy">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified hunt policy.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="huntPolicy" type="HuntPolicy"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactLocationEnabled">
+    <xs:annotation>
+      <xs:documentation>
+          Criteria for searching for a particular Location enabled state.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="enabled" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactMediaFileType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular media file type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="type" type="MediaFileType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactMobileDnAvailability">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular mobile dn availability.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="available" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactMobileNetwork">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular BroadWorks Mobility Mobile Network.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mobileNetworkName" type="BroadWorksMobilityMobileNetworkName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactOrganizationType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for an organization type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="organizationType" type="OrganizationType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactPolicySelection">
+    <xs:annotation>
+      <xs:documentation>
+          Criteria for searching for a particular Voice VPN policy selection.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="policySelection" type="EnterpriseVoiceVPNPolicySelection"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactPortNumber">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a port number.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="port" type="AccessDevicePortNumber"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactScheduleLevel">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular schedule level.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="level" type="ScheduleLevel"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactScheduleType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular schedule type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="type" type="ScheduleType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactServiceProvider">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified service provider.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactServiceProviderAdminType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular service provider administrator type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="type" type="ServiceProviderAdminType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactServiceType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified service type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="serviceType" type="ServiceType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactSignalingAddressType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified SignalingAddressType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="profile" type="SignalingAddressType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactSkillLevel">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a skill Level.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="skillLevel" type="CallCenterAgentSkillLevel"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactUserDepartment">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified user's department.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="departmentKey" type="DepartmentKey"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactUserGroup">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified user's group.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactUserInTrunkGroup">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for user in/not in a trunk group.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="userInTrunkGroup" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactUserNetworkClassOfService">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for users with a specified network class of service.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactUserRouteListAssigned">
+    <xs:annotation>
+      <xs:documentation>
+          Criteria for searching for users with/without Route List feature assigned.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="routeListAssigned" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactUserRouteListAssignment">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for users with Route List feature assignment.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="assigned" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactUserType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular User Type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="userType" type="UserType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExactVirtualOnNetCallTypeName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a particular fully specified Virtual On-Net Call Type Name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="virtualOnNetCallTypeName" type="VirtualOnNetCallTypeName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaExtension">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for an extension.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value">
+            <xs:simpleType>
+              <xs:annotation/>
+              <xs:restriction base="xs:token">
+                <xs:minLength value="1"/>
+                <xs:maxLength value="20"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaForwardedToNumber">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a forwarded to number.
+        This search criteria data type is only intended to be used by the commands
+        introduced by BW-2301.
+        The commands are EnterpriseUserCallForwardingSettingsGetListRequest
+        and GroupUserCallForwardingSettingsGetListRequest.
+        The following Call Forwarding services are compatible for this search:
+        Call Forwarding Always, Call Forwarding Always Secondary, Call Forwarding Busy,
+        Call Forwarding No Answer, Call Forwarding Not Reachable, Call Forwarding Selective.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaGroupCommonMultiPartPhoneListName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a multi-value name in a group common phone list.
+        Note: For this search criterion, the searchMode is always ‘Contains’ and the multi-part search criteria are always AND’ed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="value" type="PhoneListEntryName" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaGroupCommonPhoneListName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a name in a group common phone list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="PhoneListEntryName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaGroupCommonPhoneListNumber">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a phone number in a group common phone list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="OutgoingDN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaGroupExternalId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching by a group's externalId.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ExternalId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaGroupId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a group ID.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="GroupId"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaGroupLocationCode">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a group location dialing code.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="LocationDialingCode"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaGroupName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a group name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="GroupName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaHomeMscAddress">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a system Home Network Msc Address.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaImpId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's IMP Id.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="IMPUserId"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaIMRN">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for an IMRN Number.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaLanguage">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a language.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="Language"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaLinePortDomain">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for device line/port, or SIPURI domain part.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DomainName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaLinePortUserPart">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for device line/port, or SIPURI user part.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value">
+            <xs:simpleType>
+              <xs:annotation/>
+              <xs:restriction base="xs:token">
+                <xs:minLength value="1"/>
+                <xs:maxLength value="80"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaLocation">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a Location.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaLoginId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a Login Id.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="UserId"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaMobilePhoneNumber">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's mobile phone number.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="OutgoingDN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaMobileSubscriberDirectoryNumber">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a BroadWorks Mobility Mobile Subscriber Directory Number.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaMultiPartUserName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's full name.
+        This search criterion will be compared against multiple combinations of first name and last name:
+
+        First Name + ‘ ‘ + Last Name
+        Last Name + ‘ ‘ + First Name
+        Last Name + ‘, ‘ + First Name
+        Hiragana Last Name + Hiragana First Name
+
+        Note that when specific conditions are met, VON users will be included in the search results.
+        Note: For this search criterion, the searchMode is always ‘Contains’ and the multi-part search criteria are always AND’ed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="value" minOccurs="1" maxOccurs="unbounded">
+            <xs:simpleType>
+              <xs:annotation/>
+              <xs:restriction base="xs:token">
+                <xs:minLength value="1"/>
+                <xs:maxLength value="62"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaNetworkClassOfServiceName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a Network Class of Service name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="NetworkClassOfServiceName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaNumberPortabilityQueryDigitPattern">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for digit pattern.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DigitPattern"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaNumberPortabilityStatus">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for number portability status.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="NumberPortabilityStatus"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaOutgoingDNorSIPURI">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a phone number or SIPURI.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="OutgoingDNorSIPURI"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" fixed="false"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaPersonalAssistantExclusionNumber">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for Personal Assistant Exclusion Number.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaPersonalAssistantExclusionNumberDescription">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching Personal Assistant Exclusion Number's Description.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="PersonalAssistantExclusionNumberDescription"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaPhysicalLocation">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a Physical Location.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="PhysicalLocation"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaProfileServiceCode">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a Service Code.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ServiceCode"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaProfileServiceCodeDescription">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a Service Code description.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ServiceCodeDescription"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaReceptionistNote">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for Receptionist Notes.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ReceptionistNote"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaRegistrationURI">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a RegistrationURI.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="RegistrationAddressURI"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaResellerId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a reseller ID.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ResellerId22"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaResellerName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a reseller name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ResellerName22"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaRoamingMscAddress">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a system Roaming Network Msc Address.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaRoutePointName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a route point
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="LastName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaScheduleName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a schedule name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ScheduleName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaServiceCode">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a Service Code.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ServiceCode"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaServiceCodeDescription">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a Service Code description.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ServiceCodeDescription"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaServiceInstanceName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a service instance name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ServiceInstanceProfileName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaServiceProviderId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a service provider ID.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ServiceProviderId"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaServiceProviderName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a service provider name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ServiceProviderName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaServiceProviderNumberPortabilityQueryDigitPattern">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for digit pattern.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DigitPattern"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaServiceStatus">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for services that are active or not.
+        This search criteria data type is only intended to be used by the commands
+        introduced by BW-2301.
+        The commands are EnterpriseUserCallWaitingSettingsGetListRequest
+        and GroupUserCallWaitingSettingsGetListRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="isActive" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaSIPContact">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a SIP Contact.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="SIPContact"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaSystemServiceDn">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a system service DN.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="DN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaTitle">
+    <xs:annotation>
+      <xs:documentation>
+      	Criteria for searching for a user's title.
+   	  </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="Title"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaTrunkGroupName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a trunk group
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="TrunkGroupName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaUserExternalId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's externalId.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="ExternalId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaUserFirstName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's first name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="FirstName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaUserHotlineContact">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's hotline contact.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="SIPURI"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaUserId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's userId.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="UserId"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaUserLastName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's last name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="LastName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaUserName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's full name.
+        This search criterion will be compared against multiple combinations of first name and last name:
+
+        First Name + ' ' + Last Name
+        Last Name + ' ' + First Name
+        Last Name + ', ' + First Name
+        Hiragana Last Name + ' ' + Hiragana First Name
+
+        Note that when specific conditions are met, VON users will be included in the search results.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value">
+            <xs:simpleType>
+              <xs:annotation/>
+              <xs:restriction base="xs:token">
+                <xs:minLength value="1"/>
+                <xs:maxLength value="62"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaUserPersonalMultiPartPhoneListName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a name in a user personal phone list.
+        Note: For this search criterion, the searchMode is always ‘Contains’ and the multi-part search criteria are always AND’ed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="value" type="PhoneListEntryName" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaUserPersonalPhoneListName">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a name in a user personal phone list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="PhoneListEntryName"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaUserPersonalPhoneListNumber">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a phone number in a user personal phone list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="OutgoingDN"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaUserPlaceType">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching based on a user type – “User” or “Place”.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="value" type="UserPlaceType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaYahooId">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a user's yahoo id.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="YahooId"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SearchCriteriaZoneIPAddress">
+    <xs:annotation>
+      <xs:documentation>
+        Criteria for searching for a system zone's IP Address.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SearchCriteria">
+        <xs:sequence>
+          <xs:element name="mode" type="SearchMode"/>
+          <xs:element name="value" type="IPAddress"/>
+          <xs:element name="isCaseInsensitive" type="xs:boolean" default="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="ResponseSizeLimit">
+    <xs:annotation>
+      <xs:documentation>
+        Maximum number of rows to return in response to a search.
+        By convention, elements of this type can be omitted to allow an
+        unlimited number or rows in the search result.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="SearchMode">
+    <xs:annotation>
+      <xs:documentation>Search mode when searching for string data.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Starts With"/>
+      <xs:enumeration value="Contains"/>
+      <xs:enumeration value="Equal To"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="UserPlaceType">
+    <xs:annotation>
+      <xs:documentation>
+        Search for user type - 'user' or 'place'. If user type is not
+        included, the search looks for ‘both’.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="User"/>
+      <xs:enumeration value="Place"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

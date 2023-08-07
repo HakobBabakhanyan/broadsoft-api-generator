@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- O M A   P R E S E N C E   S E R V I C E                                              -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+</xs:schema>

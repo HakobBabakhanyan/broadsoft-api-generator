@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- B U S Y   L A M P   F I E L D   S E R V I C E                                        -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- B U S Y   L A M P   F I E L D   R E Q U E S T S   A N D   R E S P O N S E S          -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    SystemBusyLampFieldGetRequest23V2
+    SystemBusyLampFieldModifyRequest
+    UserBusyLampFieldGetAvailableUserListRequest
+    UserBusyLampFieldGetRequest16sp2
+    UserBusyLampFieldModifyRequest
+-->
+
+  <xs:complexType name="SystemBusyLampFieldGetRequest23V2">
+    <xs:annotation>
+      <xs:documentation>
+        Request the system level data associated with the Busy Lamp
+        Field service. The response is either a
+        SystemBusyLampFieldGetResponse23V2 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBusyLampFieldGetResponse23V2">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemBusyLampFieldGetRequest23V2.
+
+        The following elements are only used in AS data mode:
+         forceUseOfTCP
+         enableRedundancy, value "false" is returned in XS data mode
+         redundancyTaskDelayMilliseconds, value "10000" is returned in Amplify and XS data mode
+         redundancyTaskIntervalMilliseconds, value of "1000" is returned in Amplify and XS data mode
+         maxNumberOfSubscriptionsPerRedundancyTaskInterval, value of "50" is returned in Amplify and XS data mode
+         ignoreUnansweredTerminatingCalls, value “false” is returned in XS data mode
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="displayLocalUserIdentityLastNameFirst" type="xs:boolean"/>
+          <xs:element name="forceUseOfTCP" type="xs:boolean"/>
+          <xs:element name="enableRedundancy" type="xs:boolean"/>
+          <xs:element name="redundancyTaskDelayMilliseconds" type="BusyLampFieldTaskDelayMilliseconds"/>
+          <xs:element name="redundancyTaskIntervalMilliseconds" type="BusyLampFieldTaskIntervalMilliseconds"/>
+          <xs:element name="maxNumberOfSubscriptionsPerRedundancyTaskInterval" type="BusyLampFieldMaxSubscriptionPerInterval"/>
+          <xs:element name="ignoreUnansweredTerminatingCalls" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBusyLampFieldModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the system level data associated with the Busy Lamp Field
+        Service. The response is either a SuccessResponse or an
+        ErrorResponse.
+
+        The following elements are only used in AS data mode:
+         forceUseOfTCP
+
+        The following elements are only used in AS data mode and ignored in Amplify and XS data mode:
+         enableRedundancy
+         redundancyTaskDelayMilliseconds
+         redundancyTaskIntervalMilliseconds
+         maxNumberOfSubscriptionsPerRedundancyTaskInterval
+
+        The following elements are only used in AS data mode and ignored in XS data mode:
+         ignoreUnansweredTerminatingCalls
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="displayLocalUserIdentityLastNameFirst" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="forceUseOfTCP" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableRedundancy" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="redundancyTaskDelayMilliseconds" type="BusyLampFieldTaskDelayMilliseconds" minOccurs="0"/>
+          <xs:element name="redundancyTaskIntervalMilliseconds" type="BusyLampFieldTaskIntervalMilliseconds" minOccurs="0"/>
+          <xs:element name="maxNumberOfSubscriptionsPerRedundancyTaskInterval" type="BusyLampFieldMaxSubscriptionPerInterval" minOccurs="0"/>
+          <xs:element name="ignoreUnansweredTerminatingCalls" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBusyLampFieldGetAvailableUserListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of available users for the busy lamp field service.
+        The response is either UserBusyLampFieldGetAvailableUserListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactUserDepartment" type="SearchCriteriaExactUserDepartment" minOccurs="0"/>
+          <xs:element name="searchCriteriaExactUserGroup" type="SearchCriteriaExactUserGroup" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaImpId" type="SearchCriteriaImpId" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBusyLampFieldGetAvailableUserListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the BusyLampFieldGetAvailableUserListRequest.
+        Returns a table with column headings:
+          "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name",
+          "Phone Number", "Extension", "Department", "Email Address", "IMP Id".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="userTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBusyLampFieldGetRequest16sp2">
+    <xs:annotation>
+      <xs:documentation>
+        Request the settings for the busy lamp field service.
+        The response is either a UserBusyLampFieldGetResponse16sp2 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBusyLampFieldGetResponse16sp2">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserBusyLampFieldGetRequest16sp2.
+        The table has column headings:
+          "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name",
+          "Phone Number", "Extension", "Department", "Email Address", "IMP Id".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="listURI" type="SIPURI" minOccurs="0"/>
+          <xs:element name="enableCallParkNotification" type="xs:boolean"/>
+          <xs:element name="monitoredUserTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBusyLampFieldModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the settings for the busy lamp field service.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="listURI" type="SIPURI" nillable="true" minOccurs="0"/>
+          <xs:element name="monitoredUserIdList" type="ReplacementUserIdList" nillable="true" minOccurs="0"/>
+          <xs:element name="enableCallParkNotification" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Busy Lamp Field specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:simpleType name="BusyLampFieldMaxSubscriptionPerInterval">
+    <xs:annotation>
+      <xs:documentation>
+        The maximum number of BLF subscriptions to be
+        processed per redundancy task interval.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="50000"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="BusyLampFieldTaskDelayMilliseconds">
+    <xs:annotation>
+      <xs:documentation>
+        The processing delay in milliseconds following a
+        redundancy link change.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="10000"/>
+      <xs:maxInclusive value="180000"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="BusyLampFieldTaskIntervalMilliseconds">
+    <xs:annotation>
+      <xs:documentation>
+        The time delay in milliseconds between process rounds
+        for subscriptions for a redundancy link state change.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="50"/>
+      <xs:maxInclusive value="20000"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

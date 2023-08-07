@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- R O U T E   L I S T   S E R V I C E                                                  -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- R O U T E   L I S T   R E Q U E S T S   A N D   R E S P O N S E S                    -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    EnterpriseRouteListEnterpriseTrunkNumberPrefixGetAvailableListRequest
+    EnterpriseRouteListEnterpriseTrunkNumberPrefixGetSummaryListRequest
+    EnterpriseRouteListEnterpriseTrunkNumberRangeGetAvailableListRequest
+    EnterpriseRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest
+    GroupRouteListEnterpriseTrunkNumberPrefixAssignListRequest
+    GroupRouteListEnterpriseTrunkNumberPrefixGetAvailableListRequest
+    GroupRouteListEnterpriseTrunkNumberPrefixGetSummaryListRequest
+    GroupRouteListEnterpriseTrunkNumberPrefixUnassignListRequest
+    GroupRouteListEnterpriseTrunkNumberRangeAssignListRequest
+    GroupRouteListEnterpriseTrunkNumberRangeGetAvailableListRequest
+    GroupRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest
+    GroupRouteListEnterpriseTrunkNumberRangeUnassignListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberPrefixActivateListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberPrefixAddListRequest22
+    ServiceProviderRouteListEnterpriseTrunkNumberPrefixDeactivateListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberPrefixDeleteListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberPrefixGetAvailableListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberPrefixGetSummaryListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberPrefixModifyListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberRangeActivateListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberRangeAddListRequest22
+    ServiceProviderRouteListEnterpriseTrunkNumberRangeDeactivateListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberRangeDeleteListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberRangeGetAvailableListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest
+    ServiceProviderRouteListEnterpriseTrunkNumberRangeModifyListRequest
+    SystemRouteListEnterpriseTrunkNumberPrefixGetSummaryListRequest
+    SystemRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest
+    UserRouteListGetRequest22
+    UserRouteListModifyRequest
+-->
+
+  <xs:complexType name="EnterpriseRouteListEnterpriseTrunkNumberPrefixGetAvailableListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of number prefixes that are assigned to an enterprise and still available for assignment to users within the enterprise.
+        The response is either EnterpriseRouteListEnterpriseTrunkNumberPrefixGetAvailableListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseRouteListEnterpriseTrunkNumberPrefixGetAvailableListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to EnterpriseRouteListEnterpriseTrunkNumberPrefixGetAvailableListRequest.
+        Contains a list of number prefixes that are assigned to an enterprise and still available for assignment to users within the enterprise.
+        The column headings are "Number Prefix" ","Is Active", “Extension Range Start” and “Extension Range End”.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableNumberPrefixTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseRouteListEnterpriseTrunkNumberPrefixGetSummaryListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a summary table of all enterprise trunk number prefixes in the enterprise.
+        The response is either EnterpriseRouteListEnterpriseTrunkNumberPrefixGetSummaryListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseRouteListEnterpriseTrunkNumberPrefixGetSummaryListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to EnterpriseRouteListEnterpriseTrunkNumberPrefixGetSummaryListRequest.
+        The response contains a table with columns: "Number Prefix", "Group Id", "User Id",
+        "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name", "Phone Number", "Extension", "Department",
+        "Email Address", "Enterprise Trunk"","Is Active", “Extension Range Start” and “Extension Range End”.
+        The "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name", "Phone Number",
+        "Extension", "Department" and "Email Address" columns contains the corresponding attributes of the user possessing the number range.
+        The "Enterprise Trunk" column contains the enterprise trunk the user possessing the number range belongs to.
+        The "Is Active" column indicates if the number range has been activated.
+        The “Extension Range Start” column indicates the start for an extension range.
+        The “Extension Range End” column indicates the end for an extension range.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="prefixSummaryTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseRouteListEnterpriseTrunkNumberRangeGetAvailableListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of number ranges that are assigned to an enterprise and still available for assignment to users within the enterprise.
+        The response is either EnterpriseRouteListEnterpriseTrunkNumberRangeGetAvailableListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseRouteListEnterpriseTrunkNumberRangeGetAvailableListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to EnterpriseRouteListEnterpriseTrunkNumberRangeGetAvailableListRequest.
+        Contains a list of number ranges that are assigned to an enterprise and still available for assignment to users within the enterprise.
+        The column headings are "Number Range Start", "Number Range End" ,"Is Active" and “Extension Length”..
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableNumberRangeTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a summary table of all enterprise trunk number ranges in the enterprise.
+        The response is either EnterpriseRouteListEnterpriseTrunkNumberRangeGetSummaryListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseRouteListEnterpriseTrunkNumberRangeGetSummaryListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to EnterpriseRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest.
+        The response contains a table with columns: "Number Range Start", "Number Range End", "Group Id", "User Id",
+        "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name", "Phone Number", "Extension", "Department",
+        "Email Address", "Enterprise Trunk", "Is Active" and "Extension Length".
+        The "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name", "Phone Number",
+        "Extension", "Department" and "Email Address" columns contains the corresponding attributes of the user possessing the number range.
+        The "Enterprise Trunk" column contains the enterprise trunk the user possessing the number range belongs to.
+        The "Is Active" column indicates if the number range has been activated.
+        The “Extension Length” column indicates the length of the extension for the enterpris trunk number range.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="numberRangeSummaryTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberPrefixAssignListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Assign a list of service provider number prefixes to a group.
+        The number prefixes must have previously been added to the service provider.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="numberPrefix" type="EnterpriseTrunkNumberPrefix" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberPrefixGetAvailableListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of number prefixess that are assigned to a group and still available for assignment to users within the group.
+        The response is either GroupRouteListEnterpriseTrunkNumberPrefixGetAvailableListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberPrefixGetAvailableListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupRouteListEnterpriseTrunkNumberPrefixGetAvailableListRequest.
+        Contains a list of number prefixess that are assigned to a group and still available for assignment to users within the group.
+        The column headings are "Number Prefix"","Is Active", “Extension Range Start” and “Extension Range End”.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableNumberPrefixTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberPrefixGetSummaryListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the list of assigned and unassigned enterprise trunknumber prefixes in a group.
+        The response is either GroupRouteListEnterpriseTrunkNumberPrefixGetSummaryListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberPrefixGetSummaryListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest.
+        The response contains a table with columns: "Number Prefix", "User Id",
+        "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name", "Phone Number", "Extension",
+        "Department", "Email Address", "Enterprise Trunk"","Is Active", “Extension Range Start” and “Extension Range End”.
+        The "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name", "Phone Number",
+        "Extension", "Department" and "Email Address" columns contains the corresponding attributes of the user possessing the number range.
+        The "Enterprise Trunk" column contains the enterprise trunk the user possessing the number range belongs to.
+        The "Is Active" column indicates if the number prefix has been activated.
+        The “Extension Range Start” column indicates the start for an extension range.
+        The “Extension Range End” column indicates the end for an extension range.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="numberPrefixSummaryTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberPrefixUnassignListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Unassign a list of service provider number prefixes from a group. The number prefixes then become available for assignment to other groups.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="numberPrefix" type="EnterpriseTrunkNumberPrefix" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberRangeAssignListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Assign a list of service provider number ranges to a group.
+        The number ranges must have previously been added to the service provider.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="numberRangeStart" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberRangeGetAvailableListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of number ranges that are assigned to a group and still available for assignment to users within the group.
+        The response is either GroupRouteListEnterpriseTrunkNumberRangeGetAvailableListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberRangeGetAvailableListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupRouteListEnterpriseTrunkNumberRangeGetAvailableListRequest.
+        Contains a list of number ranges that are assigned to a group and still available for assignment to users within the group.
+        The column headings are "Number Range Start", "Number Range End" ,"Is Active" and “Extension Length”..
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableNumberRangeTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the list of assigned and unassigned enterprise trunknumber ranges in a group.
+        The response is either GroupRouteListEnterpriseTrunkNumberRangeGetSummaryListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberRangeGetSummaryListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest.
+        The response contains a table with columns: "Number Range Start", "Number Range End", "User Id",
+        "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name", "Phone Number", "Extension",
+        "Department", "Email Address", "Enterprise Trunk" and "Is Active".
+        The "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name", "Phone Number",
+        "Extension", "Department" and "Email Address" columns contains the corresponding attributes of the user possessing the number range.
+        The "Enterprise Trunk" column contains the enterprise trunk the user possessing the number range belongs to.
+        The "Is Active" column indicates if the number range has been activated.
+        The “Extension Length” column indicates the length of the extension for the enterpris trunk number range.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="numberRangeSummaryTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupRouteListEnterpriseTrunkNumberRangeUnassignListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Unassign a list of service provider number ranges from a group. The number ranges then become available for assignment to other groups.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="numberRangeStart" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberPrefixActivateListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Activate number prefixes in a service provider.
+        It is not an error to activate an already activated number prefix.
+        The command fails if executed when system level enterprise trunk number prefix activation is disabled.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="numberPrefix" type="EnterpriseTrunkNumberPrefix" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberPrefixAddListRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Add number prefixes to a service provider.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="prefix" type="EnterpriseTrunkNumberPrefix22" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberPrefixDeactivateListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Deactivate number prefixes in a service provider.
+        It is not an error to deactivate an already deactivated number prefix.
+        The command fails if executed when system level enterprise trunk number prefix activation is disabled.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="numberPrefix" type="EnterpriseTrunkNumberPrefix" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberPrefixDeleteListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete number prefixes from a service provider.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="numberPrefix" type="EnterpriseTrunkNumberPrefix" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberPrefixGetAvailableListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of available number prefixes not yet assigned to any group.
+        The response is either ServiceProviderRouteListEnterpriseTrunkNumberPrefixGetAvailableListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberPrefixGetAvailableListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderRouteListEnterpriseTrunkNumberPrefixGetAvailableListRequest.
+        Contains a list of available number prefixes not yet assigned to any group.
+        The column headings are "Number Prefix"","Is Active", “Extension Range Start” and “Extension Range End”.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableNumberPrefixTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberPrefixGetSummaryListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a summary table of all enterprise trunk number prefixes in the service provider.
+        The response is either ServiceProviderRouteListEnterpriseTrunkPrefixGetSummaryListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberPrefixGetSummaryListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderRouteListEnterpriseTrunkPrefixGetSummaryListRequest.
+        The column headings are "Number Prefix", "Group Id" ","Is Active", “Extension Range Start” and “Extension Range End”.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="prefixSummaryTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberPrefixModifyListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a list of number prefixes in a service provider.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="numberPrefix" type="EnterpriseTrunkNumberPrefixModify" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberRangeActivateListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Activate number ranges in a service provider.
+        It is not an error to activate an already activated number range.
+        The command fails if executed when system level enterprise trunk number range activation is disabled.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="numberRangeStart" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberRangeAddListRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Add number ranges to a service provider.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="numberRange" type="EnterpriseTrunkNumberRange" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberRangeDeactivateListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Deactivate number ranges in a service provider.
+        It is not an error to deactivate an already deactivated number range.
+        The command fails if executed when system level enterprise trunk number range activation is disabled.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="numberRangeStart" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberRangeDeleteListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete number ranges from a service provider.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="numberRangeStart" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberRangeGetAvailableListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of available number ranges not yet assigned to any group.
+        The response is either ServiceProviderRouteListEnterpriseTrunkNumberRangeGetAvailableListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberRangeGetAvailableListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderRouteListEnterpriseTrunkNumberRangeGetAvailableListRequest. Contains a list of available number ranges not yet assigned to any group.
+        The column headings are "Number Range Start", "Number Range End","Is Active" and "Extension Length".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableNumberRangeTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a summary table of all enterprise trunk number ranges in the service provider.
+        The response is either ServiceProviderRouteListEnterpriseTrunkNumberRangeGetSummaryListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberRangeGetSummaryListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest.
+        The column headings are "Number Range Start", "Number Range End", "Group Id", "Is Active" and "Extension Length".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="numberRangeSummaryTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderRouteListEnterpriseTrunkNumberRangeModifyListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a list of number ranges in a service provider
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="numberRange" type="EnterpriseTrunkNumberRangeModify" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemRouteListEnterpriseTrunkNumberPrefixGetSummaryListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a summary table of all enterprise trunk prefixes in the system.
+        If resellerId is specified, only the prefixes assigned to the enterprise/service provider within
+        the given reseller are returned.
+        If reseller administrator sends the request and resellerId is not specified, the administrator's resellerId is used.
+
+        The response is either SystemRouteListEnterpriseTrunkNumberPrefixGetSummaryListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemRouteListEnterpriseTrunkNumberPrefixGetSummaryListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemRouteListEnterpriseTrunkNumberPrefixGetSummaryListRequest.
+        The column headings are "Number Prefix", "Service Provider Id", "Is Enterprise", "User Id", "Enterprise Trunk",
+        "Is Active", "Reseller Id" ", “Extension Range Start” and “Extension Range End”.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="prefixSummaryTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a summary table of all enterprise trunk number ranges in the system.
+        If resellerId is specified, the number ranges assigned to the enterprises/service providers
+        within the reseller are returned.
+        If reseller administrator sends the request and resellerId is not specified, the administrator's resellerId is used.
+
+        The response is either SystemRouteListEnterpriseTrunkNumberRangeGetSummaryListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemRouteListEnterpriseTrunkNumberRangeGetSummaryListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemRouteListEnterpriseTrunkNumberRangeGetSummaryListRequest.
+        The column headings are "Number Range Start", "Number Range End", "Service Provider Id", "Is Enterprise", "User Id", "Enterprise Trunk",
+        "Is Active", "Reseller Id" and "Extension Length".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="numberRangeSummaryTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserRouteListGetRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Get the route list setting and the list of number ranges assigned to a user.
+        The response is either UserRouteListGetResponse22 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserRouteListGetResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserRouteListGetRequest22.
+        Contains the route list setting and a list of assigned number ranges and number prefixes.
+        The column headings for assignedNumberRangeTable are "Number Range Start", "Number Range End", "Is Active" and “Extension Length”.
+        The column headings for assignedNumberPrefixTable are "Number Prefix" ","Is Active", “Extension Range Start” and “Extension Range End”.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="treatOriginationsAndPBXRedirectionsAsScreened" type="xs:boolean"/>
+          <xs:element name="useRouteListIdentityForNonEmergencyCalls" type="xs:boolean"/>
+          <xs:element name="useRouteListIdentityForEmergencyCalls" type="xs:boolean"/>
+          <xs:element name="assignedNumberRangeTable" type="core:OCITable"/>
+          <xs:element name="assignedNumberPrefixTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserRouteListModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the route list setting and the list of number ranges and number prefixes assigned to a user.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="treatOriginationsAndPBXRedirectionsAsScreened" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useRouteListIdentityForNonEmergencyCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useRouteListIdentityForEmergencyCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="assignedNumberRangeStartList" type="ReplacementDNList" nillable="true" minOccurs="0"/>
+          <xs:element name="assignedNumberPrefixList" type="EnterpriseTrunkReplacementNumberPrefixList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Route List specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="EnterpriseTrunkReplacementNumberPrefixList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of prefixes that replaces a previously configured list.
+        By convention, an element of this type may be set nill to clear the list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="numberPrefix" type="EnterpriseTrunkNumberPrefix" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReplacementDNList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of dns that replaces a previously configured list.
+        By convention, an element of this type may be set nill to clear the list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="phoneNumber" type="DN" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,1984 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- B R O A D   W O R K S   M O B I L I T Y   S E R V I C E                              -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSortCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- B R O A D   W O R K S   M O B I L I T Y   R E Q U E S T S   A N D   R E S P O N S E S  -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentListRequest
+    EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentPagedSortedListRequest22
+    EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListRequest22
+    EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailablePagedSortedListRequest22
+    GroupBroadWorksMobilityGetRequest22V4
+    GroupBroadWorksMobilityMobileSubscriberDirectoryNumberAssignListRequest
+    GroupBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentListRequest
+    GroupBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListRequest
+    GroupBroadWorksMobilityMobileSubscriberDirectoryNumberUnassignListRequest
+    GroupBroadWorksMobilityModifyRequest
+    ServiceProviderBroadWorksMobilityGetRequest22V3
+    ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberAddListRequest21
+    ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberDeleteListRequest
+    ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListRequest
+    ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberGetSummaryListRequest
+    ServiceProviderBroadWorksMobilityModifyRequest
+    SystemBroadWorksMobilityAddIMRNListRequest
+    SystemBroadWorksMobilityAddMobileNetworkIMRNListRequest
+    SystemBroadWorksMobilityDeleteIMRNListRequest
+    SystemBroadWorksMobilityDeleteMobileNetworkIMRNListRequest
+    SystemBroadWorksMobilityGeographicalPoolAddRequest
+    SystemBroadWorksMobilityGeographicalPoolDeleteRequest
+    SystemBroadWorksMobilityGeographicalPoolGetListRequest
+    SystemBroadWorksMobilityGeographicalPoolIMRNAddListRequest
+    SystemBroadWorksMobilityGeographicalPoolIMRNDeleteListRequest
+    SystemBroadWorksMobilityGeographicalPoolIMRNGetListRequest
+    SystemBroadWorksMobilityGeographicalPoolModifyRequest
+    SystemBroadWorksMobilityGeographicalPoolPrefixAddListRequest
+    SystemBroadWorksMobilityGeographicalPoolPrefixDeleteListRequest
+    SystemBroadWorksMobilityGeographicalPoolPrefixGetListRequest
+    SystemBroadWorksMobilityGetIMRNListRequest
+    SystemBroadWorksMobilityGetMobileNetworkIMRNListRequest
+    SystemBroadWorksMobilityGetRequest22V3
+    SystemBroadWorksMobilityMobileNetworkAddRequest
+    SystemBroadWorksMobilityMobileNetworkDeleteRequest
+    SystemBroadWorksMobilityMobileNetworkGetListRequest
+    SystemBroadWorksMobilityMobileNetworkGetRequest
+    SystemBroadWorksMobilityMobileNetworkModifyRequest
+    SystemBroadWorksMobilityMobileSubscriberDirectoryNumberGetSummaryListRequest
+    SystemBroadWorksMobilityModifyRequest21
+    SystemBroadWorksMobilityServiceAccessCodeAddRequest21
+    SystemBroadWorksMobilityServiceAccessCodeDeleteRequest21
+    SystemBroadWorksMobilityServiceAccessCodeGetListRequest21
+    SystemBroadWorksMobilityServiceAccessCodeListAddRequest
+    SystemBroadWorksMobilityServiceAccessCodeListDeleteRequest
+    SystemBroadWorksMobilityServiceAccessCodeListGetListRequest
+    SystemBroadWorksMobilityServiceAccessCodeListModifyRequest
+    SystemBroadWorksMobilityServiceAccessCodeListUsageGetRequest
+    SystemBroadWorksMobilityServiceAccessCodeModifyRequest21
+    UserBroadworksMobilityAddMobileIdentityUsingSharedCallAppearanceRequest22
+    UserBroadWorksMobilityGetRequest21sp1
+    UserBroadWorksMobilityMobileIdentityAddRequest22V2
+    UserBroadWorksMobilityMobileIdentityConsolidatedAddRequest22
+    UserBroadWorksMobilityMobileIdentityConsolidatedDeleteRequest
+    UserBroadWorksMobilityMobileIdentityConsolidatedModifyRequest
+    UserBroadWorksMobilityMobileIdentityDeleteRequest
+    UserBroadWorksMobilityMobileIdentityGetRequest22V3
+    UserBroadWorksMobilityMobileIdentityModifyRequest
+    UserBroadWorksMobilityModifyRequest21
+-->
+
+  <xs:complexType name="EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a summary table of all Mobile Subscriber Directory Numbers in an enterprise.
+        The response is either EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaMobileSubscriberDirectoryNumber" type="SearchCriteriaMobileSubscriberDirectoryNumber" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactUserGroup" type="SearchCriteriaExactUserGroup" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactUserDepartment" type="SearchCriteriaExactUserDepartment" minOccurs="0"/>
+          <xs:element name="searchCriteriaExactMobileNetwork" type="SearchCriteriaExactMobileNetwork" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentListRequest.
+        The response contains a table with columns: "Mobile Number", "User Id",
+        "Last Name", "First Name","Phone Number","Extension", "Group Id", "Department" and "Mobile Network".
+        The "Mobile Number" column contains a single DN.
+        The "User Id", "Last Name" and "First Name" columns contains the corresponding attributes of the user possessing the DN(s).
+        The "Phone Number" column contains a single DN.
+        The "Group Id"   column contains the Group Id of the user.
+        The "Department" column contains the department of the user if it is part of a department.
+        The "Mobile Network" column contains the Mobile Network the number belongs to.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="mobileSubscriberDirectoryNumbersAssignmentTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentPagedSortedListRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Request a summary table of all Mobile Subscriber Directory Numbers in an enterprise.
+        If the responsePagingControl element is not provided, the paging startIndex will be set to 1
+        by default, and the  responsePageSize will be set to  the maximum ResponsePageSize by default.
+        If no sortOrder is included the response is sorted by Mobile Number ascending by default.
+        Multiple search criteria are logically ANDed together unless the searchCriteriaModeOr option is included.
+        Then the search criteria are logically ORed together.
+        The department in both the search criteria and sort by fields refer to the department of the user.
+        The response is either EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentPagedSortedListResponse22 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="includeTotalNumberOfRows" type="xs:boolean" fixed="true" minOccurs="0"/>
+          <xs:element name="responsePagingControl" type="ResponsePagingControl" minOccurs="0"/>
+          <xs:element name="sortOrder" type="SortOrderEnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentPagedSortedList" minOccurs="0" maxOccurs="3"/>
+          <xs:element name="searchCriteriaMobileSubscriberDirectoryNumber" type="SearchCriteriaMobileSubscriberDirectoryNumber" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaGroupId" type="SearchCriteriaGroupId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDepartmentName" type="SearchCriteriaDepartmentName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactMobileNetwork" type="SearchCriteriaExactMobileNetwork" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactMobileDnAvailability" type="SearchCriteriaExactMobileDnAvailability" minOccurs="0"/>
+          <xs:element name="searchCriteriaModeOr" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentPagedSortedListResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentPagedSortedListRequest22.
+        The response contains the number of entries that would be returned if the response was not page size restricted.
+        Contains a table with columns: "Mobile Number", "User Id", "Last Name", "First Name", "Phone Number", "Extension",
+        "Group Id", "Department", "Department Type", "Parent Department", "Parent Department Type", "Mobile Network", "Country Code",
+        "National Prefix", "Available", "Mobile Country Code", "Mobile National Prefix".
+        The "Mobile Number" column contains a single DN.
+        The "User Id", "Last Name" and "First Name" columns contains the corresponding attributes of the user possessing the DN(s).
+        The "Phone Number" column contains a single DN.
+        The "Group Id" column contains the Group Id of the user.
+        The "Group Name" column contains the Group Name of the user.
+        The "Department" column contains the department of the user if it is part of a department.
+        The "Parent Department" column contains the parent department of the user if it is part of a department.
+        The "Department Type" and "Parent Department Type" columns will contain the values "Enterprise" or "Group".
+        The "Mobile Network" column contains the Mobile Network the number belongs to.
+        The "Country Code" column indicates the dialing prefix for the phone number.
+        The "National Prefix" column indicates the digit sequence to be dialed before the telephone number.
+        The "Available" column indicates if the Mobile Number is available.
+        The "Mobile Country Code" column indicates the dialing prefix for the mobile number.
+        The "Mobile National Prefix" column indicates the digit sequence to be dialed before the mobile number.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="totalNumberOfRows" type="xs:int" minOccurs="0"/>
+          <xs:element name="mobileSubscriberDirectoryNumbersAssignmentTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of available Mobile Subscriber Directory Numbers not yet assigned to any user.
+        The response is either EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListResponse22 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListRequest22.
+        The response contains a table with columns: "Phone Number", "E164 Phone Number".
+
+        The "Phone Number" column contains Mobile Subscriber DNs not yet assigned to any user.
+        The "E164 Phone Number" column contains Mobile Subscriber DNs not yet assigned to any user in E.164 format.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableMobileSubscriberDirectoryNumberTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailablePagedSortedListRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of available Mobile Subscriber Directory Numbers not yet assigned to any user.
+        If the responsePagingControl element is not provided, the paging startIndex will be set to 1
+        by default, and the responsePageSize will be set to the maximum ResponsePageSize by default.
+        If no sortOrder is included the response is sorted by Mobile Number ascending by default.
+        Multiple search criteria are logically ANDed together unless the searchCriteriaModeOr option is included.
+        Then the search criteria are logically ORed together.
+        The response is either EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailablePagedSortedListResponse22 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="includeTotalNumberOfRows" type="xs:boolean" fixed="true" minOccurs="0"/>
+          <xs:element name="responsePagingControl" type="ResponsePagingControl" minOccurs="0"/>
+          <xs:element name="sortByMobileDirectoryNumber" type="SortByMobileDirectoryNumber" minOccurs="0"/>
+          <xs:element name="searchCriteriaMobileSubscriberDirectoryNumber" type="SearchCriteriaMobileSubscriberDirectoryNumber" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaModeOr" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailablePagedSortedListResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to EnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailablePagedSortedListRequest22.
+        The response contains the number of entries that would be returned if the response was not page size restricted.
+        Contains a table with columns: "Mobile Number", "Mobile Network", "Mobile Country Code", "Mobile National Prefix".
+        The "Mobile Number" column contains a single DN.
+        The "Mobile Network" column contains the Mobile Network the number belongs to.
+        The "Mobile Country Code" column indicates the dialing prefix for the mobile number.
+        The "Mobile National Prefix" column indicates the digit sequence to be dialed before the mobile number.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="totalNumberOfRows" type="xs:int" minOccurs="0"/>
+          <xs:element name="availableMobileSubscriberDirectoryNumberTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksMobilityGetRequest22V4">
+    <xs:annotation>
+      <xs:documentation>
+        Get the group's BroadWorks Mobility settings.
+        The response is either a GroupBroadWorksMobilityGetResponse22V4 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksMobilityGetResponse22V4">
+    <xs:annotation>
+      <xs:documentation>
+        The response to a GroupBroadWorksMobilityGetRequest22V4.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useSettingLevel" type="BroadWorksMobilityGroupSettingLevel"/>
+          <xs:element name="enableLocationServices" type="xs:boolean"/>
+          <xs:element name="enableMSRNLookup" type="xs:boolean"/>
+          <xs:element name="enableMobileStateChecking" type="xs:boolean"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean"/>
+          <xs:element name="enableAnnouncementSuppression" type="xs:boolean"/>
+          <xs:element name="enableInternalCLIDDelivery" type="xs:boolean"/>
+          <xs:element name="enableInternalCLIDDeliveryAccessLocations" type="xs:boolean"/>
+          <xs:element name="enableEnhancedUnreachableStateChecking" type="xs:boolean"/>
+          <xs:element name="enableNetworkCallBarringStatusCheck" type="xs:boolean"/>
+          <xs:element name="networkTranslationIndex" type="NetworkTranslationIndex" minOccurs="0"/>
+          <xs:element name="enablePBXRoutePolicy" type="xs:boolean"/>
+          <xs:element name="pbxRouteIdentity" type="TrunkGroupKey" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksMobilityMobileSubscriberDirectoryNumberAssignListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Assign Mobile Subscriber Directory Numbers to a group. It is possible to
+        add a single DN,or a list of DNs.
+.       This command is applicable only for group in a service provider and will fail for a group in an enterprise.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="mobileSubscriberDirectoryNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the list of assigned and unassigned Mobile Subscriber Directory Numbers in a group. Each DN can be assigned to a user.
+.       This command is applicable only for group in a service provider and will fail for a group in an enterprise.
+        The response is either a GroupBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentListResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaMobileSubscriberDirectoryNumber" type="SearchCriteriaMobileSubscriberDirectoryNumber" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactUserDepartment" type="SearchCriteriaExactUserDepartment" minOccurs="0"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentListRequest.
+        The response contains a table with columns: "Mobile Number", "User Id",
+        "Last Name", "First Name","Phone Number", "Extension", "Department",.
+        The "Mobile Number" column contains a single DN.
+        The "User Id", "Last Name" and "First Name" columns contains the corresponding attributes of the user possessing the DN(s).
+        The "Phone Number" column contains a single DN.
+        The "Department" column contains the department of the user if it is part of a department.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="mobileSubscriberDirectoryNumberTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of available Mobile Subscriber Directory Numbers not yet assigned to any user.
+.       This command is applicable only for group in a service provider and will fail for a group in an enterprise.
+        The response is either GroupBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListRequest.
+        Contains a list of available Mobile Subscriber Directory Numbers not yet assigned to any user.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="mobileSubscriberDirectoryNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksMobilityMobileSubscriberDirectoryNumberUnassignListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Unassign Mobile Subscriber Directory Numbers from a group. It is possible to unassign either: a single DN, or a list of DNs.
+.       This command is applicable only for group in a service provider and will fail for a group in an enterprise.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="mobileSubscriberDirectoryNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksMobilityModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the group level broadworks mobility service settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="useSettingLevel" type="BroadWorksMobilityGroupSettingLevel" minOccurs="0"/>
+          <xs:element name="enableLocationServices" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableMSRNLookup" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableMobileStateChecking" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableAnnouncementSuppression" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableInternalCLIDDelivery" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableInternalCLIDDeliveryAccessLocations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableEnhancedUnreachableStateChecking" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableNetworkCallBarringStatusCheck" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="networkTranslationIndex" type="NetworkTranslationIndex" minOccurs="0" nillable="true"/>
+          <xs:element name="enablePBXRoutePolicy" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="pbxRouteIdentity" type="TrunkGroupKey" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderBroadWorksMobilityGetRequest22V3">
+    <xs:annotation>
+      <xs:documentation>
+        Get the service provider BroadWorks Mobility service settings.
+        The response is either a ServiceProviderBroadWorksMobilityGetResponse22V3 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderBroadWorksMobilityGetResponse22V3">
+    <xs:annotation>
+      <xs:documentation>
+        The response to a ServiceProviderBroadWorksMobilityGetRequest22V3.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useSettingLevel" type="BroadWorksMobilityServiceProviderSettingLevel"/>
+          <xs:element name="enableLocationServices" type="xs:boolean"/>
+          <xs:element name="enableMSRNLookup" type="xs:boolean"/>
+          <xs:element name="enableMobileStateChecking" type="xs:boolean"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean"/>
+          <xs:element name="enableAnnouncementSuppression" type="xs:boolean"/>
+          <xs:element name="enableInternalCLIDDelivery" type="xs:boolean"/>
+          <xs:element name="enableInternalCLIDDeliveryAccessLocations" type="xs:boolean"/>
+          <xs:element name="enableEnhancedUnreachableStateChecking" type="xs:boolean"/>
+          <xs:element name="enableNetworkCallBarringStatusCheck" type="xs:boolean"/>
+          <xs:element name="networkTranslationIndex" type="NetworkTranslationIndex" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberAddListRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Adds Mobile Subscriber Directory Numbers to a service provider-mobile network combination. It is possible to add a single DN,
+        or a list of DNs.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="mobileNetworkName" type="BroadWorksMobilityMobileNetworkName"/>
+          <xs:element name="mobileSubscriberDirectoryNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberDeleteListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Deletes Mobile Subscriber Directory Numbers from a service provider. It is possible to delete either: a single number,
+        or a list of numbers.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="mobileSubscriberDirectoryNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of available Mobile Subscriber Directory Numbers not yet assigned to any group. This command is applicable only for service providers and will fail for enterprises.
+        The response is either ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberGetAvailableListRequest.
+        Contains a list of available Mobile Subscriber Directory Numbers not yet assigned to any group.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableMobileSubscriberDirectoryNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberGetSummaryListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a summary table of all Mobile Subscriber Directory Numbers in a service provider. This command is applicable only for service providers and will fail for enterprises.
+        The response is either ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberGetSummaryListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaMobileSubscriberDirectoryNumber" type="SearchCriteriaMobileSubscriberDirectoryNumber" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaGroupId" type="SearchCriteriaGroupId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactMobileNetwork" type="SearchCriteriaExactMobileNetwork" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberGetSummaryListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderBroadWorksMobilityMobileSubscriberDirectoryNumberGetSummaryListRequest.
+        The column headings are "Phone Number", "Group Id" and "Mobile Network".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="mobileSubscriberDirectoryNumbersSummaryTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderBroadWorksMobilityModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the service provider level BroadWorks Mobility service settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="useSettingLevel" type="BroadWorksMobilityServiceProviderSettingLevel" minOccurs="0"/>
+          <xs:element name="enableLocationServices" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableMSRNLookup" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableMobileStateChecking" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableAnnouncementSuppression" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableInternalCLIDDelivery" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableInternalCLIDDeliveryAccessLocations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableEnhancedUnreachableStateChecking" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableNetworkCallBarringStatusCheck" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="networkTranslationIndex" type="NetworkTranslationIndex" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityAddIMRNListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Adds BroadWorks Mobility IMRN numbers to the system. It is possible to add either:
+        a single number, a list of numbers, or a range of numbers, or any combination thereof.
+        The response is either a SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="imrnNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="numberRange" type="DNRange" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityAddMobileNetworkIMRNListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Adds BroadWorks Mobility IMRN numbers to a Mobile Network. It is possible to add either:
+        a single number, a list of numbers, or a range of numbers, or any combination thereof.
+        The response is either a SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="mobileNetworkName" type="BroadWorksMobilityMobileNetworkName"/>
+          <xs:element name="imrnNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="numberRange" type="DNRange" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityDeleteIMRNListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Removes a BroadWorks Mobility IMRN number from the system.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="imrnNumber" type="DN" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityDeleteMobileNetworkIMRNListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Remove BroadWorks Mobility IMRN numbers from a Mobile Network.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="mobileNetworkName" type="BroadWorksMobilityMobileNetworkName"/>
+          <xs:element name="imrnNumber" type="DN" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a geographical pool to the system.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="name" type="BroadWorksMobilityGeographicalPoolName"/>
+          <xs:element name="countryCode" type="CountryCode"/>
+          <xs:element name="isDefault" type="xs:boolean"/>
+          <xs:element name="description" type="BroadWorksMobilityGeographicalPoolDescription" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a geographical pool from the system.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="name" type="BroadWorksMobilityGeographicalPoolName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of geographical pools defined in the system. If countryCode is set, return the IMRN pools associated with the country code.
+        The response is either SystemBroadWorksMobilityGeographicalPoolGetListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="countryCode" type="CountryCode" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemBroadWorksMobilityGeographicalPoolGetListRequest.
+        Contains a table with column headings: “Pool”, "Country Code", "Is Default", “Description”.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="geographicalPoolTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolIMRNAddListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Adds BroadWorks Mobility IMRN numbers to a geographical pool. It is possible to add either:
+        a single number, a list of numbers, or a range of numbers, or any combination thereof.
+        The response is either a SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="geographicalPoolName" type="BroadWorksMobilityGeographicalPoolName"/>
+          <xs:element name="imrnNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="numberRange" type="DNRange" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolIMRNDeleteListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Remove BroadWorks Mobility IMRN numbers from a geographical pool.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="geographicalPoolName" type="BroadWorksMobilityGeographicalPoolName"/>
+          <xs:element name="imrnNumber" type="DN" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolIMRNGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of BroadWorks Mobility IMRN numbers from a geographical pool.
+        The response is either a SystemBroadWorksMobilityGeographicalPoolIMRNGetListResponse
+        or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="geographicalPoolName" type="BroadWorksMobilityGeographicalPoolName"/>
+          <xs:element name="searchCriteriaIMRN" type="SearchCriteriaIMRN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolIMRNGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+          Response to SystemBroadWorksMobilityGeographicalPoolIMRNGetListRequest.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="countryCode" type="CountryCode"/>
+          <xs:element name="imrnNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the settings of a geographical pool.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="name" type="BroadWorksMobilityGeographicalPoolName"/>
+          <xs:element name="newName" type="BroadWorksMobilityGeographicalPoolName" minOccurs="0"/>
+          <xs:element name="isDefault" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="description" type="BroadWorksMobilityGeographicalPoolDescription" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolPrefixAddListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a list of geographical prefixes.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="geographicalPoolName" type="BroadWorksMobilityGeographicalPoolName"/>
+          <xs:element name="prefix" type="BroadWorksMobilityGeographicalPoolPrefix" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolPrefixDeleteListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a list of geographical prefixes from a pool.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="geographicalPoolName" type="BroadWorksMobilityGeographicalPoolName"/>
+          <xs:element name="prefix" type="BroadWorksMobilityGeographicalPoolPrefix" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolPrefixGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Gets a list of geographical prefixes belonging to a geographical pool.
+        The response is either SystemBroadWorksMobilityGeographicalPoolPrefixGetListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="geographicalPoolName" type="BroadWorksMobilityGeographicalPoolName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGeographicalPoolPrefixGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemBroadWorksMobilityGetGeographicalPoolPrefixListRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="countryCode" type="CountryCode"/>
+          <xs:element name="prefix" type="BroadWorksMobilityGeographicalPoolPrefix" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGetIMRNListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the list of BroadWorks Mobility IMRN numbers defined in the system.
+        The response is either a SystemBroadWorksMobilityGetIMRNListResponse
+        or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="searchCriteriaIMRN" type="SearchCriteriaIMRN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGetIMRNListResponse">
+    <xs:annotation>
+      <xs:documentation>
+          Response to SystemBroadWorksMobilityDnGetListRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="imrnNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGetMobileNetworkIMRNListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of BroadWorks Mobility IMRN numbers from a Mobile Network.
+        The response is either a SystemBroadWorksMobilityGetMobileNetworkIMRNListResponse
+        or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="mobileNetworkName" type="BroadWorksMobilityMobileNetworkName"/>
+          <xs:element name="searchCriteriaIMRN" type="SearchCriteriaIMRN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGetMobileNetworkIMRNListResponse">
+    <xs:annotation>
+      <xs:documentation>
+          Response to SystemBroadWorksMobilityGetMobileNetworkIMRNListRequest.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="imrnNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGetRequest22V3">
+    <xs:annotation>
+      <xs:documentation>
+        Get the broadworks mobility system parameters.
+        The response is either a SystemBroadWorksMobilityGetResponse22V3 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityGetResponse22V3">
+    <xs:annotation>
+      <xs:documentation>
+        The response to a SystemBroadWorksMobilityGetRequest22V3.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="enableLocationServices" type="xs:boolean"/>
+          <xs:element name="enableMSRNLookup" type="xs:boolean"/>
+          <xs:element name="enableMobileStateChecking" type="xs:boolean"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean"/>
+          <xs:element name="imrnTimeoutMillisecnds" type="IMRNTimeoutMilliseconds"/>
+          <xs:element name="enableInternalCLIDDelivery" type="xs:boolean"/>
+          <xs:element name="includeRedirectForMobilityTermination" type="xs:boolean"/>
+          <xs:element name="enableInternalCLIDDeliveryAccessLocations" type="xs:boolean"/>
+          <xs:element name="enableEnhancedUnreachableStateChecking" type="xs:boolean"/>
+          <xs:element name="enableNetworkCallBarringStatusCheck" type="xs:boolean"/>
+          <xs:element name="networkTranslationIndex" type="NetworkTranslationIndex" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityMobileNetworkAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a Mobile Network.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="name" type="BroadWorksMobilityMobileNetworkName"/>
+          <xs:element name="scfSignalingNetAddress" type="NetAddress" minOccurs="0"/>
+          <xs:element name="scfSignalingPort" type="Port" minOccurs="0"/>
+          <xs:element name="refreshPeriodSeconds" type="SCFRefreshPeriodSeconds"/>
+          <xs:element name="maxConsecutiveFailures" type="SCFMaxConsecutiveFailures"/>
+          <xs:element name="maxResponseWaitTimeMilliseconds" type="SCFMaxResponseWaitTimeMilliseconds"/>
+          <xs:element name="enableAnnouncementSuppression" type="xs:boolean"/>
+          <xs:element name="serviceAccessCodeListName" type="ServiceAccessCodeListName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityMobileNetworkDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a Mobile Network.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="name" type="BroadWorksMobilityMobileNetworkName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityMobileNetworkGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the list of Mobile Networks.
+        The response is either SystemBroadWorksMobilityMobileNetworkGetListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityMobileNetworkGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        The response to a SystemBroadWorksMobilityMobileNetworkGetListRequest.
+        Contains a table with column headings: "Name", "SCF Signaling Net Address", "SCF Signaling Port"
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="mobileNetworkTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityMobileNetworkGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a Mobile Network.
+        The response is either SystemBroadWorksMobilityMobileNetworkGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="name" type="BroadWorksMobilityMobileNetworkName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityMobileNetworkGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        The response to a SystemBroadWorksMobilityMobileNetworkGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="scfSignalingNetAddress" type="NetAddress" minOccurs="0"/>
+          <xs:element name="scfSignalingPort" type="Port" minOccurs="0"/>
+          <xs:element name="refreshPeriodSeconds" type="SCFRefreshPeriodSeconds"/>
+          <xs:element name="maxConsecutiveFailures" type="SCFMaxConsecutiveFailures"/>
+          <xs:element name="maxResponseWaitTimeMilliseconds" type="SCFMaxResponseWaitTimeMilliseconds"/>
+          <xs:element name="enableAnnouncementSuppression" type="xs:boolean"/>
+          <xs:element name="serviceAccessCodeListName" type="ServiceAccessCodeListName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityMobileNetworkModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a Mobile Network.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="name" type="BroadWorksMobilityMobileNetworkName"/>
+          <xs:element name="newName" type="BroadWorksMobilityMobileNetworkName" minOccurs="0"/>
+          <xs:element name="scfSignalingNetAddress" type="NetAddress" minOccurs="0" nillable="true"/>
+          <xs:element name="scfSignalingPort" type="Port" minOccurs="0" nillable="true"/>
+          <xs:element name="refreshPeriodSeconds" type="SCFRefreshPeriodSeconds" minOccurs="0"/>
+          <xs:element name="maxConsecutiveFailures" type="SCFMaxConsecutiveFailures" minOccurs="0"/>
+          <xs:element name="maxResponseWaitTimeMilliseconds" type="SCFMaxResponseWaitTimeMilliseconds" minOccurs="0"/>
+          <xs:element name="enableAnnouncementSuppression" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="serviceAccessCodeListName" type="ServiceAccessCodeListName" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityMobileSubscriberDirectoryNumberGetSummaryListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a summary table of all Mobile Subscriber Directory Numbers in a system.
+        If reseller administrator sends the request, searchCriteriaResellerId is ignored. All the mobile subscriber
+        directory numbers in the administrator's reseller meeting the search criteria are returned.
+        The response is either SystemBroadWorksMobilityMobileSubscriberDirectoryNumberGetSummaryListResponse or ErrorResponse.
+
+        The following data elements are only used in AS data mode:
+          searchCriteriaResellerId
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaMobileSubscriberDirectoryNumber" type="SearchCriteriaMobileSubscriberDirectoryNumber" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactMobileNetwork" type="SearchCriteriaExactMobileNetwork" minOccurs="0"/>
+          <xs:element name="searchCriteriaServiceProviderId" type="SearchCriteriaServiceProviderId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactOrganizationType" type="SearchCriteriaExactOrganizationType" minOccurs="0"/>
+          <xs:element name="searchCriteriaGroupId" type="SearchCriteriaGroupId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaResellerId" type="SearchCriteriaResellerId" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityMobileSubscriberDirectoryNumberGetSummaryListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemBroadWorksMobilityMobileSubscriberDirectoryNumberGetSummaryListRequest.
+        The response contains a table with columns: "Mobile Number", "Mobile Network", "Service Provider Id",
+        "Is Enterprise", "Group Id", "User Id", "Last Name", "First Name", "Hiragana Last Name",
+        "Hiragana First Name", "Phone Number", "Extension" and "Reseller Id".
+
+        The following columns are only returned in AS data mode:
+             "Reseller Id"
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="mobileSubscriberDirectoryNumbersSummaryTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityModifyRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the BroadWorks Mobility system parameters.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="enableLocationServices" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableMSRNLookup" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableMobileStateChecking" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="imrnTimeoutMilliseconds" type="IMRNTimeoutMilliseconds" minOccurs="0"/>
+          <xs:element name="enableInternalCLIDDelivery" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="includeRedirectForMobilityTermination" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableInternalCLIDDeliveryAccessLocations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableEnhancedUnreachableStateChecking" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableNetworkCallBarringStatusCheck" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="networkTranslationIndex" type="NetworkTranslationIndex" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeAddRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Add a service access code to a list.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceAccessCodeListName" type="ServiceAccessCodeListName"/>
+          <xs:element name="countryCode" type="CountryCode"/>
+          <xs:element name="serviceAccessCode" type="ServiceAccessCode"/>
+          <xs:element name="description" type="ServiceAccessCodeDescription" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeDeleteRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a service access code from a list.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceAccessCodeListName" type="ServiceAccessCodeListName"/>
+          <xs:element name="countryCode" type="CountryCode"/>
+          <xs:element name="serviceAccessCode" type="ServiceAccessCode"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeGetListRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of system service access codes.
+        The response is either SystemBroadWorksMobilityServiceAccessCodeGetListResponse21 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceAccessCodeListName" type="ServiceAccessCodeListName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeGetListResponse21">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemBroadWorksMobilityServiceAccessCodeGetListRequest21.
+        Contains a table with column headings: "Country Code", "Service Access Code", "Description"
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="serviceAccessCodeTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeListAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a Service Access Code list.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="name" type="ServiceAccessCodeListName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeListDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a Service Access Code list.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="name" type="ServiceAccessCodeListName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeListGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the list of Service Access Code lists.
+        The response is either SystemBroadWorksMobilityServiceAccessCodeListGetListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeListGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemBroadWorksMobilityServiceAccessCodeListGetListRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="name" type="ServiceAccessCodeListName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeListModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a Service Access Code list.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="name" type="ServiceAccessCodeListName"/>
+          <xs:element name="newName" type="ServiceAccessCodeListName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeListUsageGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get all the Mobile Networks using a given Service Access Code list.
+        The response is either SystemBroadWorksMobilityServiceAccessCodeListUsageGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceAccessCodeListName" type="ServiceAccessCodeListName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeListUsageGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemBroadWorksMobilityServiceAccessCodeListUsageGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="mobileNetworkName" type="BroadWorksMobilityMobileNetworkName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksMobilityServiceAccessCodeModifyRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a service access code.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceAccessCodeListName" type="ServiceAccessCodeListName"/>
+          <xs:element name="countryCode" type="CountryCode"/>
+          <xs:element name="serviceAccessCode" type="ServiceAccessCode"/>
+          <xs:element name="description" type="ServiceAccessCodeDescription" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadworksMobilityAddMobileIdentityUsingSharedCallAppearanceRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Adding a new mobile identity using the Share Call Appearance.
+        The response is either a SuccessResponse or an ErrorResponse.
+
+        The following elements are only used in AS data mode and ignored in XS data mode:
+          useHotline, use value false in XS data mode
+          hotlineContact
+
+        The request fails when the devicesToRing is set to Mobile and the mobileNumberAlerted list is empty.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="accessDeviceEndpoint" type="AccessDeviceEndpointKey"/>
+          <xs:element name="mobileNumber" type="DN"/>
+          <xs:element name="description" type="BroadWorksMobilityUserMobileIdentityDescription" minOccurs="0"/>
+          <xs:element name="isPrimary" type="xs:boolean"/>
+          <xs:element name="enableAlerting" type="xs:boolean"/>
+          <xs:element name="alertAgentCalls" type="xs:boolean"/>
+          <xs:element name="alertClickToDialCalls" type="xs:boolean"/>
+          <xs:element name="alertGroupPagingCalls" type="xs:boolean"/>
+          <xs:element name="useMobilityCallingLineID" type="xs:boolean"/>
+          <xs:element name="enableDiversionInhibitor" type="xs:boolean"/>
+          <xs:element name="requireAnswerConfirmation" type="xs:boolean"/>
+          <xs:element name="broadworksCallControl" type="xs:boolean"/>
+          <xs:element name="useSettingLevel" type="BroadWorksMobilityUserSettingLevel"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean"/>
+          <xs:element name="devicesToRing" type="BroadWorksMobilityPhoneToRing"/>
+          <xs:element name="includeSharedCallAppearance" type="xs:boolean"/>
+          <xs:element name="includeBroadworksAnywhere" type="xs:boolean"/>
+          <xs:element name="includeExecutiveAssistant" type="xs:boolean"/>
+          <xs:element name="mobileNumberAlerted" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="enableCallAnchoring" type="xs:boolean"/>
+          <xs:element name="timeSchedule" type="ScheduleGlobalKey" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="ScheduleGlobalKey" minOccurs="0"/>
+          <xs:element name="enableDirectRouting" type="xs:boolean"/>
+          <xs:element name="markCDRAsEnterpriseGroupCalls" type="xs:boolean"/>
+          <xs:element name="useHotline" type="xs:boolean"/>
+          <xs:element name="hotlineContact" type="SIPURI" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityGetRequest21sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Get the user's BroadWorks Mobility service settings with details for DNs.
+        The response is either a UserBroadWorksMobilityGetResponse21sp1 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityGetResponse21sp1">
+    <xs:annotation>
+      <xs:documentation>
+         Response to a UserBroadWorksMobilityGetRequest21sp1.
+         Columns for the profileIdentityMobileNumberAlerted table are as follows: "Mobile Number", "Country Code", "National Prefix".
+         Columns for the mobileIdentity table are as follows: "Mobile Number", "Description", "Country Code", "National Prefix", "Is Primary", "Enable Alerting".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="useMobileIdentityCallAnchoring" type="xs:boolean"/>
+          <xs:element name="preventCallsToOwnMobiles" type="xs:boolean"/>
+          <xs:element name="profileIdentityDevicesToRing" type="BroadWorksMobilityPhoneToRing"/>
+          <xs:element name="profileIdentityIncludeSharedCallAppearance" type="xs:boolean"/>
+          <xs:element name="profileIdentityIncludeBroadworksAnywhere" type="xs:boolean"/>
+          <xs:element name="profileIdentityIncludeExecutiveAssistant" type="xs:boolean"/>
+          <xs:element name="profileIdentityMobileNumberAlertedTable" type="core:OCITable"/>
+          <xs:element name="mobileIdentityTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityMobileIdentityAddRequest22V2">
+    <xs:annotation>
+      <xs:documentation>
+        Add a mobile identity to the user's list of mobile identities.
+        The response is either a SuccessResponse or an ErrorResponse.
+
+        The request fails when the devicesToRing is set to Mobile and the mobileNumberAlerted list is empty.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="mobileNumber" type="DN"/>
+          <xs:element name="description" type="BroadWorksMobilityUserMobileIdentityDescription" minOccurs="0"/>
+          <xs:element name="isPrimary" type="xs:boolean"/>
+          <xs:element name="enableAlerting" type="xs:boolean"/>
+          <xs:element name="alertAgentCalls" type="xs:boolean"/>
+          <xs:element name="alertClickToDialCalls" type="xs:boolean"/>
+          <xs:element name="alertGroupPagingCalls" type="xs:boolean"/>
+          <xs:element name="useMobilityCallingLineID" type="xs:boolean"/>
+          <xs:element name="enableDiversionInhibitor" type="xs:boolean"/>
+          <xs:element name="requireAnswerConfirmation" type="xs:boolean"/>
+          <xs:element name="broadworksCallControl" type="xs:boolean"/>
+          <xs:element name="useSettingLevel" type="BroadWorksMobilityUserSettingLevel"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean"/>
+          <xs:element name="devicesToRing" type="BroadWorksMobilityPhoneToRing"/>
+          <xs:element name="includeSharedCallAppearance" type="xs:boolean"/>
+          <xs:element name="includeBroadworksAnywhere" type="xs:boolean"/>
+          <xs:element name="includeExecutiveAssistant" type="xs:boolean"/>
+          <xs:element name="mobileNumberAlerted" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="enableCallAnchoring" type="xs:boolean"/>
+          <xs:element name="timeSchedule" type="ScheduleGlobalKey" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="ScheduleGlobalKey" minOccurs="0"/>
+          <xs:choice>
+            <xs:element name="accessDeviceEndpoint" type="AccessDeviceEndpointAndHotlineAdd"/>
+            <xs:element name="outboundAlternateNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+          </xs:choice>
+          <xs:element name="enableDirectRouting" type="xs:boolean"/>
+          <xs:element name="markCDRAsEnterpriseGroupCalls" type="xs:boolean"/>
+          <xs:element name="useMobilityConnectedIdentity" type="xs:boolean"/>
+          <xs:element name="networkTranslationIndex" type="NetworkTranslationIndex" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityMobileIdentityConsolidatedAddRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Add a mobile identity to the user's list of mobile identities.
+        The response is either a SuccessResponse or an ErrorResponse.
+
+        The request fails when the devicesToRing is set to Mobile and the mobileNumberAlerted list is empty.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="mobileNumber" type="DN"/>
+          <xs:element name="description" type="BroadWorksMobilityUserMobileIdentityDescription" minOccurs="0"/>
+          <xs:element name="isPrimary" type="xs:boolean"/>
+          <xs:element name="enableAlerting" type="xs:boolean"/>
+          <xs:element name="alertAgentCalls" type="xs:boolean"/>
+          <xs:element name="alertClickToDialCalls" type="xs:boolean"/>
+          <xs:element name="alertGroupPagingCalls" type="xs:boolean"/>
+          <xs:element name="useMobilityCallingLineID" type="xs:boolean"/>
+          <xs:element name="enableDiversionInhibitor" type="xs:boolean"/>
+          <xs:element name="requireAnswerConfirmation" type="xs:boolean"/>
+          <xs:element name="broadworksCallControl" type="xs:boolean"/>
+          <xs:element name="useSettingLevel" type="BroadWorksMobilityUserSettingLevel"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean"/>
+          <xs:element name="devicesToRing" type="BroadWorksMobilityPhoneToRing"/>
+          <xs:element name="includeSharedCallAppearance" type="xs:boolean"/>
+          <xs:element name="includeBroadworksAnywhere" type="xs:boolean"/>
+          <xs:element name="includeExecutiveAssistant" type="xs:boolean"/>
+          <xs:element name="mobileNumberAlerted" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="enableCallAnchoring" type="xs:boolean"/>
+          <xs:element name="timeSchedule" type="ScheduleGlobalKey" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="ScheduleGlobalKey" minOccurs="0"/>
+          <xs:choice>
+            <xs:element name="accessDeviceEndpoint" type="ConsolidatedSharedCallAppearanceAccessDeviceMultipleIdentityEndpointAdd22" minOccurs="0"/>
+            <xs:element name="outboundAlternateNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+          </xs:choice>
+          <xs:element name="enableDirectRouting" type="xs:boolean"/>
+          <xs:element name="markCDRAsEnterpriseGroupCalls" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityMobileIdentityConsolidatedDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a mobile identity from the user's list of mobile identities.
+        The response is either a SuccessResponse or an ErrorResponse.
+
+        An ErrorResponse will be returned if any device cannot be deleted because of insufficient privilege.
+        When a delete request is attempted on the primary mobile identity, the delete will fail unless it is the last mobile identity in the user's list.
+
+        If deleteExistingDevices is set to true, after the mobile identity is deleted, any device that is only used by the deleted mobile identity prior to the deletion will be deleted if the command is executed with the correct priviledge.
+  Group administrator or above running this command can delete any group level devices. Service provider administrator or above can delete any service provider and group devices. Provisioning administrator or above can delete any devices.
+  An ErrorResponse with the type warning will be returned if any device cannot be deleted because of insufficient privilege.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="mobileNumber" type="DN"/>
+          <xs:element name="deleteExistingDevices" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityMobileIdentityConsolidatedModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the settings for one of the user's BroadWorks Mobility mobile Identities.
+        The response is either a SuccessResponse or an ErrorResponse.
+        If deleteExistingDevices is set to true, when the devices for the endpoint are changed, devices with no more endpoint will be deleted if the command is executed with the correct privilege.
+
+        The request fails when enableAlerting or timeSchedule or holidaySchedule are included in the request when the use mobile identity call anchoring controls for the user  is disabled.
+
+        The description, enableAlerting, alertAgentCalls, alertClickToDialCalls, alertGroupPagingCalls, useMobilityCallingLineID, enableDiversionInhibitor, requireAnswerConfirmation, broadworksCallControl, devicesToRing, includeSharedCallAppearance, includeBroadworksAnywhere, includeExecutiveAssistance, mobileNumberAlerted, enableCallAnchoring, timeSchedule and holidaySchedule  parameters require an authorization level of User for modification when the BroadWorks Mobility service is on.
+        The isPrimary, useSettingLevel, denyCallOrigination, denyCallTerminations, accessDeviceEndpoint, outboundAlternateNumber, enableDirectRouting, markCDRAsEnterpriseGroupCalls and networkTranslationIndex parameters require an authorization level of Group for modification.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="mobileNumber" type="DN"/>
+          <xs:element name="deleteExistingDevices" type="xs:boolean" minOccurs="0" fixed="true"/>
+          <xs:element name="description" type="BroadWorksMobilityUserMobileIdentityDescription" minOccurs="0" nillable="true"/>
+          <xs:element name="isPrimary" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableAlerting" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertAgentCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertClickToDialCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertGroupPagingCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useMobilityCallingLineID" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableDiversionInhibitor" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="requireAnswerConfirmation" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="broadworksCallControl" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useSettingLevel" type="BroadWorksMobilityUserSettingLevel" minOccurs="0"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="devicesToRing" type="BroadWorksMobilityPhoneToRing" minOccurs="0"/>
+          <xs:element name="includeSharedCallAppearance" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="includeBroadworksAnywhere" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="includeExecutiveAssistant" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="mobileNumbersAlerted" type="BroadWorksMobilityAlertingMobileNumberReplacementList" minOccurs="0" nillable="true"/>
+          <xs:element name="enableCallAnchoring" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="timeSchedule" type="ScheduleGlobalKey" minOccurs="0" nillable="true"/>
+          <xs:element name="holidaySchedule" type="ScheduleGlobalKey" minOccurs="0" nillable="true"/>
+          <xs:choice minOccurs="0">
+            <xs:element name="accessDeviceEndpoint" type="ConsolidatedSharedCallAppearanceAccessDeviceMultipleIdentityEndpoint" nillable="true"/>
+            <xs:element name="outboundAlternateNumber" type="OutgoingDNorSIPURI" nillable="true"/>
+          </xs:choice>
+          <xs:element name="enableDirectRouting" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="markCDRAsEnterpriseGroupCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useMobilityConnectedIdentity" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="networkTranslationIndex" type="NetworkTranslationIndex" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityMobileIdentityDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a mobile identity from the user's list of mobile identities.
+        The response is either a SuccessResponse or an ErrorResponse. If another Mobile Identity is set to ring mobile only and only has this mobile identity
+        in the alerting list, the identity is deleted and ErrorResponse is returned. The ErrorResponse is info type and  contains the affected mobile numbers
+        in the summary.
+        When a delete request is attempted on the primary mobile identity, the delete will fail unless it is the last mobile identity in the user's list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="mobileNumber" type="DN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityMobileIdentityGetRequest22V3">
+    <xs:annotation>
+      <xs:documentation>
+        Get the settings for a user's specified mobile identity.
+        The response is either a UserBroadWorksMobilityMobileIdentityGetResponse22V3 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="mobileNumber" type="DN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityMobileIdentityGetResponse22V3">
+    <xs:annotation>
+      <xs:documentation>
+         Response to a UserBroadWorksMobilityMobileIdentityGetRequest22V3.
+
+
+         Columns for the mobileNumberAlertedTable are as follows: "Mobile Number", "Country Code", "National Prefix"
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="description" type="BroadWorksMobilityUserMobileIdentityDescription" minOccurs="0"/>
+          <xs:element name="isPrimary" type="xs:boolean"/>
+          <xs:element name="enableAlerting" type="xs:boolean"/>
+          <xs:element name="alertAgentCalls" type="xs:boolean"/>
+          <xs:element name="alertClickToDialCalls" type="xs:boolean"/>
+          <xs:element name="alertGroupPagingCalls" type="xs:boolean"/>
+          <xs:element name="useMobilityCallingLineID" type="xs:boolean"/>
+          <xs:element name="enableDiversionInhibitor" type="xs:boolean"/>
+          <xs:element name="requireAnswerConfirmation" type="xs:boolean"/>
+          <xs:element name="broadworksCallControl" type="xs:boolean"/>
+          <xs:element name="useSettingLevel" type="BroadWorksMobilityUserSettingLevel"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean"/>
+          <xs:element name="effectiveEnableLocationServices" type="xs:boolean"/>
+          <xs:element name="effectiveEnableMSRNLookup" type="xs:boolean"/>
+          <xs:element name="effectiveEnableMobileStateChecking" type="xs:boolean"/>
+          <xs:element name="effectiveEnableAnnouncementSuppression" type="xs:boolean"/>
+          <xs:element name="effectiveDenyCallOriginations" type="xs:boolean"/>
+          <xs:element name="effectiveDenyCallTerminations" type="xs:boolean"/>
+          <xs:element name="devicesToRing" type="BroadWorksMobilityPhoneToRing"/>
+          <xs:element name="includeSharedCallAppearance" type="xs:boolean"/>
+          <xs:element name="includeBroadworksAnywhere" type="xs:boolean"/>
+          <xs:element name="includeExecutiveAssistant" type="xs:boolean"/>
+          <xs:element name="enableCallAnchoring" type="xs:boolean"/>
+          <xs:element name="timeSchedule" type="ScheduleGlobalKey" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="ScheduleGlobalKey" minOccurs="0"/>
+          <xs:element name="accessDeviceEndpoint" type="AccessDeviceEndpointWithPortNumberRead22V2" minOccurs="0"/>
+          <xs:element name="outboundAlternateNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+          <xs:element name="enableDirectRouting" type="xs:boolean"/>
+          <xs:element name="markCDRAsEnterpriseGroupCalls" type="xs:boolean"/>
+          <xs:element name="useMobilityConnectedIdentity" type="xs:boolean"/>
+          <xs:element name="networkTranslationIndex" type="NetworkTranslationIndex" minOccurs="0"/>
+          <xs:element name="mobileNumberAlertedTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityMobileIdentityModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the settings for one of the user's BroadWorks Mobility mobile Identities.
+        The response is either a SuccessResponse or an ErrorResponse.
+        The request fails when enableAlerting or timeSchedule or holidaySchedule are included in the request when the user's use mobile identity call anchoring controls is disabled.
+
+        The description, enableAlerting, alertAgentCalls, alertClickToDialCalls, alertGroupPagingCalls, useMobilityCallingLineID, enableDiversionInhibitor, requireAnswerConfirmation, broadworksCallControl, devicesToRing, includeSharedCallAppearance, includeBroadworksAnywhere, includeExecutiveAssistance, mobileNumberAlerted, enableCallAnchoring, timeSchedule, holidaySchedule and useMobilityConnectedIdentity parameters require an authorization level of User for modification when the BroadWorks Mobility service is on.
+        The isPrimary, useSettingLevel, denyCallOrigination, denyCallTerminations, accessDeviceEndpoint, outboundAlternateNumber, enableDirectRouting, markCDRAsEnterpriseGroupCalls and networkTranslationIndex  parameters require an authorization level of Group for modification.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="mobileNumber" type="DN"/>
+          <xs:element name="description" type="BroadWorksMobilityUserMobileIdentityDescription" minOccurs="0" nillable="true"/>
+          <xs:element name="isPrimary" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableAlerting" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertAgentCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertClickToDialCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertGroupPagingCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useMobilityCallingLineID" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableDiversionInhibitor" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="requireAnswerConfirmation" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="broadworksCallControl" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useSettingLevel" type="BroadWorksMobilityUserSettingLevel" minOccurs="0"/>
+          <xs:element name="denyCallOriginations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="denyCallTerminations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="devicesToRing" type="BroadWorksMobilityPhoneToRing" minOccurs="0"/>
+          <xs:element name="includeSharedCallAppearance" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="includeBroadworksAnywhere" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="includeExecutiveAssistant" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="mobileNumbersAlerted" type="BroadWorksMobilityAlertingMobileNumberReplacementList" minOccurs="0" nillable="true"/>
+          <xs:element name="enableCallAnchoring" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="timeSchedule" type="ScheduleGlobalKey" minOccurs="0" nillable="true"/>
+          <xs:element name="holidaySchedule" type="ScheduleGlobalKey" minOccurs="0" nillable="true"/>
+          <xs:choice minOccurs="0">
+            <xs:element name="accessDeviceEndpoint" type="AccessDeviceEndpointAndHotlineModify" nillable="true"/>
+            <xs:element name="outboundAlternateNumber" type="OutgoingDNorSIPURI" nillable="true"/>
+          </xs:choice>
+          <xs:element name="enableDirectRouting" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="markCDRAsEnterpriseGroupCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useMobilityConnectedIdentity" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="networkTranslationIndex" type="NetworkTranslationIndex" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksMobilityModifyRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user's BroadWorks Mobility service settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+
+        The isActive, useMobileIdentityCallAnchoring, and preventCallsToOwnMobiles parameters can be modified by users with Group Authorization Level and above.
+        The mobileIdentity, profileIdentityDevicesToRing, rofileIdentityIncludeSharedCallAppearance, profileIdentityIncludeBroadworksAnywhere mobileIdentity and profileIdentityMobilityNumbersAlerted parameters can be modified by users with User Authorization Level and above when the BroadWorks Mobility service is turned on.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useMobileIdentityCallAnchoring" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="preventCallsToOwnMobiles" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="mobileIdentity" type="BroadWorksMobilityUserMobileIdentityModifyEntry" minOccurs="0" maxOccurs="10"/>
+          <xs:element name="profileIdentityDevicesToRing" type="BroadWorksMobilityPhoneToRing" minOccurs="0"/>
+          <xs:element name="profileIdentityIncludeSharedCallAppearance" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="profileIdentityIncludeBroadworksAnywhere" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="profileIdentityIncludeExecutiveAssistant" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="profileIdentityMobilityNumbersAlerted" type="BroadWorksMobilityAlertingMobileNumberReplacementList" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Broad Works Mobility specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="BroadWorksMobilityUserMobileIdentityModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        User's Mobile Identity Modify Entry
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="mobileNumber" type="DN"/>
+      <xs:element name="description" type="BroadWorksMobilityUserMobileIdentityDescription" minOccurs="0" nillable="true"/>
+      <xs:element name="isPrimary" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="enableAlerting" type="xs:boolean" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SortOrderEnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentPagedSortedList">
+    <xs:annotation>
+      <xs:documentation>
+        Used to sort the SortOrderEnterpriseBroadWorksMobilityMobileSubscriberDirectoryNumberGetAssignmentPagedSortedListRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="sortByMobileDirectoryNumber" type="SortByMobileDirectoryNumber"/>
+      <xs:element name="sortByDn" type="SortByDn"/>
+      <xs:element name="sortByDepartmentName" type="SortByDepartmentName"/>
+      <xs:element name="sortByUserId" type="SortByUserId"/>
+      <xs:element name="sortByUserFirstName" type="SortByUserFirstName"/>
+      <xs:element name="sortByUserLastName" type="SortByUserLastName"/>
+      <xs:element name="sortByExtension" type="SortByExtension"/>
+      <xs:element name="sortByDnAvailable" type="SortByDnAvailable"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="BroadWorksMobilityGeographicalPoolDescription">
+    <xs:annotation>
+      <xs:documentation>
+        Broadworks Mobility geographical pool description.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="80"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="BroadWorksMobilityGeographicalPoolName">
+    <xs:annotation>
+      <xs:documentation>
+        IMRN geographical pool name.
+        Uniquely identifies a geographical pool in the system.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="80"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="BroadWorksMobilityGeographicalPoolPrefix">
+    <xs:annotation>
+      <xs:documentation>
+        IMRN geographical prefix.
+        Uniquely identifies a geographical prefix within a country code.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="2"/>
+      <xs:maxLength value="5"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ServiceAccessCodeListName">
+    <xs:annotation>
+      <xs:documentation>
+        Name of a Service Access Code list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="80"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

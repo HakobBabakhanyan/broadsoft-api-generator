@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- E X E C U T I V E   S E R V I C E                                                    -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- E X E C U T I V E   R E Q U E S T S   A N D   R E S P O N S E S                      -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    SystemExecutiveGetRequest
+    SystemExecutiveModifyRequest
+    UserExecutiveAddFilteringSelectiveCriteriaRequest
+    UserExecutiveDeleteFilteringSelectiveCriteriaRequest
+    UserExecutiveGetAssistantRequest
+    UserExecutiveGetAvailableAssistantListRequest
+    UserExecutiveGetFilteringRequest
+    UserExecutiveGetFilteringSelectiveCriteriaRequest21
+    UserExecutiveGetScreeningAlertingRequest
+    UserExecutiveModifyAssistantRequest
+    UserExecutiveModifyFilteringRequest
+    UserExecutiveModifyFilteringSelectiveCriteriaRequest
+    UserExecutiveModifyScreeningAlertingRequest
+-->
+
+  <xs:complexType name="SystemExecutiveGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Request to get the Executive system parameters.
+         The response is either SystemExecutiveGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemExecutiveGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemExecutiveGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="treatVirtualOnNetCallsAsInternal" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemExecutiveModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify the Executive system parameters.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="treatVirtualOnNetCallsAsInternal" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveAddFilteringSelectiveCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a filtering criteria to an executive user.
+        Both executive and the executive assistant can run this command.
+        For the callToNumber, the extension element is not used and the number element is only used when the type is BroadWorks Mobility.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="filter" type="xs:boolean"/>
+          <xs:element name="fromDnCriteria" type="ExecutiveCallFilteringCriteriaFromDn"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveDeleteFilteringSelectiveCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a filtering criteria from an executive user.
+        Both executive and the executive assistant can run this command.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveGetAssistantRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the assistant setting and the list of assistants assigned to an executive.
+        The response is either UserExecutiveGetAssistantsResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveGetAssistantResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserExecutiveGetAssistantsRequest.
+        Contains the assistant setting and a table of assigned assistants.
+        The table has column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name",
+        "Hiragana First Name", "Phone Number", "Extension", "Department", "Email Address" and "Opt-in".
+        The possible values for "Opt-in" column are "true" and "false".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="allowOptInOut" type="xs:boolean"/>
+          <xs:element name="assistantUserTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveGetAvailableAssistantListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of users that can be assigned to an executive.
+        Searching for users by group only makes sense when the executive user is part of an Enterprise.
+        The response is either UserExecutiveGetAvailableAssistantListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactUserDepartment" type="SearchCriteriaExactUserDepartment" minOccurs="0"/>
+          <xs:element name="searchCriteriaExactUserGroup" type="SearchCriteriaExactUserGroup" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveGetAvailableAssistantListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserExecutiveGetAvailableAssistantListResponse.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name",
+        "Hiragana First Name", "Phone Number", "Extension", "Department" and "Email Address".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="userTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveGetFilteringRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the filtering setting and the list of filtering criteria defined for an executive user.
+        Both executive and the executive assistant can run this command.
+        The response is either UserExecutiveGetFilteringResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveGetFilteringResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserExecutiveGetFilteringRequest.
+        Contains the filtering setting and a table of filtering criteria.
+        The criteria table's column headings are: "Is Active", "Criteria Name", "Time Schedule", "Calls From",
+        "Filter", "Holiday Schedule", "Calls To Type", "Calls To Number" and "Calls To Extension".
+        The "Filter" column can contain "true" or "false".
+        The possible values for the "Calls To Type" column are the following or a combination of them separated by comma:
+          - Primary
+          - Alternate X (where x is a number between 1 and 10)
+          - Mobility
+        The possible values for the "Calls To Number" column are the following or a combination of them separated by comma:
+          - The value of the phone number for the corresponding Calls To Type, when the number is available. i.e. Alternate 1 may have extension, but no number.
+          - When no number is available a blank space is provided instead.
+        The possible values for the "Calls To Extension" column are the following or a combination of them separated by comma:
+          - The value of the extension for the corresponding Calls To Type, when the extension is available. i.e. Primary may have number, but no extension.
+          - For Mobility Calls To Type, this is always blank.
+          - When no extension is available a blank space is provided instead.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="enableFiltering" type="xs:boolean"/>
+          <xs:element name="filteringMode" type="ExecutiveCallFilteringMode"/>
+          <xs:element name="simpleFilterType" type="ExecutiveCallFilteringSimpleFilterType"/>
+          <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveGetFilteringSelectiveCriteriaRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Get a filtering criteria for an executive user.
+        Both executive and the executive assistant can run this command.
+        The response is either UserExecutiveGetSelectiveCriteriaResponse21 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveGetFilteringSelectiveCriteriaResponse21">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserExecutiveGetFilteringSelectiveCriteriaRequest21.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="filter" type="xs:boolean"/>
+          <xs:element name="fromDnCriteria" type="ExecutiveCallFilteringCriteriaFromDn"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveGetScreeningAlertingRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the screening and alerting setting of an executive. Both executive and the executive assistant can run this command.
+        The response is either UserExecutiveGetScreeningAlertingResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveGetScreeningAlertingResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserExecutiveGetScreeningAlertingRequest.
+        Contains the screening and alerting settings for an executive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="enableScreening" type="xs:boolean"/>
+          <xs:element name="screeningAlertType" type="ExecutiveScreeningAlertType"/>
+          <xs:element name="alertBroadWorksMobilityLocation" type="xs:boolean"/>
+          <xs:element name="alertBroadWorksAnywhereLocations" type="xs:boolean"/>
+          <xs:element name="alertSharedCallAppearanceLocations" type="xs:boolean"/>
+          <xs:element name="alertingMode" type="ExecutiveAlertingMode"/>
+          <xs:element name="alertingCallingLineIdNameMode" type="ExecutiveAlertingCallingLineIdNameMode"/>
+          <xs:element name="alertingCustomCallingLineIdName" type="ExecutiveAlertingCustomCallingLineIdName" minOccurs="0"/>
+          <xs:element name="unicodeAlertingCustomCallingLineIdName" type="ExecutiveAlertingCustomCallingLineIdName" minOccurs="0"/>
+          <xs:element name="alertingCallingLineIdPhoneNumberMode" type="ExecutiveAlertingCallingLineIdPhoneNumberMode"/>
+          <xs:element name="alertingCustomCallingLineIdPhoneNumber" type="DN" minOccurs="0"/>
+          <xs:element name="callPushRecallNumberOfRings" type="ExecutiveCallPushRecallNumberOfRings"/>
+          <xs:element name="nextAssistantNumberOfRings" type="ExecutiveNextAssistantNumberOfRings"/>
+          <xs:element name="enableRollover" type="xs:boolean"/>
+          <xs:element name="rolloverWaitTimeSeconds" type="ExecutiveRolloverWaitTimeSeconds" minOccurs="0"/>
+          <xs:element name="rolloverAction" type="ExecutiveRolloverActionType"/>
+          <xs:element name="rolloverForwardToPhoneNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveModifyAssistantRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify the assistant setting and the list of assistants assigned to an executive user.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="allowOptInOut" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="assistantUserIdList" type="ReplacementUserIdList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveModifyFilteringRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the filtering setting for an executive user.
+        Both executive and the executive assistant can run this command.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="enableFiltering" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="filteringMode" type="ExecutiveCallFilteringMode" minOccurs="0"/>
+          <xs:element name="simpleFilterType" type="ExecutiveCallFilteringSimpleFilterType" minOccurs="0"/>
+          <xs:element name="criteriaActivation" type="CriteriaActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveModifyFilteringSelectiveCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a filtering selective criteria for an executive.
+        Both executive and the executive assistant can run this command.
+        For the callToNumbers in the callToNumberList, the extension element is not used and the number element is only used when the type is BroadWorks Mobility.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="newCriteriaName" type="CriteriaName" minOccurs="0"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="filter" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="fromDnCriteria" type="ExecutiveCallFilteringCriteriaFromDnModify" minOccurs="0"/>
+          <xs:element name="callToNumberList" type="ReplacementCallToNumberList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserExecutiveModifyScreeningAlertingRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the screening and alerting setting of an executive.
+        Both executive and the executive assistant can run this command.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="enableScreening" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="screeningAlertType" type="ExecutiveScreeningAlertType" minOccurs="0"/>
+          <xs:element name="alertBroadWorksMobilityLocation" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertBroadWorksAnywhereLocations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertSharedCallAppearanceLocations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertingMode" type="ExecutiveAlertingMode" minOccurs="0"/>
+          <xs:element name="alertingCallingLineIdNameMode" type="ExecutiveAlertingCallingLineIdNameMode" minOccurs="0"/>
+          <xs:element name="alertingCustomCallingLineIdName" type="ExecutiveAlertingCustomCallingLineIdName" nillable="true" minOccurs="0"/>
+          <xs:element name="unicodeAlertingCustomCallingLineIdName" type="ExecutiveAlertingCustomCallingLineIdName" nillable="true" minOccurs="0"/>
+          <xs:element name="alertingCallingLineIdPhoneNumberMode" type="ExecutiveAlertingCallingLineIdPhoneNumberMode" minOccurs="0"/>
+          <xs:element name="alertingCustomCallingLineIdPhoneNumber" type="DN" nillable="true" minOccurs="0"/>
+          <xs:element name="callPushRecallNumberOfRings" type="ExecutiveCallPushRecallNumberOfRings" minOccurs="0"/>
+          <xs:element name="nextAssistantNumberOfRings" type="ExecutiveNextAssistantNumberOfRings" minOccurs="0"/>
+          <xs:element name="enableRollover" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="rolloverWaitTimeSeconds" type="ExecutiveRolloverWaitTimeSeconds" nillable="true" minOccurs="0"/>
+          <xs:element name="rolloverAction" type="ExecutiveRolloverActionType" minOccurs="0"/>
+          <xs:element name="rolloverForwardToPhoneNumber" type="OutgoingDNorSIPURI" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Executive specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="ExecutiveCallFilteringCriteriaFromDnModify">
+    <xs:annotation>
+      <xs:documentation>
+        The from dn criteria used within an executive call filtering criteria modify request.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="fromDnCriteriaSelection" type="ExecutiveCallFilteringCriteriaDnSelection" minOccurs="0"/>
+      <xs:element name="includeAnonymousCallers" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="includeUnavailableCallers" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="phoneNumberList" type="CriteriaReplacementDNList" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="ExecutiveAlertingCallingLineIdNameMode">
+    <xs:annotation>
+      <xs:documentation>
+        Executive alerting calling line Id name mode.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Executive"/>
+      <xs:enumeration value="Executive-Originator"/>
+      <xs:enumeration value="Originator-Executive"/>
+      <xs:enumeration value="Originator"/>
+      <xs:enumeration value="Custom"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ExecutiveAlertingCallingLineIdPhoneNumberMode">
+    <xs:annotation>
+      <xs:documentation>
+        Executive alerting calling line Id phone number mode.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Executive"/>
+      <xs:enumeration value="Originator"/>
+      <xs:enumeration value="Custom"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ExecutiveAlertingCustomCallingLineIdName">
+    <xs:annotation>
+      <xs:documentation>
+        Executive alerting custom calling line Id name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="80"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ExecutiveAlertingMode">
+    <xs:annotation>
+      <xs:documentation>
+        Executive alerting mode.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Simultaneous"/>
+      <xs:enumeration value="Sequential"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ExecutiveCallFilteringMode">
+    <xs:annotation>
+      <xs:documentation>
+        Executive call filtering mode.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Simple"/>
+      <xs:enumeration value="Advanced"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ExecutiveCallFilteringSimpleFilterType">
+    <xs:annotation>
+      <xs:documentation>
+        Executive call filtering filter type in simple filtering mode.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="All Calls"/>
+      <xs:enumeration value="All Internal Calls"/>
+      <xs:enumeration value="All External Calls"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ExecutiveCallPushRecallNumberOfRings">
+    <xs:annotation>
+      <xs:documentation>
+        Number of rings to wait before starting the call push recall.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="2"/>
+      <xs:maxInclusive value="20"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ExecutiveNextAssistantNumberOfRings">
+    <xs:annotation>
+      <xs:documentation>
+        Number of rings to wait before advancing to next assistant.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="20"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ExecutiveRolloverActionType">
+    <xs:annotation>
+      <xs:documentation>
+        Executive rollover action.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Voice Messaging"/>
+      <xs:enumeration value="Forward"/>
+      <xs:enumeration value="No Answer Processing"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ExecutiveRolloverWaitTimeSeconds">
+    <xs:annotation>
+      <xs:documentation>
+        Number of seconds to wait before rollover to next assistant.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="7200"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ExecutiveScreeningAlertType">
+    <xs:annotation>
+      <xs:documentation>
+        Executive screening alert type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Silent"/>
+      <xs:enumeration value="Ring Splash"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

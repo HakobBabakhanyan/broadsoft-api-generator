@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   U S E R   P A R T                                      -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified"
+           elementFormDefault="qualified">
+
+    <xs:import namespace="C" schemaLocation="OCISchemaBASE.xsd"/>
+
+    <xs:include schemaLocation="OCISchemaSearchCriteria.xsd"/>
+    <xs:include schemaLocation="OCISchemaSortCriteria.xsd"/>
+    <xs:include schemaLocation="OCISchemaDataTypes.xsd"/>
+    <xs:complexType name="UserGroupCommonPhoneListGetPagedSortedListRequest">
+    <xs:annotation>
+      <xs:documentation>
+				Get a user's group's common phone list.
+				The response is either a UserGroupCommonPhoneListGetPagedSortedListResponse or an
+				ErrorResponse.
+				The search can be done using multiple criterion.
+				If the searchCriteriaModeOr is present, any result matching any one
+				criteria is included in the results.
+				Otherwise, only results matching all the search criterion are included in the
+				results.
+				If no search criteria is specified, all results are returned.
+				Specifying searchCriteriaModeOr without any search criteria results
+				in an ErrorResponse.
+				The sort can be done on the name or the number in the common phone list.
+				The following elements are only used in AS data mode and ignored in XS data
+				mode:
+				searchCriteriaGroupCommonMultiPartPhoneListName
+			</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="responsePagingControl" type="ResponsePagingControl"/>
+          <xs:choice>
+            <xs:element name="sortByGroupCommonPhoneListNumber" type="SortByGroupCommonPhoneListNumber"/>
+            <xs:element name="sortByGroupCommonPhoneListName" type="SortByGroupCommonPhoneListName"/>
+          </xs:choice>
+          <xs:element name="searchCriteriaModeOr" type="xs:boolean" fixed="true" minOccurs="0"/>
+          <xs:element name="searchCriteriaGroupCommonPhoneListName" type="SearchCriteriaGroupCommonPhoneListName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaGroupCommonPhoneListNumber" type="SearchCriteriaGroupCommonPhoneListNumber" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaGroupCommonMultiPartPhoneListName" type="SearchCriteriaGroupCommonMultiPartPhoneListName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+
+
+
+<!--    <xs:complexType name="UserScheduleAddEventRequest">-->
+<!--        <xs:annotation>-->
+<!--            <xs:documentation>-->
+<!--                Add an event to user schedule.-->
+<!--                The response is either a SuccessResponse or an ErrorResponse.-->
+<!--                The startDate element is adjusted to the first occurrence of the recurrent schedule that comes at or-->
+<!--                after the startDate.-->
+<!--                The endDate element is set to the sum of the adjusted starDate element value and the event duration.-->
+<!--            </xs:documentation>-->
+<!--        </xs:annotation>-->
+<!--        <xs:complexContent>-->
+<!--            <xs:extension base="core:OCIRequest">-->
+<!--                <xs:sequence>-->
+<!--                    <xs:element name="userId" type="UserId"/>-->
+<!--                    <xs:element name="scheduleKey" type="ScheduleKey"/>-->
+<!--                    <xs:element name="eventName" type="EventName"/>-->
+<!--                    <xs:element name="startDate" type="xs:date"/>-->
+<!--                    <xs:choice>-->
+<!--                        <xs:element name="allDayEvent" type="xs:boolean" fixed="true"/>-->
+<!--                        <xs:sequence>-->
+<!--                            <xs:element name="startTime" type="HourMinute"/>-->
+<!--                            <xs:element name="endTime" type="HourMinute"/>-->
+<!--                        </xs:sequence>-->
+<!--                    </xs:choice>-->
+<!--                    <xs:element name="endDate" type="xs:date"/>-->
+<!--                    <xs:element name="recurrence" type="Recurrence" minOccurs="0"/>-->
+<!--                </xs:sequence>-->
+<!--            </xs:extension>-->
+<!--        </xs:complexContent>-->
+<!--    </xs:complexType>-->
+
+    <!--  <xs:complexType name="GroupGetUserServiceAssignedUserListRequest">-->
+    <!--    <xs:annotation>-->
+    <!--      <xs:documentation>-->
+    <!--        Get the list of users assigned the user service or service pack.-->
+    <!--        The response is either a GroupGetUserServiceAssignedUserListResponse or an ErrorResponse.-->
+    <!--      </xs:documentation>-->
+    <!--    </xs:annotation>-->
+    <!--    <xs:complexContent>-->
+    <!--      <xs:extension base="core:OCIRequest">-->
+    <!--        <xs:sequence>-->
+    <!--          <xs:element name="serviceProviderId" type="ServiceProviderId"/>-->
+    <!--          <xs:element name="groupId" type="GroupId"/>-->
+    <!--          <xs:choice>-->
+    <!--            <xs:element name="serviceName" type="UserService"/>-->
+    <!--            <xs:element name="servicePackName" type="ServicePackName"/>-->
+    <!--          </xs:choice>-->
+    <!--        </xs:sequence>-->
+    <!--      </xs:extension>-->
+    <!--    </xs:complexContent>-->
+    <!--  </xs:complexType>-->
+
+    <!--  <xs:complexType name="UserConsolidatedModifyRequest22">-->
+    <!--    <xs:annotation>-->
+    <!--      <xs:documentation>-->
+    <!--       Request to modify a user.-->
+
+    <!--        If deleteExistingDevices is set to true, when the devices for the main endpoint or SCA service are changed, devices with no more endpoint will be deleted if the command is executed with the correct privilege.-->
+    <!--        Group administrator or above running this command can delete any group level devices.-->
+    <!--        Service provider administrator or above can delete any service provider and group devices.-->
+    <!--        Provisioning administrator or above can delete any devices.-->
+    <!--        An ErrorResponse will be returned if any device cannot be deleted because of insufficient privilege.-->
+
+    <!--        When phone numbers are un-assigned from the user, the unused numbers may be un-assigned from the group and service provider. If UnassignPhoneNumbersLevel is set to 'Group', the user's primary phone number, fax number and any alternate numbers, will be un-assigned from the group if the command is executed by a service provider administrator or above.-->
+    <!--        When set to 'Service Provider', they will be un-assigned from the group and service provider if the command is executed by a provisioning administrator or above.-->
+    <!--        When omitted, the number(s) will be left assigned to the group.-->
+    <!--        An ErrorResponse will be returned if any number cannot be unassigned because of insufficient privilege.-->
+
+    <!--       If the phoneNumber has not been assigned to the group and addPhoneNumberToGroup is set to true, it will be added to group if needed if the command is executed by a service provider administrator and above. The command will fail otherwise.-->
+
+    <!--        Alternate user ids can be added by a group level administrator or above.-->
+
+    <!--        The password is not required if external authentication is enabled.-->
+    <!--        When sharedCallAppearanceAccessDeviceEndpoint element is included and the Shared Call Appearance service is not assigned after this request, the request will fail.-->
+
+    <!--        The userService/servicePackwill be authorized to the group if it has not been authorized to the group and the command is excuted by a service provider administrator. The request will fail otherwise.-->
+    <!--        If not present, the authorizedQuantity will be set to unlimited if allowed.-->
+
+    <!--        If any of the third party voice mail elements are included but the service is not assigned after this request, the request will fail.-->
+
+    <!--         If the sip authentication elements are included but the SPI Authentication service is not assigned after this request, the request will fail.-->
+
+    <!--         If the impPassword element is included but the Integrated IMP service is not assigned after this request, the request will fail.-->
+
+
+    <!--         The following elements are ignored in XS data mode:-->
+    <!--          nameDialingName-->
+    <!--          alternateUserIdList-->
+    <!--          passcode-->
+    <!--          trunkAddressing-->
+    <!--          thirdPartyVoiceMailServerSelection-->
+    <!--          thirdPartyVoiceMailServerUserServer-->
+    <!--          thirdPartyVoiceMailServerMailboxIdType-->
+    <!--          thirdPartyVoiceMailMailboxURL-->
+    <!--          sipAuthenticationData-->
+    <!--          newUserExternalId-->
+
+    <!--         The response is either SuccessResponse or ErrorResponse.-->
+    <!--      </xs:documentation>-->
+    <!--    </xs:annotation>-->
+    <!--    <xs:complexContent>-->
+    <!--      <xs:extension base="core:OCIRequest">-->
+    <!--        <xs:sequence>-->
+    <!--          <xs:element name="userId" type="UserId"/>-->
+    <!--          <xs:element name="deleteExistingDevices" type="xs:boolean" minOccurs="0" fixed="true"/>-->
+    <!--          <xs:element name="unassignPhoneNumbers" type="UnassignPhoneNumbersLevel" minOccurs="0"/>-->
+    <!--          <xs:element name="addPhoneNumberToGroup" type="xs:boolean" minOccurs="0" fixed="true"/>-->
+    <!--          <xs:element name="newUserId" type="UserId" minOccurs="0"/>-->
+    <!--          <xs:element name="lastName" type="LastName" minOccurs="0"/>-->
+    <!--          <xs:element name="firstName" type="FirstName" minOccurs="0"/>-->
+    <!--          <xs:element name="callingLineIdLastName" type="CallingLineIdLastName" minOccurs="0"/>-->
+    <!--          <xs:element name="callingLineIdFirstName" type="CallingLineIdFirstName" minOccurs="0"/>-->
+    <!--          <xs:element name="nameDialingName" type="NameDialingName" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="hiraganaLastName" type="HiraganaLastName" minOccurs="0"/>-->
+    <!--          <xs:element name="hiraganaFirstName" type="HiraganaFirstName" minOccurs="0"/>-->
+    <!--          <xs:element name="phoneNumber" type="DN" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="alternateUserIdList" type="ReplacementAlternateUserIdEntryList" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="extension" type="Extension17" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="callingLineIdPhoneNumber" type="DN" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="oldPassword" type="Password" minOccurs="0"/>-->
+    <!--          <xs:element name="newPassword" type="Password" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="department" type="DepartmentKey" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="language" type="Language" minOccurs="0"/>-->
+    <!--          <xs:element name="timeZone" type="TimeZone" minOccurs="0"/>-->
+    <!--          <xs:element name="sipAliasList" type="ReplacementSIPAliasList" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="endpoint" nillable="true" minOccurs="0">-->
+    <!--            <xs:complexType>-->
+    <!--              <xs:annotation/>-->
+    <!--              <xs:choice>-->
+    <!--                <xs:element name="accessDeviceEndpoint" type="ConsolidatedAccessDeviceMultipleIdentityEndpointAndContactModify"/>-->
+    <!--                <xs:element name="trunkAddressing" type="TrunkAddressingMultipleContactModify"/>-->
+    <!--              </xs:choice>-->
+    <!--            </xs:complexType>-->
+    <!--          </xs:element>-->
+    <!--          <xs:element name="sharedCallAppearanceAccessDeviceEndpointList" type="ReplacementConsolidatedSharedCallAppearanceAccessDeviceMultipleIdentityEndpointList22" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="title" type="Title" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="pagerPhoneNumber" type="InformationalDN" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="mobilePhoneNumber" type="OutgoingDN" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="emailAddress" type="EmailAddress" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="yahooId" type="YahooId" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="addressLocation" type="AddressLocation" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="address" type="StreetAddress" minOccurs="0"/>-->
+    <!--          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>-->
+    <!--          <xs:element name="userServiceList" type="ReplacementConsolidatedUserServiceAssignmentList" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="servicePackList" type="ReplacementConsolidatedServicePackAssignmentList" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="thirdPartyVoiceMailServerSelection" type="ThirdPartyVoiceMailSupportServerSelection" minOccurs="0"/>-->
+    <!--          <xs:element name="thirdPartyVoiceMailServerUserServer" type="ThirdPartyVoiceMailSupportMailServer" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="thirdPartyVoiceMailServerMailboxIdType" type="ThirdPartyVoiceMailSupportMailboxIdType" minOccurs="0"/>-->
+    <!--          <xs:element name="thirdPartyVoiceMailMailboxURL" type="SIPURI" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="sipAuthenticationUserName" type="SIPAuthenticationUserName" minOccurs="0"/>-->
+    <!--          <xs:element name="newSipAuthenticationPassword" type="Password" minOccurs="0"/>-->
+    <!--          <xs:element name="OldSipAuthenticationPassword" type="Password" minOccurs="0"/>-->
+    <!--          <xs:element name="newPasscode" type="Passcode" minOccurs="0"/>-->
+    <!--          <xs:element name="oldPasscode" type="Passcode" minOccurs="0"/>-->
+    <!--          <xs:element name="impPassword" type="Password" nillable="true" minOccurs="0"/>-->
+    <!--          <xs:element name="newUserExternalId" type="ExternalId" minOccurs="0"/>-->
+    <!--        </xs:sequence>-->
+    <!--      </xs:extension>-->
+    <!--    </xs:complexContent>-->
+    <!--  </xs:complexType>-->
+
+    <!-- ******************************************************************** -->
+    <!-- M E S S A G E   P A R A M E T E R S                                  -->
+    <!-- ******************************************************************** -->
+    <!--
+    The User specific non-primitive attributes are listed here in alphabetical order.
+    -->
+
+
+    <xs:complexType name="ProfileAndServiceAnonymousCallRejectionInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for anonymous Call Rejection service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceAutomaticCallbackInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for anonymous Call Rejection service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceBusyLampFieldInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Busy Lamp Field service
+                The monitoredUserTable has column headings:
+                "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name",
+                "Phone Number", "Extension", "Department", "Email Address", "IMP Id".
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="listURI" type="SIPURI" minOccurs="0"/>
+            <xs:element name="enableCallParkNotification" type="xs:boolean"/>
+            <xs:element name="monitoredUserTable" type="core:OCITable"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceCallForwardAlwaysInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Call Forward Always service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+            <xs:element name="forwardToPhoneNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+            <xs:element name="isRingSplashActive" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceCallForwardingBusyInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Call Forwarding Busy service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+            <xs:element name="forwardToPhoneNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceCallForwardingNoAnswerInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Call Forwarding No Answer service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+            <xs:element name="forwardToPhoneNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+            <xs:element name="numberOfRings" type="CallForwardingNoAnswerNumberOfRings"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceCallForwardingSelectiveInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Call Forwarding Selective service
+
+                The criteria table's column headings are:
+                "Is Active", "Criteria Name", "Time Schedule", "Calls From", "Forward To", "Blacklisted", "Holiday
+                Schedule"
+
+                The "Calls From" column is a string containing call numbers
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+            <xs:element name="defaultForwardToPhoneNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+            <xs:element name="playRingReminder" type="xs:boolean"/>
+            <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceCallingLineIDDeliveryBlockingInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Calling Line ID Delivery Blocking service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceCallNotifyInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Call Notify service
+
+                The criteria table's column headings are: "Is Active",
+                "Criteria Name", "Time Schedule", "Calls From", "Blacklisted" ,"Holiday Schedule"
+
+                The "Calls From" column is a string containing call numbers
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="callNotifyEmailAddress" type="EmailAddress" minOccurs="0"/>
+            <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceCallTransferInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Call Transfer service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isRecallActive" type="xs:boolean"/>
+            <xs:element name="recallNumberOfRings" type="CallTransferRecallNumberOfRings"/>
+            <xs:element name="useDiversionInhibitorForBlindTransfer" type="xs:boolean"/>
+            <xs:element name="useDiversionInhibitorForConsultativeCalls" type="xs:boolean"/>
+            <xs:element name="enableBusyCampOn" type="xs:boolean"/>
+            <xs:element name="busyCampOnSeconds" type="CallTransferBusyCampOnSeconds"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceCallWaitingInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Call Transfer service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+            <xs:element name="disableCallingLineIdDelivery" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceCommunicationBarringUserControlInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Communication Barring User Control service
+
+                profileTable has column headings: "Name", "Code", "Activated" and "Primary".
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="lockoutStatus" type="xs:boolean"/>
+            <xs:element name="profileTable" type="core:OCITable"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceCustomRingbackInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Custom Ringback service
+
+                The criteria table's column headings are: "Is Active", "Criteria Name",
+                "Time Schedule", "Calls From", "Blacklisted", "Holiday Schedule".
+
+                The "Calls From" column is a string containing call numbers
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceDeviceEndpointInfo">
+        <xs:annotation>
+            <xs:documentation>
+                Represents information about an endpoint device
+
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="accessDevice" type="AccessDevice"/>
+            <xs:element name="linePort" type="AccessDeviceEndpointLinePort"/>
+            <xs:element name="privateIdentity" type="AccessDeviceEndpointPrivateIdentity" minOccurs="0"/>
+            <xs:element name="accessDeviceMacAddress" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceDirectedCallPickupWithBargeInInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Directed Call Pickup With Barge In service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="enableBargeInWarningTone" type="xs:boolean"/>
+            <xs:element name="enableAutomaticTargetSelection" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceDoNotDisturbInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Do Not Disturb service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+            <xs:element name="ringSplash" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceExternalLineIDDeliveryInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for External Line ID Delivery service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceInternalCallingLineIDDeliveryInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Internal Calling Line ID Delivery service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceMusicOnHoldInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Music On Hold service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="enableVideo" type="xs:boolean"/>
+            <xs:element name="source" type="MusicOnHoldUserSourceRead16"/>
+            <xs:element name="useAlternateSourceForInternalCalls" type="xs:boolean"/>
+            <xs:element name="internalSource" type="MusicOnHoldUserSourceRead16" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServicePreAlertingAnnouncementInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Pre Alerting Announcement service
+
+                The criteria table's column headings are: "Is Active", "Criteria Name",
+                "Blacklisted", and "Calls From".
+
+                The "Calls From" column is a string containing call numbers
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+            <xs:element name="audioSelection" type="ExtendedFileResourceSelection"/>
+            <xs:element name="audioFileDescription" type="FileDescription" minOccurs="0"/>
+            <xs:element name="audioMediaType" type="MediaFileType" minOccurs="0"/>
+            <xs:element name="audioFileUrl" type="URL" minOccurs="0"/>
+            <xs:element name="videoSelection" type="ExtendedFileResourceSelection"/>
+            <xs:element name="videoFileDescription" type="FileDescription" minOccurs="0"/>
+            <xs:element name="videoMediaType" type="MediaFileType" minOccurs="0"/>
+            <xs:element name="videoFileUrl" type="URL" minOccurs="0"/>
+            <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceSelectiveCallRejectionInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Selective Call Rejection service
+
+                The criteria table's column headings are:
+                "Is Active", "Criteria Name", "Time Schedule", "Calls From", "Blacklisted", "Holiday Schedule"
+
+                The "Calls From" column is a string containing call numbers
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceSharedCallAppearanceInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for shared call appearance service
+                The endpointTable contains columns:
+                "Device Level", "Device Name", "Device Type", "Line/Port", "SIP Contact", "Port Number". "Private
+                Identity" .
+
+                The "Device Level" column contains one of the AccessDeviceLevel enumerated constants.
+                Port numbers are only used by devices with static line ordering.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="alertAllAppearancesForClickToDialCalls" type="xs:boolean"/>
+            <xs:element name="alertAllAppearancesForGroupPagingCalls" type="xs:boolean"/>
+            <xs:element name="maxAppearances" type="SharedCallAppearanceMaximumAppearances"/>
+            <xs:element name="allowSCACallRetrieve" type="xs:boolean"/>
+            <xs:element name="enableMultipleCallArrangement" type="xs:boolean"/>
+            <xs:element name="multipleCallArrangementIsActive" type="xs:boolean"/>
+            <xs:element name="endpointTable" type="core:OCITable"/>
+            <xs:element name="allowBridgingBetweenLocations" type="xs:boolean"/>
+            <xs:element name="bridgeWarningTone" type="SharedCallAppearanceBridgeWarningTone"/>
+            <xs:element name="enableCallParkNotification" type="xs:boolean"/>
+            <xs:element name="useUserPrimaryWithAlternateCallsSetting" type="xs:boolean"/>
+            <xs:element name="allowSimultaneousPrimaryAndAlternate" type="xs:boolean"/>
+            <xs:element name="restrictCallRetrieveOfPrimary" type="xs:boolean"/>
+            <xs:element name="restrictCallBridgingOfPrimary" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceSimultaneousRingPersonalInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Simultaneous Ring Personal service
+
+                Contains a criteria table with column heading: "Is Active", "Criteria Name", "Time Schedule", "Holiday
+                Schedule", "Calls From" and "Blacklisted".
+
+                The "Calls From" column is a string containing call numbers
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+            <xs:element name="doNotRingIfOnCall" type="xs:boolean"/>
+            <xs:element name="simultaneousRingNumber" type="SimultaneousRingNumber" minOccurs="0" maxOccurs="10"/>
+            <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceSpeedDial100Info">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Speed Dial 100 service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="prefix" type="SpeedDialPrefix" minOccurs="0"/>
+            <xs:element name="speedDialEntry" type="SpeedDial100Entry" minOccurs="0" maxOccurs="100"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceSpeedDial8Info">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Speed Dial 8 service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="speedDialEntry" type="SpeedDial8Entry" minOccurs="0" maxOccurs="8"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileAndServiceThirdPartyVoiceMailInfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is the configuration parameters for Third Party Voice Mail service
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isActive" type="xs:boolean"/>
+            <xs:element name="busyRedirectToVoiceMail" type="xs:boolean"/>
+            <xs:element name="noAnswerRedirectToVoiceMail" type="xs:boolean"/>
+            <xs:element name="serverSelection" type="ThirdPartyVoiceMailSupportServerSelection"/>
+            <xs:element name="userServer" type="ThirdPartyVoiceMailSupportMailServer" minOccurs="0"/>
+            <xs:element name="mailboxIdType" type="ThirdPartyVoiceMailSupportMailboxIdType"/>
+            <xs:element name="mailboxURL" type="SIPURI" minOccurs="0"/>
+            <xs:element name="noAnswerNumberOfRings" type="ThirdPartyVoiceMailSupportNumberOfRings"/>
+            <xs:element name="alwaysRedirectToVoiceMail" type="xs:boolean"/>
+            <xs:element name="outOfPrimaryZoneRedirectToVoiceMail" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ReplacementOCICallControlApplicationIdList">
+        <xs:annotation>
+            <xs:documentation>
+                A list of applicationIds that replaces a previously configured list.
+                By convention, an element of this type may be set nill to clear the list.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="applicationId" type="OCICallControlApplicationId" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SortOrderUserGetListInGroupPagedSortedList">
+        <xs:annotation>
+            <xs:documentation>
+                Used to sort the UserGetListInGroupPagedSortedListRequest request.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="sortByUserId" type="SortByUserId"/>
+            <xs:element name="sortByUserLastName" type="SortByUserLastName"/>
+            <xs:element name="sortByUserFirstName" type="SortByUserFirstName"/>
+            <xs:element name="sortByDepartmentName" type="SortByDepartmentName"/>
+            <xs:element name="sortByDn" type="SortByDn"/>
+            <xs:element name="sortByExtension" type="SortByExtension"/>
+            <xs:element name="sortByEmailAddress" type="SortByEmailAddress"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="UserMoveMessage">
+        <xs:annotation>
+            <xs:documentation>
+                The message describes the impact made when moving a user from one group to another group within the
+                enterprise. The message could also contain the error condition that prevents the user move.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="messageCode" type="xs:int"/>
+            <xs:element name="summary" type="xs:string"/>
+            <xs:element name="summaryEnglish" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="PhoneDirectoryNameSearchString">
+        <xs:annotation>
+            <xs:documentation>Phone Directory Name Search String.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:minLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

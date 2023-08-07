@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   D E P R E C A T E D   2 4 A S   P A R T                -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="OCISchemaSearchCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- D E P R E C A T E D   2 4 A S   R E Q U E S T S   A N D   R E S P O N S E S          -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    ServiceProviderPortalPasscodeRulesGetRequest19
+    SystemSIPDeviceTypeAddRequest23V6
+    SystemSIPDeviceTypeGetRequest23V8
+    SystemSIPDeviceTypeModifyRequest22V4
+-->
+
+  <xs:complexType name="ServiceProviderPortalPasscodeRulesGetRequest19">
+    <xs:annotation>
+      <xs:documentation>
+        Requests the service provider's passcode rules setting.
+        The response is either ServiceProviderPortalPasscodeRulesGetResponse19 or ErrorResponse.
+
+        Replaced by: ServiceProviderPortalPasscodeRulesGetRequest22 in AS data mode.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderPortalPasscodeRulesGetResponse19">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderPortalPasscodeRulesGetRequest19.
+        Contains the service provider's passcode rules setting.
+
+        The following elements are only used in AS data mode:
+          numberOfRepeatedDigits
+          disallowRepeatedPatterns
+          disallowContiguousSequences
+          numberOfAscendingDigits
+          numberOfDescendingDigits
+          numberOfPreviousPasscodes
+
+        Replaced by: ServiceProviderPortalPasscodeRulesGetResponse22 in AS data mode.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="disallowRepeatedDigits" type="xs:boolean"/>
+          <xs:element name="numberOfRepeatedDigits" type="PasscodeMaxRepeatedDigits"/>
+          <xs:element name="disallowRepeatedPatterns" type="xs:boolean"/>
+          <xs:element name="disallowContiguousSequences" type="xs:boolean"/>
+          <xs:element name="numberOfAscendingDigits" type="PasscodeMaxContiguousDigits"/>
+          <xs:element name="numberOfDescendingDigits" type="PasscodeMaxContiguousDigits"/>
+          <xs:element name="disallowUserNumber" type="xs:boolean"/>
+          <xs:element name="disallowReversedUserNumber" type="xs:boolean"/>
+          <xs:element name="disallowOldPasscode" type="xs:boolean"/>
+          <xs:element name="numberOfPreviousPasscodes" type="PasscodeHistoryCount"/>
+          <xs:element name="disallowReversedOldPasscode" type="xs:boolean"/>
+          <xs:element name="minCodeLength" type="PasscodeMinLength"/>
+          <xs:element name="maxCodeLength" type="PasscodeMaxLength"/>
+          <xs:element name="disableLoginAfterMaxFailedLoginAttempts" type="xs:boolean"/>
+          <xs:element name="maxFailedLoginAttempts" type="PortalMaxFailedLoginAttempts" minOccurs="0"/>
+          <xs:element name="expirePassword" type="xs:boolean"/>
+          <xs:element name="passcodeExpiresDays" type="PasscodeExpiresDays" minOccurs="0"/>
+          <xs:element name="sendLoginDisabledNotifyEmail" type="xs:boolean"/>
+          <xs:element name="loginDisabledNotifyEmailAddress" type="EmailAddress" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSIPDeviceTypeAddRequest23V6">
+    <xs:annotation>
+      <xs:documentation>
+        Request to add a sip device type.
+        The response is either SuccessResponse or ErrorResponse. When the optional element resellerId is specified,
+        the device type created is at reseller level. Device type name should be unique through out the system
+        including all the reseller level device types.
+        The following elements are only used in the XS data mode and ignored in the AS data mode:
+          enhancedForICS, use value "false" in AS data mode
+          supports3G4GContinuity, use value "false" in AS data mode
+          publishesOwnPresence, use value "false" in AS data mode
+          locationNetwork, use value "Fixed" in AS data mode
+          allowTerminationBasedOnICSI, use value "false" in AS data mode
+          roamingMode, use value "None" in AS data mode
+
+        The following elements are only used in AS data mode and ignored in the XS data mode:
+          supportClientSessionInfo, use value "false" in XS data mode
+          supportCallInfoConferenceSubscriptionURI, use value "false" in XS data mode
+          supportRemotePartyInfo, use value "false" in XS data mode
+          supportVisualDeviceManagementRedirectLink, use value "false" in XS data mode
+          bypassMediaTreatment, use value "false" in XS data mode
+          supportCauseParameter, use value "false" in XS data mode
+          supportCallingPartyCategoryInOutboundFromHeader, use value "true" in XS data mode
+          resellerId
+          supportVisualDeviceManagementAPI, use value "false" in XS data mode
+          deviceCategory
+          verstatInPAIHeader
+          verstatInFromHeader
+
+        The following values for element profile are only used in AS data mode and an error is returned in the XS data mode:
+          SignalingAddressType=Non-intelligent Device Addressing
+          SignalingAddressType=Intelligent Device Addressing
+
+        The following logic applies to these elements:
+          macInCert
+          macInNonRequestURI
+          The two elements are mutually exclusive.
+          When both are set to true, the command fails.
+
+        Replaced by: SystemSIPDeviceTypeAddRequest23V7 in AS mode.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="deviceType" type="AccessDeviceType"/>
+          <xs:element name="numberOfPorts" type="UnboundedPositiveInt"/>
+          <xs:element name="profile" type="SignalingAddressType"/>
+          <xs:element name="registrationCapable" type="xs:boolean"/>
+          <xs:element name="isConferenceDevice" type="xs:boolean"/>
+          <xs:element name="isMobilityManagerDevice" type="xs:boolean"/>
+          <xs:element name="isMusicOnHoldDevice" type="xs:boolean"/>
+          <xs:element name="holdNormalization" type="HoldNormalizationMode"/>
+          <xs:element name="holdAnnouncementMethod" type="HoldAnnouncementMethodMode"/>
+          <xs:element name="isTrusted" type="xs:boolean"/>
+          <xs:element name="E164Capable" type="xs:boolean"/>
+          <xs:element name="routeAdvance" type="xs:boolean"/>
+          <xs:element name="forwardingOverride" type="xs:boolean"/>
+          <xs:element name="wirelessIntegration" type="xs:boolean"/>
+          <xs:element name="webBasedConfigURL" type="WebBasedConfigURL" minOccurs="0"/>
+          <xs:element name="isVideoCapable" type="xs:boolean"/>
+          <xs:element name="PBXIntegration" type="xs:boolean"/>
+          <xs:element name="staticRegistrationCapable" type="xs:boolean"/>
+          <xs:element name="cpeDeviceOptions" type="CPEDeviceOptions22V4" minOccurs="0"/>
+          <xs:element name="earlyMediaSupport" type="EarlyMediaSupportType"/>
+          <xs:element name="authenticateRefer" type="xs:boolean"/>
+          <xs:element name="autoConfigSoftClient" type="xs:boolean"/>
+          <xs:element name="authenticationMode" type="AuthenticationMode22V2"/>
+          <xs:element name="requiresBroadWorksDigitCollection" type="xs:boolean"/>
+          <xs:element name="requiresBroadWorksCallWaitingTone" type="xs:boolean"/>
+          <xs:element name="requiresMWISubscription" type="xs:boolean"/>
+          <xs:element name="useHistoryInfoHeaderOnAccessSide" type="xs:boolean"/>
+          <xs:element name="adviceOfChargeCapable" type="xs:boolean"/>
+          <xs:element name="resetEvent" type="AccessDeviceResetEvent" minOccurs="0"/>
+          <xs:element name="supportCallCenterMIMEType" type="xs:boolean"/>
+          <xs:element name="trunkMode" type="TrunkMode"/>
+          <xs:element name="addPCalledPartyId" type="xs:boolean"/>
+          <xs:element name="supportIdentityInUpdateAndReInvite" type="xs:boolean"/>
+          <xs:element name="unscreenedPresentationIdentityPolicy" type="UnscreenedPresentationIdentityPolicy"/>
+          <xs:element name="enhancedForICS" type="xs:boolean"/>
+          <xs:element name="supportEmergencyDisconnectControl" type="xs:boolean"/>
+          <xs:element name="deviceTypeConfigurationOption" type="DeviceTypeConfigurationOptionType"/>
+          <xs:element name="supportRFC3398" type="xs:boolean"/>
+          <xs:element name="staticLineOrdering" type="xs:boolean"/>
+          <xs:element name="supportClientSessionInfo" type="xs:boolean"/>
+          <xs:element name="supportCallInfoConferenceSubscriptionURI" type="xs:boolean"/>
+          <xs:element name="supportRemotePartyInfo" type="xs:boolean"/>
+          <xs:element name="supportVisualDeviceManagementRedirectLink" type="xs:boolean"/>
+          <xs:element name="bypassMediaTreatment" type="xs:boolean"/>
+          <xs:element name="supports3G4GContinuity" type="xs:boolean"/>
+          <xs:element name="publishesOwnPresence" type="xs:boolean"/>
+          <xs:element name="supportCauseParameter" type="xs:boolean"/>
+          <xs:element name="locationNetwork" type="LocationNetworkType"/>
+          <xs:element name="resellerId" type="ResellerId22" minOccurs="0"/>
+          <xs:element name="allowTerminationBasedOnICSI" type="xs:boolean"/>
+          <xs:element name="roamingMode" type="RoamingMode"/>
+          <xs:element name="supportCallingPartyCategoryInOutboundFromHeader" type="xs:boolean"/>
+          <xs:element name="supportVisualDeviceManagementAPI" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="deviceCategory" type="DeviceCategory" minOccurs="0"/>
+          <xs:element name="verstatInPAIHeader" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="verstatInFromHeader" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSIPDeviceTypeGetRequest23V8">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get a sip device type.
+        See Also: SystemDeviceTypeGetRequest
+        The response is either SystemSIPDeviceTypeGetResponse23V8 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="deviceType" type="AccessDeviceType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSIPDeviceTypeGetResponse23V8">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemSIPDeviceTypeGetRequest23V8.
+        The following elements are only used in AS data mode:
+          supportClientSessionInfo, value "false" is returned in XS data mode
+          supportCallInfoConferenceSubscriptionURI, value "false" is returned in XS data mode
+          supportRemotePartyInfo, value "false" is returned in XS data mode
+          supportVisualDeviceManagementRedirectLink, value "false" is returned in XS data mode
+          bypassMediaTreatment, value "false" is returned in XS data mode
+          supportCauseParameter, value "false" is returned in XS data mode
+          supportCallingPartyCategoryInOutboundFromHeader, value "true" is returned in XS data mode
+          resellerId
+          supportVisualDeviceManagementAPI, value "false" is returned in XS data mode
+          verstatInPAIHeader, value "false" is returned in XS data mode
+          verstatInFromHeader, value "false" is returned in XS data mode
+
+        The following elements are only used in AS data mode and not returned in XS data mode:
+          deviceCategory
+          deviceFamily
+
+        The following elements are only used in XS data mode:
+          enhancedForICS, value "false" is returned in AS data mode
+          supports3G4GContinuity, value "false" is returned in AS data mode
+          publishesOwnPresence, value "false" is returned in AS data mode
+          locationNetwork, value "Fixed" is returned in AS data mode
+          allowTerminationBasedOnICSI, value "false" is returned in AS data mode
+          roamingMode, value "None" is returned in AS data mode
+
+        Replaced by: SystemSIPDeviceTypeGetResponse23V9 in AS mode.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isObsolete" type="xs:boolean"/>
+          <xs:element name="numberOfPorts" type="UnboundedPositiveInt"/>
+          <xs:element name="profile" type="SignalingAddressType"/>
+          <xs:element name="registrationCapable" type="xs:boolean"/>
+          <xs:element name="isConferenceDevice" type="xs:boolean"/>
+          <xs:element name="isMobilityManagerDevice" type="xs:boolean"/>
+          <xs:element name="isMusicOnHoldDevice" type="xs:boolean"/>
+          <xs:element name="holdNormalization" type="HoldNormalizationMode"/>
+          <xs:element name="holdAnnouncementMethod" type="HoldAnnouncementMethodMode"/>
+          <xs:element name="isTrusted" type="xs:boolean"/>
+          <xs:element name="E164Capable" type="xs:boolean"/>
+          <xs:element name="routeAdvance" type="xs:boolean"/>
+          <xs:element name="forwardingOverride" type="xs:boolean"/>
+          <xs:element name="wirelessIntegration" type="xs:boolean"/>
+          <xs:element name="webBasedConfigURL" type="WebBasedConfigURL" minOccurs="0"/>
+          <xs:element name="isVideoCapable" type="xs:boolean"/>
+          <xs:element name="PBXIntegration" type="xs:boolean"/>
+          <xs:element name="staticRegistrationCapable" type="xs:boolean"/>
+          <xs:element name="cpeDeviceOptions" type="CPEDeviceOptionsRead22V4" minOccurs="0"/>
+          <xs:element name="protocolChoice" type="AccessDeviceProtocol" maxOccurs="unbounded"/>
+          <xs:element name="earlyMediaSupport" type="EarlyMediaSupportType"/>
+          <xs:element name="authenticateRefer" type="xs:boolean"/>
+          <xs:element name="autoConfigSoftClient" type="xs:boolean"/>
+          <xs:element name="authenticationMode" type="AuthenticationMode22V2"/>
+          <xs:element name="requiresBroadWorksDigitCollection" type="xs:boolean"/>
+          <xs:element name="requiresBroadWorksCallWaitingTone" type="xs:boolean"/>
+          <xs:element name="requiresMWISubscription" type="xs:boolean"/>
+          <xs:element name="useHistoryInfoHeaderOnAccessSide" type="xs:boolean"/>
+          <xs:element name="adviceOfChargeCapable" type="xs:boolean"/>
+          <xs:element name="resetEvent" type="AccessDeviceResetEvent" minOccurs="0"/>
+          <xs:element name="supportCallCenterMIMEType" type="xs:boolean"/>
+          <xs:element name="trunkMode" type="TrunkMode"/>
+          <xs:element name="addPCalledPartyId" type="xs:boolean"/>
+          <xs:element name="supportIdentityInUpdateAndReInvite" type="xs:boolean"/>
+          <xs:element name="unscreenedPresentationIdentityPolicy" type="UnscreenedPresentationIdentityPolicy"/>
+          <xs:element name="enhancedForICS" type="xs:boolean"/>
+          <xs:element name="supportEmergencyDisconnectControl" type="xs:boolean"/>
+          <xs:element name="deviceTypeConfigurationOption" type="DeviceTypeConfigurationOptionType"/>
+          <xs:element name="supportRFC3398" type="xs:boolean"/>
+          <xs:element name="staticLineOrdering" type="xs:boolean"/>
+          <xs:element name="supportClientSessionInfo" type="xs:boolean"/>
+          <xs:element name="supportCallInfoConferenceSubscriptionURI" type="xs:boolean"/>
+          <xs:element name="supportRemotePartyInfo" type="xs:boolean"/>
+          <xs:element name="supportVisualDeviceManagementRedirectLink" type="xs:boolean"/>
+          <xs:element name="bypassMediaTreatment" type="xs:boolean"/>
+          <xs:element name="supports3G4GContinuity" type="xs:boolean"/>
+          <xs:element name="publishesOwnPresence" type="xs:boolean"/>
+          <xs:element name="supportCauseParameter" type="xs:boolean"/>
+          <xs:element name="locationNetwork" type="LocationNetworkType"/>
+          <xs:element name="resellerId" type="ResellerId22" minOccurs="0"/>
+          <xs:element name="allowTerminationBasedOnICSI" type="xs:boolean"/>
+          <xs:element name="roamingMode" type="RoamingMode"/>
+          <xs:element name="supportCallingPartyCategoryInOutboundFromHeader" type="xs:boolean"/>
+          <xs:element name="supportVisualDeviceManagementAPI" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="deviceCategory" type="DeviceCategory" minOccurs="0"/>
+          <xs:element name="deviceFamily" type="DeviceFamilyName" minOccurs="0"/>
+          <xs:element name="verstatInPAIHeader" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="verstatInFromHeader" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSIPDeviceTypeModifyRequest22V4">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify a sip device type.
+        The response is either SuccessResponse or ErrorResponse.
+        The following elements are not changeable:
+          numberOfPorts
+          SignalingAddressType
+          isConferenceDevice
+          isMusicOnHoldDevice
+          isMobilityManagerDevice
+          deviceTypeConfigurationOption
+          staticLineOrdering
+        The following elements are only used in AS data mode and ignored in XS data mode:
+          supportClientSessionInfo
+          supportCallInfoConferenceSubscriptionURI
+          supportRemotePartyInfo
+          supportVisualDeviceManagementRedirectLink
+          bypassMediaTreatment
+          supportCauseParameter
+          supportCallingPartyCategoryInOutboundFromHeader
+          supportVisualDeviceManagementAPI
+          deviceCategory
+          verstatInPAIHeader
+          verstatInFromHeader
+
+        The following elements are only used in XS data mode and ignored in AS mode:
+          enhancedForICS
+          supports3G4GContinuity
+          publishesOwnPresence
+          locationNetwork
+          allowTerminationBasedOnICSI
+          roamingMode
+        The following logic applies to these elements:
+          macInCert
+          macInNonRequestURI
+          The two elements are mutually exclusive.
+          When both are set to true, the command fails.
+          When macInCert is set to true, macInNonRequestURI will be reset to false.
+          When macInNonRequestURI is set to true, macInCert will be reset to false.
+
+        Replaced by: SystemSIPDeviceTypeModifyRequest22V5
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="deviceType" type="AccessDeviceType"/>
+          <xs:element name="isObsolete" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="registrationCapable" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="holdNormalization" type="HoldNormalizationMode" minOccurs="0"/>
+          <xs:element name="holdAnnouncementMethod" type="HoldAnnouncementMethodMode" minOccurs="0"/>
+          <xs:element name="isTrusted" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="E164Capable" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="routeAdvance" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="forwardingOverride" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="wirelessIntegration" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="webBasedConfigURL" type="WebBasedConfigURL" nillable="true" minOccurs="0"/>
+          <xs:element name="isVideoCapable" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="PBXIntegration" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="staticRegistrationCapable" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="cpeDeviceOptions" type="CPEDeviceModifyOptions22" minOccurs="0"/>
+          <xs:element name="earlyMediaSupport" type="EarlyMediaSupportType" minOccurs="0"/>
+          <xs:element name="authenticateRefer" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="autoConfigSoftClient" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="authenticationMode" type="AuthenticationMode22V2" minOccurs="0"/>
+          <xs:element name="requiresBroadWorksDigitCollection" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="requiresBroadWorksCallWaitingTone" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="requiresMWISubscription" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useHistoryInfoHeaderOnAccessSide" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="adviceOfChargeCapable" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="resetEvent" type="AccessDeviceResetEvent" nillable="true" minOccurs="0"/>
+          <xs:element name="supportCallCenterMIMEType" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="trunkMode" type="TrunkMode" minOccurs="0"/>
+          <xs:element name="addPCalledPartyId" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="supportIdentityInUpdateAndReInvite" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="unscreenedPresentationIdentityPolicy" type="UnscreenedPresentationIdentityPolicy" minOccurs="0"/>
+          <xs:element name="enhancedForICS" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="supportEmergencyDisconnectControl" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="supportRFC3398" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="supportClientSessionInfo" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="supportCallInfoConferenceSubscriptionURI" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="supportRemotePartyInfo" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="supportVisualDeviceManagementRedirectLink" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="bypassMediaTreatment" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="supports3G4GContinuity" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="publishesOwnPresence" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="supportCauseParameter" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="locationNetwork" type="LocationNetworkType" minOccurs="0"/>
+          <xs:element name="allowTerminationBasedOnICSI" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="roamingMode" type="RoamingMode" minOccurs="0"/>
+          <xs:element name="supportCallingPartyCategoryInOutboundFromHeader" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="supportVisualDeviceManagementAPI" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="deviceCategory" type="DeviceCategory" minOccurs="0"/>
+          <xs:element name="verstatInPAIHeader" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="verstatInFromHeader" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

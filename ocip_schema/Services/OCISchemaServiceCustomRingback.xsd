@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- C U S T O M   R I N G B A C K   S E R V I C E                                        -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- C U S T O M   R I N G B A C K   R E Q U E S T S   A N D   R E S P O N S E S          -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupCustomRingbackGroupGetRequest20
+    GroupCustomRingbackGroupModifyRequest20
+    UserCustomRingbackUserAddCriteriaRequest20
+    UserCustomRingbackUserDeleteCriteriaRequest
+    UserCustomRingbackUserGetCriteriaListRequest
+    UserCustomRingbackUserGetCriteriaRequest21
+    UserCustomRingbackUserModifyActiveCriteriaListRequest
+    UserCustomRingbackUserModifyCriteriaRequest20
+-->
+
+  <xs:complexType name="GroupCustomRingbackGroupGetRequest20">
+    <xs:annotation>
+      <xs:documentation>
+        Get the group's custom ring back service settings.
+        The response is either a GroupCustomRingbackGroupGetResponse20 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCustomRingbackGroupGetResponse20">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCustomRingbackGroupGetRequest20.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="audioSelection" type="ExtendedFileResourceSelection"/>
+          <xs:element name="audioFile" type="AnnouncementFileKey" minOccurs="0"/>
+          <xs:element name="audioFileUrl" type="URL" minOccurs="0"/>
+          <xs:element name="videoSelection" type="ExtendedFileResourceSelection"/>
+          <xs:element name="videoFile" type="AnnouncementFileKey" minOccurs="0"/>
+          <xs:element name="videoFileUrl" type="URL" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCustomRingbackGroupModifyRequest20">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the group's custom ring back service settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="audioSelection" type="ExtendedFileResourceSelection" minOccurs="0"/>
+          <xs:element name="audioFile" type="ExtendedMediaFileResource20" minOccurs="0" nillable="true"/>
+          <xs:element name="videoSelection" type="ExtendedFileResourceSelection" minOccurs="0"/>
+          <xs:element name="videoFile" type="ExtendedMediaFileResource20" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCustomRingbackUserAddCriteriaRequest20">
+    <xs:annotation>
+      <xs:documentation>
+        Add a criteria to the user's custom ringback service.
+        For the callToNumber, the extension element is not used and the number element is only used when the type is BroadWorks Mobility.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean"/>
+          <xs:element name="fromDnCriteria" type="CriteriaFromDn"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="audioSelection" type="ExtendedFileResourceSelection"/>
+          <xs:element name="audioFile" type="ExtendedMediaFileLevelResource20" minOccurs="0"/>
+          <xs:element name="videoSelection" type="ExtendedFileResourceSelection"/>
+          <xs:element name="videoFile" type="ExtendedMediaFileLevelResource20" minOccurs="0"/>
+          <xs:element name="callWaitingAudioSelection" type="ExtendedFileResourceSelection" minOccurs="0"/>
+          <xs:element name="callWaitingAudioFile" type="ExtendedMediaFileLevelResource20" minOccurs="0"/>
+          <xs:element name="callWaitingVideoSelection" type="ExtendedFileResourceSelection" minOccurs="0"/>
+          <xs:element name="callWaitingVideoFile" type="ExtendedMediaFileLevelResource20" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCustomRingbackUserDeleteCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a criteria from the user's custom ringback service.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCustomRingbackUserGetCriteriaListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the user's custom ringback service criteria listing.
+        The response is either a UserCustomRingbackUserGetCriteriaListResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCustomRingbackUserGetCriteriaListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserCustomRingbackUserGetCriteriaListRequest.
+        The criteria table's column headings are: "Is Active", "Criteria Name",
+        "Time Schedule", "Calls From", "Blacklisted", "Holiday Schedule", "Calls To Type", "Calls To Number" and "Calls To Extension".
+        The following columns are only returned in AS data mode:
+          "Calls To Type", "Calls To Number" and "Calls To Extension"
+
+        The possible values for the "Calls To Type" column are the following or a combination of them separated by comma:
+          - Primary
+          - Alternate X (where x is a number between 1 and 10)
+          - Mobility
+        The possible values for the "Calls To Number" column are the following or a combination of them separated by comma:
+          - The value of the phone number for the corresponding Calls To Type, when the number is available. i.e. Alternate 1 may have extension, but no number.
+          - When no number is available a blank space is provided instead.
+        The possible values for the "Calls To Extension" column are the following or a combination of them separated by comma:
+          - The value of the extension for the corresponding Calls To Type, when the extension is available. i.e. Primary may have number, but no extension.
+          - For Mobility Calls To Type, this is always blank.
+          - When no extension is available a blank space is provided instead.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCustomRingbackUserGetCriteriaRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Get a criteria for the user's custom ringback service.
+        The response is either a UserCustomRingbackUserGetCriteriaResponse21 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCustomRingbackUserGetCriteriaResponse21">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserCustomRingbackUserGetCriteriaRequest21.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean"/>
+          <xs:element name="fromDnCriteria" type="CriteriaFromDn"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="audioSelection" type="ExtendedFileResourceSelection"/>
+          <xs:element name="audioFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+          <xs:element name="audioFileUrl" type="URL" minOccurs="0"/>
+          <xs:element name="videoSelection" type="ExtendedFileResourceSelection"/>
+          <xs:element name="videoFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+          <xs:element name="videoFileUrl" type="URL" minOccurs="0"/>
+          <xs:element name="callWaitingAudioSelection" type="ExtendedFileResourceSelection" minOccurs="0"/>
+          <xs:element name="callWaitingAudioFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+          <xs:element name="callWaitingAudioFileUrl" type="URL" minOccurs="0"/>
+          <xs:element name="callWaitingVideoSelection" type="ExtendedFileResourceSelection" minOccurs="0"/>
+          <xs:element name="callWaitingVideoFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+          <xs:element name="callWaitingVideoFileUrl" type="URL" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCustomRingbackUserModifyActiveCriteriaListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user's custom ringback service criteria's active setting.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaActivation" type="CriteriaActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCustomRingbackUserModifyCriteriaRequest20">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a criteria for the user's custom ringback service.
+        For the callToNumbers in the callToNumberList, the extension element is not used and the number element is only used when the type is BroadWorks Mobility.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="newCriteriaName" type="CriteriaName" minOccurs="0"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="fromDnCriteria" type="CriteriaFromDnModify" minOccurs="0"/>
+          <xs:element name="callToNumberList" type="ReplacementCallToNumberList" nillable="true" minOccurs="0"/>
+          <xs:element name="audioSelection" type="ExtendedFileResourceSelection" minOccurs="0"/>
+          <xs:element name="audioFile" type="ExtendedMediaFileLevelResource20" minOccurs="0"/>
+          <xs:element name="videoSelection" type="ExtendedFileResourceSelection" minOccurs="0"/>
+          <xs:element name="videoFile" type="ExtendedMediaFileLevelResource20" minOccurs="0"/>
+          <xs:element name="callWaitingAudioSelection" type="ExtendedFileResourceSelection" minOccurs="0"/>
+          <xs:element name="callWaitingAudioFile" type="ExtendedMediaFileLevelResource20" minOccurs="0"/>
+          <xs:element name="callWaitingVideoSelection" type="ExtendedFileResourceSelection" minOccurs="0"/>
+          <xs:element name="callWaitingVideoFile" type="ExtendedMediaFileLevelResource20" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

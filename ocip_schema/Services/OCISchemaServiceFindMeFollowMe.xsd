@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- F I N D   M E   F O L L O W   M E   S E R V I C E                                    -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- F I N D   M E   F O L L O W   M E   R E Q U E S T S   A N D   R E S P O N S E S      -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupFindMeFollowMeAddAlertingGroupRequest
+    GroupFindMeFollowMeAddAlertingGroupSelectiveCriteriaRequest
+    GroupFindMeFollowMeAddInstanceRequest
+    GroupFindMeFollowMeAlertingGroupGetAvailableUserListRequest
+    GroupFindMeFollowMeDeleteAlertingGroupRequest
+    GroupFindMeFollowMeDeleteAlertingGroupSelectiveCriteriaRequest
+    GroupFindMeFollowMeDeleteInstanceRequest
+    GroupFindMeFollowMeGetAlertingGroupListRequest
+    GroupFindMeFollowMeGetAlertingGroupRequest
+    GroupFindMeFollowMeGetAlertingGroupSelectiveCriteriaRequest21
+    GroupFindMeFollowMeGetInstanceListRequest
+    GroupFindMeFollowMeGetInstanceRequest19sp1
+    GroupFindMeFollowMeModifyActiveInstanceListRequest
+    GroupFindMeFollowMeModifyAlertingGroupListRequest
+    GroupFindMeFollowMeModifyAlertingGroupRequest
+    GroupFindMeFollowMeModifyAlertingGroupSelectiveCriteriaRequest
+    GroupFindMeFollowMeModifyInstanceRequest
+-->
+
+  <xs:complexType name="GroupFindMeFollowMeAddAlertingGroupRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add an alerting group to a Find-me/Follow-me instance.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="alertingGroupName" type="FindMeFollowMeAlertingGroupName"/>
+          <xs:element name="alertingGroupDescription" type="FindMeFollowMeAlertingGroupDescription" minOccurs="0"/>
+          <xs:element name="useDiversionInhibitor" type="xs:boolean"/>
+          <xs:element name="answerConfirmationRequired" type="xs:boolean"/>
+          <xs:element name="numberOfRings" type="FindMeFollowMeAlertingGroupNumberOfRings"/>
+          <xs:choice minOccurs="0" maxOccurs="10">
+            <xs:element name="phoneNumber" type="OutgoingDNorSIPURI"/>
+            <xs:element name="userId" type="UserId"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeAddAlertingGroupSelectiveCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a criteria to the Find-me/Follow-me alerting group.
+        For the callToNumber, the extension and number elements are not used and the only types accepted for each number are Primary and Alternates. If other type is specified the command fails.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="alertingGroupName" type="FindMeFollowMeAlertingGroupName"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean"/>
+          <xs:element name="fromDnCriteria" type="CriteriaFromDn"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeAddInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a Find-me/Follow-me instance to a group.
+        The domain is required in the serviceUserId.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceAddProfile"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeAlertingGroupGetAvailableUserListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of users that can be assigned to a Find-me/Follow-me alerting group.
+        The response is either GroupFindMeFollowMeAlertingGroupGetAvailableUserListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactUserDepartment" type="SearchCriteriaExactUserDepartment" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeAlertingGroupGetAvailableUserListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupFindMeFollowMeAlertingGroupGetAvailableUserListRequest.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name",
+        "Hiragana First Name", "Phone Number", "Extension", "Department", "Email Address".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="userTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeDeleteAlertingGroupRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete an alerting group from a Find-me/Follow-me instance.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="alertingGroupName" type="FindMeFollowMeAlertingGroupName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeDeleteAlertingGroupSelectiveCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a criteria from the Find-me/Follow-me alerting group.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="alertingGroupName" type="FindMeFollowMeAlertingGroupName"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeDeleteInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a Find-me/Follow-me instance from a group.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeGetAlertingGroupListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of Find-me/Follow-me alerting groups within a group.
+        The response is either GroupFindMeFollowMeGetAlertingGroupListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeGetAlertingGroupListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupFindMeFollowMeGetAlertingGroupListRequest.
+        Contains a table with column headings:
+        "Name", "Priority".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="alertingGroupTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeGetAlertingGroupRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get all the information of a Find-me/Follow-me alerting group.
+        The response is either GroupFindMeFollowMeGetAlertingGroupResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="alertingGroupName" type="FindMeFollowMeAlertingGroupName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeGetAlertingGroupResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupFindMeFollowMeGetAlertingGroupRequest.
+        Contains the alerting group information.
+	      The user table’s column headings are: "User Id", "Last Name", "First Name", "Hiragana Last Name" and "Hiragana First Name", "Phone Number", "Extension", "Department", "Email Address".
+        The criteria table's column headings are: "Is Active", "Criteria Name", "Time Schedule", "Calls From", "Blacklisted", "Holiday Schedule"", "Calls To Type", "Calls To Number" and "Calls To Extension".
+        The possible values for the "Calls To Type" column are the following or a combination of them separated by comma:
+          - Primary
+          - Alternate X (where x is a number between 1 and 10)
+          The possible values for the "Calls To Number" column are the following or a combination of them separated by comma:
+          - The value of the phone number for the corresponding Calls To Type, when the number is available. i.e. Alternate 1 may have extension, but no number.
+          - When no number is available a blank space is provided instead.
+        The possible values for the "Calls To Extension" column are the following or a combination of them separated by comma:
+          - The value of the extension for the corresponding Calls To Type, when the extension is available. i.e. Primary may have number, but no extension.
+          - When no extension is available a blank space is provided instead.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="alertingGroupDescription" type="FindMeFollowMeAlertingGroupDescription" minOccurs="0"/>
+          <xs:element name="useDiversionInhibitor" type="xs:boolean"/>
+          <xs:element name="answerConfirmationRequired" type="xs:boolean"/>
+          <xs:element name="numberOfRings" type="FindMeFollowMeAlertingGroupNumberOfRings"/>
+          <xs:element name="phoneNumber" type="OutgoingDNorSIPURI" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="userTable" type="core:OCITable"/>
+          <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeGetAlertingGroupSelectiveCriteriaRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get all the information of a specific Find-me/Follow-me alerting group selective criteria.
+        The response is either GroupFindMeFollowMeGetAlertingGroupResponse21 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="alertingGroupName" type="FindMeFollowMeAlertingGroupName"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeGetAlertingGroupSelectiveCriteriaResponse21">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupFindMeFollowMeGetAlertingGroupSelectiveCriteriaRequest21.
+        Contains the alerting group selective criteria information.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean"/>
+          <xs:element name="fromDnCriteria" type="CriteriaFromDn"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeGetInstanceListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of Find-me/Follow-me instances within a group.
+        The response is either GroupFindMeFollowMeGetInstanceListResponse or ErrorResponse.
+        It is possible to get the instances within a specified department.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="groupDepartmentName" type="DepartmentName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeGetInstanceListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupFindMeFollowMeGetInstanceListRequest.
+        Contains a table with column headings:
+        "Service User Id", "Name", "Phone Number", "Extension", "Department", "Is Active".
+        The column value for "Is Active" can either be true, or false.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="findMeFollowMeTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeGetInstanceRequest19sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get all the information of a Find-me/Follow-me instance.
+        The response is either GroupFindMeFollowMeGetInstanceResponse19sp1 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeGetInstanceResponse19sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupFindMeFollowMeGetInstanceRequest19sp1.
+        Contains the service profile information.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceReadProfile19sp1"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeModifyActiveInstanceListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to set the active status of Find-me/Follow-me instances.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceActivation" type="ServiceActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeModifyAlertingGroupListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the priorities assigned to alerting groups
+        The response is either a SuccessResponse or an ErrorResponse.
+        NOTE: The command fails if all the alerting groups defined for the user are not provided.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="alertingGroupName" type="FindMeFollowMeAlertingGroupName" minOccurs="0" maxOccurs="5"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeModifyAlertingGroupRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a Find-me/Follow-me alerting group.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="alertingGroupName" type="FindMeFollowMeAlertingGroupName"/>
+          <xs:element name="newAlertingGroupName" type="FindMeFollowMeAlertingGroupName" minOccurs="0"/>
+          <xs:element name="alertingGroupDescription" type="FindMeFollowMeAlertingGroupDescription" minOccurs="0" nillable="true"/>
+          <xs:element name="useDiversionInhibitor" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="answerConfirmationRequired" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="numberOfRings" type="FindMeFollowMeAlertingGroupNumberOfRings" minOccurs="0"/>
+          <xs:element name="phoneNumberOrUserList" type="FindMeFollowMeAlertingGroupReplacementOutgoingDNSIPURIorUserIdList" nillable="true" minOccurs="0"/>
+          <xs:element name="criteriaActivation" type="CriteriaActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeModifyAlertingGroupSelectiveCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a Find-me/Follow-me alerting group criteria.
+        For the callToNumbers in the callToNumberList, the extension and number elements are not used and the only types accepted for each number are Primary and Alternates. If other type is specified the command fails.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="alertingGroupName" type="FindMeFollowMeAlertingGroupName"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="newCriteriaName" type="CriteriaName" minOccurs="0"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="fromDnCriteria" type="CriteriaFromDnModify" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="callToNumberList" type="ReplacementCallToNumberList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFindMeFollowMeModifyInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify a Find-me/Follow-me instance.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceModifyProfile" minOccurs="0"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Find Me Follow Me specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="FindMeFollowMeAlertingGroupReplacementOutgoingDNSIPURIorUserIdList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of phone numbers/sipuris or user ids that replaces a previously configured list.
+        By convention, an element of this type may be set nill to clear the list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="10">
+        <xs:element name="phoneNumber" type="OutgoingDNorSIPURI"/>
+        <xs:element name="userId" type="UserId"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="FindMeFollowMeAlertingGroupDescription">
+    <xs:annotation>
+      <xs:documentation>
+        Find-me/Follow-me alerting group description.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="80"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="FindMeFollowMeAlertingGroupName">
+    <xs:annotation>
+      <xs:documentation>
+        Find-me/Follow-me alerting group name.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="40"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="FindMeFollowMeAlertingGroupNumberOfRings">
+    <xs:annotation>
+      <xs:documentation>
+        Number of rings to wait for the current alerting group to answer before attempting the next alerting group.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="2"/>
+      <xs:maxInclusive value="20"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

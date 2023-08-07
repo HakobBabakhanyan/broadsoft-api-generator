@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- A D V I C E   O F   C H A R G E   S E R V I C E                                      -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- A D V I C E   O F   C H A R G E   R E Q U E S T S   A N D   R E S P O N S E S        -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupAdviceOfChargeGetRequest
+    GroupAdviceOfChargeModifyRequest
+    ServiceProviderAdviceOfChargeGetRequest
+    ServiceProviderAdviceOfChargeModifyRequest
+    SystemAdviceOfChargeCostInformationSourceAddRequest
+    SystemAdviceOfChargeCostInformationSourceDeleteRequest
+    SystemAdviceOfChargeCostInformationSourceGetListRequest
+    SystemAdviceOfChargeCostInformationSourceModifyRequest
+    SystemAdviceOfChargeGetRequest19sp1
+    SystemAdviceOfChargeModifyRequest19sp1
+    UserAdviceOfChargeGetRequest
+    UserAdviceOfChargeModifyRequest
+-->
+
+  <xs:complexType name="GroupAdviceOfChargeGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the list of Advice of Charge group parameters.
+        The response is either GroupAdviceOfChargeGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupAdviceOfChargeGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupAdviceOfChargeGetRequest.
+        Contains a list of Advice of Charge group parameters.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useGroupLevelAoCSettings" type="xs:boolean"/>
+          <xs:element name="delayBetweenNotificationSeconds" type="AdviceOfChargeDelayBetweenNotificationSeconds"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupAdviceOfChargeModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the service provider level Advice Of Charge group settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="useGroupLevelAoCSettings" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="delayBetweenNotificationSeconds" type="AdviceOfChargeDelayBetweenNotificationSeconds" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderAdviceOfChargeGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the list of Advice of Charge service provider parameters.
+        The response is either ServiceProviderAdviceOfChargeGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderAdviceOfChargeGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderAdviceOfChargeGetRequest.
+        Contains a list of Advice of Charge service provider parameters.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useSPLevelAoCSettings" type="xs:boolean"/>
+          <xs:element name="delayBetweenNotificationSeconds" type="AdviceOfChargeDelayBetweenNotificationSeconds"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderAdviceOfChargeModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the service provider level Advice Of Charge service provider settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="useSPLevelAoCSettings" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="delayBetweenNotificationSeconds" type="AdviceOfChargeDelayBetweenNotificationSeconds" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAdviceOfChargeCostInformationSourceAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a cost information source. The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="peerIdentity" type="NetAddress"/>
+          <xs:element name="priority" type="AdviceOfChargeOCSPriority"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAdviceOfChargeCostInformationSourceDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a cost information source.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="peerIdentity" type="NetAddress"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAdviceOfChargeCostInformationSourceGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of cost information sources.
+        The response is either SystemAdviceOfChargeCostInformationSourceGetListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAdviceOfChargeCostInformationSourceGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemAdviceOfChargeCostInformationSourceGetListRequest.
+        Contains a table with column headings: "PeerIdentity", "Priority"
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="costInformationSourceTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAdviceOfChargeCostInformationSourceModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a cost information source.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="peerIdentity" type="NetAddress"/>
+          <xs:element name="priority" type="AdviceOfChargeOCSPriority"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAdviceOfChargeGetRequest19sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the list of Advice of Charge system parameters.
+        The response is either SystemAdviceOfChargeGetResponse19sp1 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAdviceOfChargeGetResponse19sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemAdviceOfChargeGetRequest.
+        Contains a list of system Advice of Charge parameters.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="delayBetweenNotificationSeconds" type="AdviceOfChargeDelayBetweenNotificationSeconds"/>
+          <xs:element name="incomingAocHandling" type="AdviceOfChargeIncomingAocHandling"/>
+          <xs:element name="useOCSEnquiry" type="xs:boolean"/>
+          <xs:element name="OCSEnquiryType" type="AdviceOfChargeOCSEnquiryType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAdviceOfChargeModifyRequest19sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify Advice of Charge system parameters.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="delayBetweenNotificationSeconds" type="AdviceOfChargeDelayBetweenNotificationSeconds" minOccurs="0"/>
+          <xs:element name="incomingAocHandling" type="AdviceOfChargeIncomingAocHandling" minOccurs="0"/>
+          <xs:element name="useOCSEnquiry" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="OCSEnquiryType" type="AdviceOfChargeOCSEnquiryType" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserAdviceOfChargeGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the user level data associated with Advice Of Charge.
+        The response is either a UserAdviceOfChargeGetResponse or an
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserAdviceOfChargeGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserAdviceOfChargeGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="aocType" type="AdviceOfChargeType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserAdviceOfChargeModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user level data associated with Advice of Charge.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="aocType" type="AdviceOfChargeType" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Advice Of Charge specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:simpleType name="AdviceOfChargeDelayBetweenNotificationSeconds">
+    <xs:annotation>
+      <xs:documentation>
+        The time in seconds used for the interval for sending AoC-D information to the caller.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="5"/>
+      <xs:maxInclusive value="1800"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="AdviceOfChargeIncomingAocHandling">
+    <xs:annotation>
+      <xs:documentation>
+        Choices for method of how the Advice of Charge is processed by the Application Server.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Ignore"/>
+      <xs:enumeration value="Charge"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="AdviceOfChargeOCSEnquiryType">
+    <xs:annotation>
+      <xs:documentation>
+        Choices for type of OCS enquiry that Advice Of Charge Services sends to OCS.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Service Price"/>
+      <xs:enumeration value="Advice Of Charge"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="AdviceOfChargeType">
+    <xs:annotation>
+      <xs:documentation>
+          Choices for Advice of Charge Type.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="During Call"/>
+      <xs:enumeration value="End Of Call"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

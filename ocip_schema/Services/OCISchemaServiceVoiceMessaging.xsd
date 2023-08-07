@@ -1,0 +1,3446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- V O I C E   M E S S A G I N G   S E R V I C E                                        -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- V O I C E   M E S S A G I N G   R E Q U E S T S   A N D   R E S P O N S E S          -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupVoiceMessagingGroupConsolidatedModifyVoicePortalRequest
+    GroupVoiceMessagingGroupGetRequest
+    GroupVoiceMessagingGroupGetVoicePortalBrandingRequest20
+    GroupVoiceMessagingGroupGetVoicePortalRequest21sp1
+    GroupVoiceMessagingGroupModifyRequest
+    GroupVoiceMessagingGroupModifyVoicePortalBrandingRequest20
+    GroupVoiceMessagingGroupModifyVoicePortalRequest
+    ResellerVoiceMessagingGroupGetRequest
+    ResellerVoiceMessagingGroupModifyRequest
+    ServiceProviderVoiceMessagingGroupGetRequest
+    ServiceProviderVoiceMessagingGroupGetVoicePortalBrandingRequest16
+    ServiceProviderVoiceMessagingGroupGetVoicePortalRequest
+    ServiceProviderVoiceMessagingGroupModifyRequest
+    ServiceProviderVoiceMessagingGroupModifyVoicePortalBrandingRequest16
+    ServiceProviderVoiceMessagingGroupModifyVoicePortalRequest
+    SystemVoiceMessageSummaryUpdateGetRequest
+    SystemVoiceMessageSummaryUpdateModifyRequest
+    SystemVoiceMessagingGroupGetRequest22V2
+    SystemVoiceMessagingGroupGetVoicePortalMenusRequest21
+    SystemVoiceMessagingGroupModifyRequest16
+    SystemVoiceMessagingGroupModifyVoicePortalMenusRequest19
+    UserVoiceMessagingUserAddAliasListRequest
+    UserVoiceMessagingUserDeleteAliasListRequest
+    UserVoiceMessagingUserGetAdvancedVoiceManagementRequest14sp3
+    UserVoiceMessagingUserGetAliasListRequest
+    UserVoiceMessagingUserGetDistributionListRequest
+    UserVoiceMessagingUserGetGreetingRequest20
+    UserVoiceMessagingUserGetOutgoingSMDIMWIRequest
+    UserVoiceMessagingUserGetVoiceManagementRequest17
+    UserVoiceMessagingUserGetVoicePortalRequest20
+    UserVoiceMessagingUserModifyAdvancedVoiceManagementRequest
+    UserVoiceMessagingUserModifyDistributionListRequest
+    UserVoiceMessagingUserModifyGreetingRequest20
+    UserVoiceMessagingUserModifyOutgoingSMDIMWIRequest
+    UserVoiceMessagingUserModifyRequest23
+    UserVoiceMessagingUserModifyVoiceManagementRequest
+    UserVoiceMessagingUserModifyVoicePortalRequest20
+-->
+
+  <xs:complexType name="GroupVoiceMessagingGroupConsolidatedModifyVoicePortalRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify the group's voice messaging settings and voice portal branding settings.
+        If UnassignPhoneNumbersLevel is set to 'Group', the user's primary phone number, fax number and any alternate numbers, will be un-assigned from the group if the command is executed by a service provider administrator or above.
+        When set to 'Service Provider', they will be un-assigned from the group and service provider if the command is executed by a provisioning administrator or above.
+        When omitted, the number(s) will be left assigned to the group.
+        An ErrorResponse will be returned if any number cannot be unassigned because of insufficient privilege.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="unassignPhoneNumbers" type="UnassignPhoneNumbersLevel" minOccurs="0"/>
+          <xs:element name="addPhoneNumberToGroup" type="xs:boolean" minOccurs="0" fixed="true"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceModifyProfile" minOccurs="0"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableExtendedScope" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="allowIdentificationByPhoneNumberOrVoiceMailAliasesOnLogin" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useVoicePortalWizard" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="voicePortalExternalRoutingScope" type="VoicePortalExternalRoutingScope" minOccurs="0"/>
+          <xs:element name="useExternalRouting" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="externalRoutingAddress" type="OutgoingDNorSIPURI" nillable="true" minOccurs="0"/>
+          <xs:element name="homeZoneName" type="ZoneName" nillable="true" minOccurs="0"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+          <xs:element name="voicePortalGreetingSelection" type="VoiceMessagingBrandingSelection" minOccurs="0"/>
+          <xs:element name="voicePortalGreetingFile" type="AnnouncementFileKey" minOccurs="0" nillable="true"/>
+          <xs:element name="voiceMessagingGreetingSelection" type="VoiceMessagingBrandingSelection" minOccurs="0"/>
+          <xs:element name="voiceMessagingGreetingFile" type="AnnouncementFileKey" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupVoiceMessagingGroupGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Requests the group's Voice Messaging settings.
+        The response is either GroupVoiceMessagingGroupGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupVoiceMessagingGroupGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupVoiceMessagingGroupGetRequest.
+        Contains the group's voice messaging settings.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useMailServerSetting" type="VoiceMessagingGroupMailServerChoices"/>
+          <xs:element name="warnCallerBeforeRecordingVoiceMessage" type="xs:boolean"/>
+          <xs:element name="allowUsersConfiguringAdvancedSettings" type="xs:boolean"/>
+          <xs:element name="allowComposeOrForwardMessageToEntireGroup" type="xs:boolean"/>
+          <xs:element name="mailServerNetAddress" type="NetAddress" minOccurs="0"/>
+          <xs:element name="mailServerProtocol" type="VoiceMessagingMailServerProtocol"/>
+          <xs:element name="realDeleteForImap" type="xs:boolean"/>
+          <xs:element name="maxMailboxLengthMinutes" type="VoiceMessagingMailboxLengthMinutes"/>
+          <xs:element name="doesMessageAge" type="xs:boolean"/>
+          <xs:element name="holdPeriodDays" type="VoiceMessagingHoldPeriodDays"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupVoiceMessagingGroupGetVoicePortalBrandingRequest20">
+    <xs:annotation>
+      <xs:documentation>
+        Get the group's voice portal branding settings.
+        The response is either a GroupVoiceMessagingGroupGetVoicePortalBrandingResponse20 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupVoiceMessagingGroupGetVoicePortalBrandingResponse20">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupVoiceMessagingGroupGetVoicePortalBrandingRequest20.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="voicePortalGreetingSelection" type="VoiceMessagingBrandingSelection"/>
+          <xs:element name="voicePortalGreetingFile" type="AnnouncementFileKey" minOccurs="0"/>
+          <xs:element name="voiceMessagingGreetingSelection" type="VoiceMessagingBrandingSelection"/>
+          <xs:element name="voiceMessagingGreetingFile" type="AnnouncementFileKey" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupVoiceMessagingGroupGetVoicePortalRequest21sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the group voice portal information for a voice messaging group.
+        The response is either GroupVoiceMessagingGroupGetVoicePortalResponse21sp1 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupVoiceMessagingGroupGetVoicePortalResponse21sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupVoiceMessagingGroupGetVoicePortalRequest21sp1.
+
+        The following elements are only used in XS data mode:
+        enableExtendedScope
+
+        The following elements are only used in AS data mode:
+        expressMode, value "false" is returned in XS data mode.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceReadProfile19sp1"/>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="enableExtendedScope" type="xs:boolean"/>
+          <xs:element name="allowIdentificationByPhoneNumberOrVoiceMailAliasesOnLogin" type="xs:boolean"/>
+          <xs:element name="useVoicePortalWizard" type="xs:boolean"/>
+          <xs:element name="voicePortalExternalRoutingScope" type="VoicePortalExternalRoutingScope"/>
+          <xs:element name="useExternalRouting" type="xs:boolean"/>
+          <xs:element name="externalRoutingAddress" type="OutgoingDNorSIPURI" minOccurs="0"/>
+          <xs:element name="homeZoneName" type="ZoneName" minOccurs="0"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+          <xs:element name="expressMode" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupVoiceMessagingGroupModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify the group's voice messaging settings.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="useMailServerSetting" type="VoiceMessagingGroupMailServerChoices" minOccurs="0"/>
+          <xs:element name="warnCallerBeforeRecordingVoiceMessage" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="allowUsersConfiguringAdvancedSettings" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="allowComposeOrForwardMessageToEntireGroup" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="mailServerNetAddress" type="NetAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="mailServerProtocol" type="VoiceMessagingMailServerProtocol" minOccurs="0"/>
+          <xs:element name="realDeleteForImap" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="maxMailboxLengthMinutes" type="VoiceMessagingMailboxLengthMinutes" minOccurs="0"/>
+          <xs:element name="doesMessageAge" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="holdPeriodDays" type="VoiceMessagingHoldPeriodDays" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupVoiceMessagingGroupModifyVoicePortalBrandingRequest20">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the group's voice portal branding settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="voicePortalGreetingSelection" type="VoiceMessagingBrandingSelection" minOccurs="0"/>
+          <xs:element name="voicePortalGreetingFile" type="AnnouncementFileKey" minOccurs="0" nillable="true"/>
+          <xs:element name="voiceMessagingGreetingSelection" type="VoiceMessagingBrandingSelection" minOccurs="0"/>
+          <xs:element name="voiceMessagingGreetingFile" type="AnnouncementFileKey" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupVoiceMessagingGroupModifyVoicePortalRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify the group voice portal information for a voice messaging group.
+        The following elements are only used in AS data mode:
+          networkClassOfService
+        The following elements are only used in AS data mode and ignored in XS data mode:
+         expressMode
+
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceModifyProfile" minOccurs="0"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableExtendedScope" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="allowIdentificationByPhoneNumberOrVoiceMailAliasesOnLogin" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useVoicePortalWizard" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="voicePortalExternalRoutingScope" type="VoicePortalExternalRoutingScope" minOccurs="0"/>
+          <xs:element name="useExternalRouting" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="externalRoutingAddress" type="OutgoingDNorSIPURI" nillable="true" minOccurs="0"/>
+          <xs:element name="homeZoneName" type="ZoneName" nillable="true" minOccurs="0"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+          <xs:element name="expressMode" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerVoiceMessagingGroupGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the reseller level data associated with Voice Messaging.
+        The response is either a ResellerVoiceMessagingGroupGetResponse or an
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerVoiceMessagingGroupGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerVoiceMessagingGroupGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="deliveryFromAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="notificationFromAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="voicePortalLockoutFromAddress" type="EmailAddress" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerVoiceMessagingGroupModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the reseller level data associated with Voice Messaging.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="deliveryFromAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="notificationFromAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="voicePortalLockoutFromAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderVoiceMessagingGroupGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Requests the service provider's or enterprise's voice messaging settings.
+        The response is either ServiceProviderVoiceMessagingGroupGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderVoiceMessagingGroupGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderVoiceMessagingGroupGetRequest.
+        Contains the service provider's or enterprise's voice messaging settings.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="deliveryFromAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="notificationFromAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="voicePortalLockoutFromAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="useSystemDefaultDeliveryFromAddress" type="xs:boolean"/>
+          <xs:element name="useSystemDefaultNotificationFromAddress" type="xs:boolean"/>
+          <xs:element name="useSystemDefaultVoicePortalLockoutFromAddress" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderVoiceMessagingGroupGetVoicePortalBrandingRequest16">
+    <xs:annotation>
+      <xs:documentation>
+        Get the service provider's voice portal branding settings.
+        The response is either a ServiceProviderVoiceMessagingGroupGetVoicePortalBrandingResponse16 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderVoiceMessagingGroupGetVoicePortalBrandingResponse16">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ServiceProviderVoiceMessagingGroupGetVoicePortalBrandingRequest16.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="voicePortalGreetingSelection" type="VoiceMessagingBrandingSelection"/>
+          <xs:element name="voicePortalGreetingFileDescription" type="FileDescription" minOccurs="0"/>
+          <xs:element name="voicePortalGreetingMediaFileType" type="MediaFileType" minOccurs="0"/>
+          <xs:element name="voiceMessagingGreetingSelection" type="VoiceMessagingBrandingSelection"/>
+          <xs:element name="voiceMessagingGreetingFileDescription" type="FileDescription" minOccurs="0"/>
+          <xs:element name="voiceMessagingGreetingMediaFileType" type="MediaFileType" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderVoiceMessagingGroupGetVoicePortalRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Requests the service provider's or enterprise's voice portal settings.
+        The response is either ServiceProviderVoiceMessagingGroupGetVoicePortalResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderVoiceMessagingGroupGetVoicePortalResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderVoiceMessagingGroupGetVoicePortalRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="voicePortalScope" type="ServiceProviderVoicePortalScope"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderVoiceMessagingGroupModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify a service provider's or enterprise's voice messaging settings.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="deliveryFromAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="notificationFromAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="voicePortalLockoutFromAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="useSystemDefaultDeliveryFromAddress" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useSystemDefaultNotificationFromAddress" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useSystemDefaultVoicePortalLockoutFromAddress" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderVoiceMessagingGroupModifyVoicePortalBrandingRequest16">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the service provider's voice portal branding settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="voicePortalGreetingSelection" type="VoiceMessagingBrandingSelection" minOccurs="0"/>
+          <xs:element name="voicePortalGreetingFile" type="LabeledMediaFileResource" minOccurs="0"/>
+          <xs:element name="voiceMessagingGreetingSelection" type="VoiceMessagingBrandingSelection" minOccurs="0"/>
+          <xs:element name="voiceMessagingGreetingFile" type="LabeledMediaFileResource" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderVoiceMessagingGroupModifyVoicePortalRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to change the service provider's or enterprise's voice portal settings.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="voicePortalScope" type="ServiceProviderVoicePortalScope" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemVoiceMessageSummaryUpdateGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Requests system voice mail message summary update parameter settings.
+        The response is either SystemVoiceMessageSummaryUpdateGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemVoiceMessageSummaryUpdateGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemVoiceMessageSummaryUpdateGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="sendSavedAndUrgentMWIOnNotification" type="xs:boolean"/>
+          <xs:element name="sendMessageSummaryUpdateOnRegister" type="xs:boolean"/>
+          <xs:element name="minTimeBetweenMWIOnRegister" type="VoiceMessageSummaryUpdateSeconds"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemVoiceMessageSummaryUpdateModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the system level data associated with Voice Messaging.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="sendSavedAndUrgentMWIOnNotification" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="sendMessageSummaryUpdateOnRegister" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="minTimeBetweenMWIOnRegister" type="VoiceMessageSummaryUpdateSeconds" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemVoiceMessagingGroupGetRequest22V2">
+    <xs:annotation>
+      <xs:documentation>
+        Request the system level data associated with Voice Messaging.
+        The response is either a SystemVoiceMessagingGroupGetResponse22V2 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemVoiceMessagingGroupGetResponse22V2">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemVoiceMessagingGroupGetRequest22V2.
+
+        The following elements are only used in AS/Amplify data mode:
+           realDeleteForImap
+           useDnInMailBody
+           useShortSubjectLine
+           maxMessageLengthMinutes
+           maxMailboxLengthMinutes
+           doesMessageAge
+           holdPeriodDays
+           mailServerNetAddress
+           mailServerProtocol
+           defaultDeliveryFromAddress
+           defaultNotificationFromAddress
+           useOutgoingMWIOnSMDI
+           mwiDelayInSeconds
+           voicePortalScope
+           enterpriseVoicePortalLicensed
+           networkWideMessaging
+           useExternalRouting
+           defaultExternalRoutingAddress
+           vmOnlySystem, value "false" is returned in Amplify data mode
+           clientInitiatedMailServerSessionTimeoutMinutes
+           recordingAudioFileFormat
+           allowVoicePortalAccessFromVMDepositMenu
+
+           The following elements are only used in AS mode and not returned in XS data mode:
+           vmBucketName
+
+           The following elements are only used in AS data mode:
+           storageSelection, value "Mail Server" is returned in XS data mode
+
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="realDeleteForImap" type="xs:boolean"/>
+          <xs:element name="useDnInMailBody" type="xs:boolean"/>
+          <xs:element name="useShortSubjectLine" type="xs:boolean"/>
+          <xs:element name="maxMessageLengthMinutes" type="VoiceMessagingMaxMessageLengthMinutes"/>
+          <xs:element name="maxMailboxLengthMinutes" type="VoiceMessagingMailboxLengthMinutes"/>
+          <xs:element name="doesMessageAge" type="xs:boolean"/>
+          <xs:element name="holdPeriodDays" type="VoiceMessagingHoldPeriodDays"/>
+          <xs:element name="mailServerNetAddress" type="NetAddress" minOccurs="0"/>
+          <xs:element name="mailServerProtocol" type="VoiceMessagingMailServerProtocol"/>
+          <xs:element name="defaultDeliveryFromAddress" type="EmailAddress"/>
+          <xs:element name="defaultNotificationFromAddress" type="EmailAddress"/>
+          <xs:element name="defaultVoicePortalLockoutFromAddress" type="EmailAddress"/>
+          <xs:element name="useOutgoingMWIOnSMDI" type="xs:boolean"/>
+          <xs:element name="mwiDelayInSeconds" type="VoiceMessagingMessageWaitingIndicatorDelayInSeconds"/>
+          <xs:element name="voicePortalScope" type="SystemVoicePortalScope"/>
+          <xs:element name="enterpriseVoicePortalLicensed" type="xs:boolean"/>
+          <xs:element name="networkWideMessaging" type="xs:boolean"/>
+          <xs:element name="useExternalRouting" type="xs:boolean"/>
+          <xs:element name="defaultExternalRoutingAddress" type="OutgoingDNorSIPURI" minOccurs="0"/>
+          <xs:element name="vmOnlySystem" type="xs:boolean"/>
+          <xs:element name="clientInitiatedMailServerSessionTimeoutMinutes" type="VoiceMessagingClientInitiatedMailServerSessionTimeoutMinutes"/>
+          <xs:element name="recordingAudioFileFormat" type="VoiceMessagingRecordingAudioFileFormat"/>
+          <xs:element name="allowVoicePortalAccessFromVMDepositMenu" type="xs:boolean"/>
+          <xs:element name="storageSelection" type="VoiceMessagingStorageMode"/>
+          <xs:element name="vmBucketName" type="BucketName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemVoiceMessagingGroupGetVoicePortalMenusRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Requests the system voice portal Menus setting.
+        The response is either SystemVoiceMessagingGroupGetVoicePortalMenusResponse21 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="getDefaultMenuKeys" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemVoiceMessagingGroupGetVoicePortalMenusResponse21">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemVoiceMessagingGroupGetVoicePortalMenusRequest21.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useVoicePortalCustomization" type="xs:boolean"/>
+          <xs:element name="voicePortalMainMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="voiceMessaging" type="DigitAny" minOccurs="0"/>
+                <xs:element name="commPilotExpressProfile" type="DigitAny" minOccurs="0"/>
+                <xs:element name="greetings" type="DigitAny" minOccurs="0"/>
+                <xs:element name="callForwardingOptions" type="DigitAny" minOccurs="0"/>
+                <xs:element name="voicePortalCalling" type="DigitAny" minOccurs="0"/>
+                <xs:element name="hoteling" type="DigitAny" minOccurs="0"/>
+                <xs:element name="passcode" type="DigitAny" minOccurs="0"/>
+                <xs:element name="exitVoicePortal" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="externalRouting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="announcement" type="DigitAny" minOccurs="0"/>
+                <xs:element name="personalAssistant" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="announcementMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="recordAudio" type="DigitAny" minOccurs="0"/>
+                <xs:element name="recordAudioVideo" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="announcementRecordingMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="acceptRecording" type="DigitAny"/>
+                <xs:element name="rejectRerecord" type="DigitAny"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="end" type="VoicePortalDigitSequence"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="greetingsMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="personalizedName" type="DigitAny" minOccurs="0"/>
+                <xs:element name="conferenceGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="conferenceGreetingMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="activateConfGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="deactivateConfGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="recordNewConfGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="listenToCurrentConfGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="voiceMessagingMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="playMessages" type="DigitAny" minOccurs="0"/>
+                <xs:element name="changeBusyGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="changeNoAnswerGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="changeExtendedAwayGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="composeMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="deleteAllMessages" type="DigitAny" minOccurs="0"/>
+                <xs:element name="passcode" type="DigitAny" minOccurs="0"/>
+                <xs:element name="personalizedName" type="DigitAny" minOccurs="0"/>
+                <xs:element name="messageDeposit" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="playGreetingMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="skipBackward" type="DigitAny" minOccurs="0"/>
+                <xs:element name="pauseOrResume" type="DigitAny" minOccurs="0"/>
+                <xs:element name="skipForward" type="DigitAny" minOccurs="0"/>
+                <xs:element name="jumpToBegin" type="DigitAny" minOccurs="0"/>
+                <xs:element name="jumpToEnd" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="changeBusyOrNoAnswerGreetingMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="recordNewGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="listenToCurrentGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="revertToSystemDefaultGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="changeExtendedAwayGreetingMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="activateExtendedAwayGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="deactivateExtendedAwayGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="recordNewGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="listenToCurrentGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="recordNewGreetingOrPersonalizedNameMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="endRecording" type="DigitAny"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="deleteAllMessagesMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="confirmDeletion" type="DigitAny"/>
+                <xs:element name="cancelDeletion" type="DigitAny"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="commPilotExpressProfileMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="activateAvailableInOfficeProfile" type="DigitAny" minOccurs="0"/>
+                <xs:element name="activateAvailableOutOfOfficeProfile" type="DigitAny" minOccurs="0"/>
+                <xs:element name="activateBusyProfile" type="DigitAny" minOccurs="0"/>
+                <xs:element name="activateUnavailableProfile" type="DigitAny" minOccurs="0"/>
+                <xs:element name="noProfile" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="personalizedNameMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="recordNewPersonalizedName" type="DigitAny" minOccurs="0"/>
+                <xs:element name="listenToCurrentPersonalizedName" type="DigitAny" minOccurs="0"/>
+                <xs:element name="deletePersonalizedName" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="callForwardingOptionsMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="activateCallForwarding" type="DigitAny" minOccurs="0"/>
+                <xs:element name="deactivateCallForwarding" type="DigitAny" minOccurs="0"/>
+                <xs:element name="changeCallForwardingDestination" type="DigitAny" minOccurs="0"/>
+                <xs:element name="listenToCallForwardingStatus" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="changeCallForwardingDestinationMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="finishEnteringNewDestinationNumber" type="DigitStarPound"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="voicePortalCallingMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="endCurrentCallAndGoBackToPreviousMenu" type="VoicePortalDigitSequence"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="hotelingMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="checkHostStatus" type="DigitAny" minOccurs="0"/>
+                <xs:element name="associateWithHost" type="DigitAny" minOccurs="0"/>
+                <xs:element name="disassociateFromHost" type="DigitAny" minOccurs="0"/>
+                <xs:element name="disassociateFromRemoteHost" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="passcodeMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="finishEnteringOrReenteringPasscode" type="DigitStarPound"/>
+                <xs:element name="returnToPreviousMenu" type="DigitStarPound"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="playMessagesMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="saveMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="deleteMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="playMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="previousMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="playEnvelope" type="DigitAny" minOccurs="0"/>
+                <xs:element name="nextMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="callbackCaller" type="DigitAny" minOccurs="0"/>
+                <xs:element name="composeMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="replyMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="forwardMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="additionalMessageOptions" type="DigitAny" minOccurs="0"/>
+                <xs:element name="personalizedName" type="DigitAny" minOccurs="0"/>
+                <xs:element name="passcode" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="playMessageMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="skipBackward" type="DigitAny" minOccurs="0"/>
+                <xs:element name="pauseOrResume" type="DigitAny" minOccurs="0"/>
+                <xs:element name="skipForward" type="DigitAny" minOccurs="0"/>
+                <xs:element name="jumpToBegin" type="DigitAny" minOccurs="0"/>
+                <xs:element name="jumpToEnd" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="additionalMessageOptionsMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="saveMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="deleteMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="playEnvelope" type="DigitAny" minOccurs="0"/>
+                <xs:element name="callbackCaller" type="DigitAny" minOccurs="0"/>
+                <xs:element name="composeMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="replyMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="forwardMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="personalizedName" type="DigitAny" minOccurs="0"/>
+                <xs:element name="passcode" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="forwardOrComposeMessageMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="sendToPerson" type="DigitAny" minOccurs="0"/>
+                <xs:element name="sendToAllGroupMembers" type="DigitAny" minOccurs="0"/>
+                <xs:element name="sendToDistributionList" type="DigitAny" minOccurs="0"/>
+                <xs:element name="changeCurrentIntroductionOrMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="listenToCurrentIntroductionOrMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setOrClearUrgentIndicator" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setOrClearConfidentialIndicator" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="replyMessageMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="sendReplyToCaller" type="DigitAny"/>
+                <xs:element name="changeCurrentReply" type="DigitAny" minOccurs="0"/>
+                <xs:element name="listenToCurrentReply" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setOrClearUrgentIndicator" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setOrClearConfidentialIndicator" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="sendToDistributionListMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="sendMessageToSelectedDistributionList" type="DigitAny"/>
+                <xs:element name="selectDistributionList" type="DigitAny" minOccurs="0"/>
+                <xs:element name="reviewSelectedDistributionList" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="selectDistributionListMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="returnToPreviousMenu" type="DigitStarPound"/>
+                <xs:element name="repeatMenuOrFinishEnteringDistributionListNumber" type="DigitStarPound" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="reviewSelectedDistributionListMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="interruptPlaybackAndReturnToPreviousMenu" type="DigitAny"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="sendMessageToSelectedDistributionListMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="confirmSendingToDistributionList" type="DigitStarPound" minOccurs="0"/>
+                <xs:element name="cancelSendingToDistributionList" type="DigitStarPound"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="sendToAllGroupMembersMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="confirmSendingToEntireGroup" type="DigitAny"/>
+                <xs:element name="cancelSendingToEntireGroup" type="DigitAny"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="sendToPersonMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="confirmSendingMessage" type="DigitAny"/>
+                <xs:element name="cancelSendingMessage" type="DigitAny"/>
+                <xs:element name="finishEnteringNumberWhereToSendMessageTo" type="DigitStarPound"/>
+                <xs:element name="finishForwardingOrSendingMessage" type="DigitAny"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="changeCurrentIntroductionOrMessageOrReplyMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="endRecording" type="DigitAny"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="voicePortalLoginMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="accessUsingOtherMailboxId" type="VoicePortalDigitSequence" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="faxMessagingMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="saveFaxMessageAndSkipToNext" type="DigitAny" minOccurs="0"/>
+                <xs:element name="previousFaxMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="playEnvelope" type="DigitAny" minOccurs="0"/>
+                <xs:element name="nextFaxMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="deleteFaxMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="printFaxMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="messageDepositMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="enableMessageDeposit" type="DigitAny" minOccurs="0"/>
+                <xs:element name="disableMessageDeposit" type="DigitAny" minOccurs="0"/>
+                <xs:element name="listenToMessageDepositStatus" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="disableMessageDepositMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="disconnectAfterGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="forwardAfterGreeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="changeForwardingDestination" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="greetingOnlyForwardingDestinationMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="greetingOnlyForwardingDestination" type="DigitStarPound"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="personalAssistantMenuKeys">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="setPresenceToNone" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setPresenceToBusinessTrip" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setPresenceToGoneForTheDay" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setPresenceToLunch" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setPresenceToMeeting" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setPresenceToOutOfOffice" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setPresenceToTemporarilyOut" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setPresenceToTraining" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setPresenceToUnavailable" type="DigitAny" minOccurs="0"/>
+                <xs:element name="setPresenceToVacation" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+                <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemVoiceMessagingGroupModifyRequest16">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the system level data associated with Voice Messaging.
+        The response is either a SuccessResponse or an ErrorResponse.
+
+        The following elements are only used in AS/Amplify data mode:
+           realDeleteForImap
+           useDnInMailBody
+           useShortSubjectLine
+           maxMessageLengthMinutes
+           maxMailboxLengthMinutes
+           doesMessageAge
+           holdPeriodDays
+           mailServerNetAddress
+           mailServerProtocol
+           defaultDeliveryFromAddress
+           defaultNotificationFromAddress
+           useOutgoingMWIOnSMDI
+           mwiDelayInSeconds
+           voicePortalScope
+           enterpriseVoicePortalLicensed
+           networkWideMessaging
+           useExternalRouting
+           defaultExternalRoutingAddress
+           vmOnlySystem, element is ignored in Amplify data mode.
+           clientInitiatedMailServerSessionTimeoutMinutes
+           recordingAudioFileFormat
+           allowVoicePortalAccessFromVMDepositMenu
+        The following elements are only used in AS data mode and ignored in XS data mode:
+           storageSelection
+           vmBucketName
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="realDeleteForImap" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useDnInMailBody" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useShortSubjectLine" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="maxMessageLengthMinutes" type="VoiceMessagingMaxMessageLengthMinutes" minOccurs="0"/>
+          <xs:element name="maxMailboxLengthMinutes" type="VoiceMessagingMailboxLengthMinutes" minOccurs="0"/>
+          <xs:element name="doesMessageAge" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="holdPeriodDays" type="VoiceMessagingHoldPeriodDays" minOccurs="0"/>
+          <xs:element name="mailServerNetAddress" type="NetAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="mailServerProtocol" type="VoiceMessagingMailServerProtocol" minOccurs="0"/>
+          <xs:element name="defaultDeliveryFromAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="defaultNotificationFromAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="defaultVoicePortalLockoutFromAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="useOutgoingMWIOnSMDI" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="mwiDelayInSeconds" type="VoiceMessagingMessageWaitingIndicatorDelayInSeconds" minOccurs="0"/>
+          <xs:element name="voicePortalScope" type="SystemVoicePortalScope" minOccurs="0"/>
+          <xs:element name="networkWideMessaging" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useExternalRouting" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="defaultExternalRoutingAddress" type="OutgoingDNorSIPURI" nillable="true" minOccurs="0"/>
+          <xs:element name="vmOnlySystem" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="clientInitiatedMailServerSessionTimeoutMinutes" type="VoiceMessagingClientInitiatedMailServerSessionTimeoutMinutes" minOccurs="0"/>
+          <xs:element name="recordingAudioFileFormat" type="VoiceMessagingRecordingAudioFileFormat" minOccurs="0"/>
+          <xs:element name="allowVoicePortalAccessFromVMDepositMenu" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="storageSelection" type="VoiceMessagingStorageMode" minOccurs="0"/>
+          <xs:element name="vmBucketName" type="BucketName" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemVoiceMessagingGroupModifyVoicePortalMenusRequest19">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify the system voice portal menus setting.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="useVoicePortalCustomization" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="voicePortalMainMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="voiceMessaging" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="commPilotExpressProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="greetings" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="callForwardingOptions" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="voicePortalCalling" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="hoteling" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="passcode" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="exitVoicePortal" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="externalRouting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="announcementMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="personalAssistant" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="announcementMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="recordAudio" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="recordAudioVideo" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="announcementRecordingMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="acceptRecording" type="DigitAny" minOccurs="0"/>
+                <xs:element name="rejectRerecord" type="DigitAny" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="end" type="VoicePortalDigitSequence" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="greetingsMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="personalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="conferenceGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="conferenceGreetingMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="activateConfGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="deactivateConfGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="recordNewConfGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="listenToCurrentConfGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="voiceMessagingMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="playMessages" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="changeBusyGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="changeNoAnswerGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="changeExtendedAwayGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="composeMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="deleteAllMessages" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="passcode" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="personalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="messageDeposit" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="playGreetingMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="skipBackward" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="pauseOrResume" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="skipForward" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="jumpToBegin" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="jumpToEnd" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="changeBusyOrNoAnswerGreetingMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="recordNewGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="listenToCurrentGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="revertToSystemDefaultGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="changeExtendedAwayGreetingMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="activateExtendedAwayGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="deactivateExtendedAwayGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="recordNewGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="listenToCurrentGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="enableMessageDeposit" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="disableMessageDeposit" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="recordNewGreetingOrPersonalizedNameMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="endRecording" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="deleteAllMessagesMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="confirmDeletion" type="DigitAny" minOccurs="0"/>
+                <xs:element name="cancelDeletion" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="commPilotExpressProfileMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="activateAvailableInOfficeProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="activateAvailableOutOfOfficeProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="activateBusyProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="activateUnavailableProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="noProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="personalizedNameMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="recordNewPersonalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="listenToCurrentPersonalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="deletePersonalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="callForwardingOptionsMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="activateCallForwarding" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="deactivateCallForwarding" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="changeCallForwardingDestination" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="listenToCallForwardingStatus" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="changeCallForwardingDestinationMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="finishEnteringNewDestinationNumber" type="DigitStarPound" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="voicePortalCallingMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="endCurrentCallAndGoBackToPreviousMenu" type="VoicePortalDigitSequence" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="hotelingMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="checkHostStatus" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="associateWithHost" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="disassociateFromHost" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="disassociateFromRemoteHost" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="passcodeMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="finishEnteringOrReenteringPasscode" type="DigitStarPound" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitStarPound" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="playMessagesMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="saveMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="deleteMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="playMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="previousMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="playEnvelope" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="nextMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="callbackCaller" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="composeMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="replyMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="forwardMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="additionalMessageOptions" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="personalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="passcode" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="playMessageMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="skipBackward" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="pauseOrResume" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="skipForward" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="jumpToBegin" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="jumpToEnd" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="additionalMessageOptionsMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="saveMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="deleteMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="playEnvelope" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="callbackCaller" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="composeMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="replyMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="forwardMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="personalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="passcode" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="forwardOrComposeMessageMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="sendToPerson" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="sendToAllGroupMembers" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="sendToDistributionList" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="changeCurrentIntroductionOrMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="listenToCurrentIntroductionOrMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setOrClearUrgentIndicator" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setOrClearConfidentialIndicator" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="replyMessageMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="sendReplyToCaller" type="DigitAny" minOccurs="0"/>
+                <xs:element name="changeCurrentReply" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="listenToCurrentReply" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setOrClearUrgentIndicator" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setOrClearConfidentialIndicator" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="sendToDistributionListMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="sendMessageToSelectedDistributionList" type="DigitAny" minOccurs="0"/>
+                <xs:element name="selectDistributionList" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="reviewSelectedDistributionList" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="selectDistributionListMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="returnToPreviousMenu" type="DigitStarPound" minOccurs="0"/>
+                <xs:element name="repeatMenuOrFinishEnteringDistributionListNumber" type="DigitStarPound" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="reviewSelectedDistributionListMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="interruptPlaybackAndReturnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="sendMessageToSelectedDistributionListMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="confirmSendingToDistributionList" type="DigitStarPound" nillable="true" minOccurs="0"/>
+                <xs:element name="cancelSendingToDistributionList" type="DigitStarPound" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="sendToAllGroupMembersMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="confirmSendingToEntireGroup" type="DigitAny" minOccurs="0"/>
+                <xs:element name="cancelSendingToEntireGroup" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="sendToPersonMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="confirmSendingMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="cancelSendingMessage" type="DigitAny" minOccurs="0"/>
+                <xs:element name="finishEnteringNumberWhereToSendMessageTo" type="DigitStarPound" minOccurs="0"/>
+                <xs:element name="finishForwardingOrSendingMessage" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="changeCurrentIntroductionOrMessageOrReplyMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="endRecording" type="DigitAny" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="voicePortalLoginMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="accessUsingOtherMailboxId" type="VoicePortalDigitSequence" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="faxMessagingMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="saveFaxMessageAndSkipToNext" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="previousFaxMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="playEnvelope" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="nextFaxMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="deleteFaxMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="printFaxMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="messageDepositMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="enableMessageDeposit" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="disableMessageDeposit" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="listenToMessageDepositStatus" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="disableMessageDepositMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="disconnectAfterGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="forwardAfterGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="changeForwardingDestination" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="greetingOnlyForwardingDestinationMenuKeys" nillable="true" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="greetingOnlyForwardingDestination" type="DigitStarPound" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="personalAssistantMenuKeys" minOccurs="0">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="setPresenceToNone" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setPresenceToBusinessTrip" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setPresenceToGoneForTheDay" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setPresenceToLunch" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setPresenceToMeeting" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setPresenceToOutOfOffice" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setPresenceToTemporarilyOut" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setPresenceToTraining" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setPresenceToUnavailable" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="setPresenceToVacation" type="DigitAny" nillable="true" minOccurs="0"/>
+                <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+                <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserAddAliasListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add one or more voice mail aliases to a users voice message.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="phoneNumber" type="DN" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserDeleteAliasListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete one or more voice mail aliases from a users voice message.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="phoneNumber" type="DN" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetAdvancedVoiceManagementRequest14sp3">
+    <xs:annotation>
+      <xs:documentation>
+        Get the user's voice messaging advanced voice management service setting.
+        The response is either a UserVoiceMessagingUserGetAdvancedVoiceManagementResponse14sp3 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetAdvancedVoiceManagementResponse14sp3">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserVoiceMessagingUserGetAdvancedVoiceManagementRequest14sp3.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="mailServerSelection" type="VoiceMessagingUserMailServerSelection"/>
+          <xs:element name="groupMailServerEmailAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="groupMailServerUserId" type="VoiceMessagingMailServerUserId" minOccurs="0"/>
+          <xs:choice>
+            <xs:element name="useGroupDefaultMailServerFullMailboxLimit" type="xs:boolean" fixed="true"/>
+            <xs:element name="groupMailServerFullMailboxLimit" type="VoiceMessagingMailboxLengthMinutes"/>
+          </xs:choice>
+          <xs:element name="personalMailServerNetAddress" type="NetAddress" minOccurs="0"/>
+          <xs:element name="personalMailServerProtocol" type="VoiceMessagingMailServerProtocol"/>
+          <xs:element name="personalMailServerRealDeleteForImap" type="xs:boolean"/>
+          <xs:element name="personalMailServerEmailAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="personalMailServerUserId" type="VoiceMessagingMailServerUserId" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetAliasListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the voice mail aliases for a users voice message.
+        The response is either a UserVoiceMessagingUserGetAliasListResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetAliasListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserVoiceMessagingUserGetAliasListRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="phoneNumber" type="DN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetDistributionListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a voice mail distribution list for a users voice message.
+        The response is either UserVoiceMessagingUserGetDistributionListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="listId" type="VoiceMessagingDistributionListId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetDistributionListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserVoiceMessagingUserGetDistributionListRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="description" type="VoiceMessagingDistributionListDescription" minOccurs="0"/>
+          <xs:element name="phoneNumber" type="OutgoingDNorSIPURI" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetGreetingRequest20">
+    <xs:annotation>
+      <xs:documentation>
+        Get the user's voice messaging greeting information.
+        The response is either a UserVoiceMessagingUserGetGreetingResponse20 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetGreetingResponse20">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserVoiceMessagingUserGetGreetingRequest20.
+        Contains the greeting configuration for a user's voice messaging.
+        The following elements are only used in AS data mode:
+          disableMessageDeposit
+          disableMessageDepositAction
+          greetingOnlyForwardDestination
+          extendedAwayEnabled
+          extendedAwayDisableMessageDeposit
+          extendedAwayAudioFile
+          extendedAwayAudioMediaType
+          extendedAwayVideoFile
+          extendedAwayVideoMediaTyp
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="busyAnnouncementSelection" type="AnnouncementSelection"/>
+          <xs:element name="busyPersonalAudioFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+          <xs:element name="busyPersonalVideoFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+          <xs:element name="noAnswerAnnouncementSelection" type="VoiceMessagingNoAnswerGreetingSelection"/>
+          <xs:element name="noAnswerPersonalAudioFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+          <xs:element name="noAnswerPersonalVideoFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+          <xs:element name="noAnswerAlternateGreeting01" type="VoiceMessagingAlternateNoAnswerGreetingRead20" minOccurs="0"/>
+          <xs:element name="noAnswerAlternateGreeting02" type="VoiceMessagingAlternateNoAnswerGreetingRead20" minOccurs="0"/>
+          <xs:element name="noAnswerAlternateGreeting03" type="VoiceMessagingAlternateNoAnswerGreetingRead20" minOccurs="0"/>
+          <xs:element name="extendedAwayEnabled" type="xs:boolean"/>
+          <xs:element name="extendedAwayDisableMessageDeposit" type="xs:boolean"/>
+          <xs:element name="extendedAwayAudioFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+          <xs:element name="extendedAwayVideoFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+          <xs:element name="noAnswerNumberOfRings" type="VoiceMessagingNumberOfRings"/>
+          <xs:element name="disableMessageDeposit" type="xs:boolean"/>
+          <xs:element name="disableMessageDepositAction" type="VoiceMessagingDisableMessageDepositSelection"/>
+          <xs:element name="greetingOnlyForwardDestination" type="OutgoingDNorSIPURI" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetOutgoingSMDIMWIRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the user's voice messaging outgoing SMDI message waiting indicator service setting.
+        The response is either a UserVoiceMessagingUserGetOutgoingSMDIMWIResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetOutgoingSMDIMWIResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserVoiceMessagingUserGetOutgoingSMDIMWIRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="outgoingSMDIMWIPhoneNumber" type="OutgoingDN" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetVoiceManagementRequest17">
+    <xs:annotation>
+      <xs:documentation>
+        Get the user's voice messaging voice management service settings.
+        The response is either a UserVoiceMessagingUserGetVoiceManagementResponse17 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetVoiceManagementResponse17">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserVoiceMessagingUserGetVoiceManagementRequest17.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="processing" type="VoiceMessagingMessageProcessing"/>
+          <xs:element name="voiceMessageDeliveryEmailAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="usePhoneMessageWaitingIndicator" type="xs:boolean"/>
+          <xs:element name="sendVoiceMessageNotifyEmail" type="xs:boolean"/>
+          <xs:element name="voiceMessageNotifyEmailAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="sendCarbonCopyVoiceMessage" type="xs:boolean"/>
+          <xs:element name="voiceMessageCarbonCopyEmailAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="transferOnZeroToPhoneNumber" type="xs:boolean"/>
+          <xs:element name="transferPhoneNumber" type="OutgoingDN" minOccurs="0"/>
+          <xs:element name="alwaysRedirectToVoiceMail" type="xs:boolean"/>
+          <xs:element name="busyRedirectToVoiceMail" type="xs:boolean"/>
+          <xs:element name="noAnswerRedirectToVoiceMail" type="xs:boolean"/>
+          <xs:element name="outOfPrimaryZoneRedirectToVoiceMail" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetVoicePortalRequest20">
+    <xs:annotation>
+      <xs:documentation>
+        Get the user's voice messaging voice portal settings.
+        The response is either a UserVoiceMessagingUserGetVoicePortalResponse20 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserGetVoicePortalResponse20">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserVoiceMessagingUserGetVoicePortalRequest20.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="usePersonalizedName" type="xs:boolean"/>
+          <xs:element name="voicePortalAutoLogin" type="xs:boolean"/>
+          <xs:element name="personalizedNameAudioFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserModifyAdvancedVoiceManagementRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user's voice messaging advanced voice management service setting.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="mailServerSelection" type="VoiceMessagingUserMailServerSelection" minOccurs="0"/>
+          <xs:element name="groupMailServerEmailAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="groupMailServerUserId" type="VoiceMessagingMailServerUserId" minOccurs="0"/>
+          <xs:element name="groupMailServerPassword" type="Password" minOccurs="0"/>
+          <xs:choice minOccurs="0">
+            <xs:element name="useGroupDefaultMailServerFullMailboxLimit" type="xs:boolean" fixed="true"/>
+            <xs:element name="groupMailServerFullMailboxLimit" type="VoiceMessagingMailboxLengthMinutes"/>
+          </xs:choice>
+          <xs:element name="personalMailServerNetAddress" type="NetAddress" minOccurs="0"/>
+          <xs:element name="personalMailServerProtocol" type="VoiceMessagingMailServerProtocol" minOccurs="0"/>
+          <xs:element name="personalMailServerRealDeleteForImap" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="personalMailServerEmailAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="personalMailServerUserId" type="VoiceMessagingMailServerUserId" minOccurs="0"/>
+          <xs:element name="personalMailServerPassword" type="Password" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserModifyDistributionListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a voice mail distribution list for a users voice message.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="listId" type="VoiceMessagingDistributionListId"/>
+          <xs:element name="description" type="VoiceMessagingDistributionListDescription" nillable="true" minOccurs="0"/>
+          <xs:element name="phoneNumberList" type="ReplacementOutgoingDNorSIPURIList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserModifyGreetingRequest20">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user's voice messaging greeting.
+        The response is either a SuccessResponse or an ErrorResponse.
+        Engineering Note: This command is used internally by Call Processing.
+        The following elements are only used in AS data mode:
+          disableMessageDeposit
+          disableMessageDepositAction
+          greetingOnlyForwardDestination
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="busyAnnouncementSelection" type="AnnouncementSelection" minOccurs="0"/>
+          <xs:element name="busyPersonalAudioFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="busyPersonalVideoFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="noAnswerAnnouncementSelection" type="VoiceMessagingNoAnswerGreetingSelection" minOccurs="0"/>
+          <xs:element name="noAnswerPersonalAudioFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="noAnswerPersonalVideoFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="noAnswerAlternateGreeting01" type="VoiceMessagingAlternateNoAnswerGreetingModify20" minOccurs="0"/>
+          <xs:element name="noAnswerAlternateGreeting02" type="VoiceMessagingAlternateNoAnswerGreetingModify20" minOccurs="0"/>
+          <xs:element name="noAnswerAlternateGreeting03" type="VoiceMessagingAlternateNoAnswerGreetingModify20" minOccurs="0"/>
+          <xs:element name="extendedAwayEnabled" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="extendedAwayDisableMessageDeposit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="extendedAwayAudioFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="extendedAwayVideoFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="noAnswerNumberOfRings" type="VoiceMessagingNumberOfRings" minOccurs="0"/>
+          <xs:element name="disableMessageDeposit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="disableMessageDepositAction" type="VoiceMessagingDisableMessageDepositSelection" minOccurs="0"/>
+          <xs:element name="greetingOnlyForwardDestination" type="OutgoingDNorSIPURI" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserModifyOutgoingSMDIMWIRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user's voice messaging outgoing message waiting indicator service setting.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="outgoingSMDIMWIPhoneNumberList" type="ReplacementOutgoingDNList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserModifyRequest23">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user's voice messaging advanced voice management service setting.
+        Modify a voice mail distribution list for a users voice message.
+        Modify the user's voice messaging greeting.
+        Modify the user's voice messaging outgoing message waiting indicator service setting.
+        Modify the user's voice messaging voice portal settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="mailServerSelection" type="VoiceMessagingUserMailServerSelection" minOccurs="0"/>
+          <xs:element name="groupMailServerEmailAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="groupMailServerUserId" type="VoiceMessagingMailServerUserId" minOccurs="0"/>
+          <xs:element name="groupMailServerPassword" type="Password" minOccurs="0"/>
+          <xs:choice minOccurs="0">
+            <xs:element name="useGroupDefaultMailServerFullMailboxLimit" type="xs:boolean" fixed="true"/>
+            <xs:element name="groupMailServerFullMailboxLimit" type="VoiceMessagingMailboxLengthMinutes"/>
+          </xs:choice>
+          <xs:element name="personalMailServerNetAddress" type="NetAddress" minOccurs="0"/>
+          <xs:element name="personalMailServerProtocol" type="VoiceMessagingMailServerProtocol" minOccurs="0"/>
+          <xs:element name="personalMailServerRealDeleteForImap" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="personalMailServerEmailAddress" type="EmailAddress" minOccurs="0"/>
+          <xs:element name="personalMailServerUserId" type="VoiceMessagingMailServerUserId" minOccurs="0"/>
+          <xs:element name="personalMailServerPassword" type="Password" minOccurs="0"/>
+          <xs:element name="voiceMessagingDistributionList" type="VoiceMessagingDistributionListModify" minOccurs="0" maxOccurs="15"/>
+          <xs:element name="busyAnnouncementSelection" type="AnnouncementSelection" minOccurs="0"/>
+          <xs:element name="busyPersonalAudioFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="busyPersonalVideoFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="noAnswerAnnouncementSelection" type="VoiceMessagingNoAnswerGreetingSelection" minOccurs="0"/>
+          <xs:element name="noAnswerPersonalAudioFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="noAnswerPersonalVideoFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="noAnswerAlternateGreeting01" type="VoiceMessagingAlternateNoAnswerGreetingModify20" minOccurs="0"/>
+          <xs:element name="noAnswerAlternateGreeting02" type="VoiceMessagingAlternateNoAnswerGreetingModify20" minOccurs="0"/>
+          <xs:element name="noAnswerAlternateGreeting03" type="VoiceMessagingAlternateNoAnswerGreetingModify20" minOccurs="0"/>
+          <xs:element name="extendedAwayEnabled" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="extendedAwayDisableMessageDeposit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="extendedAwayAudioFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="extendedAwayVideoFile" type="AnnouncementFileLevelKey" nillable="true" minOccurs="0"/>
+          <xs:element name="noAnswerNumberOfRings" type="VoiceMessagingNumberOfRings" minOccurs="0"/>
+          <xs:element name="disableMessageDeposit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="disableMessageDepositAction" type="VoiceMessagingDisableMessageDepositSelection" minOccurs="0"/>
+          <xs:element name="greetingOnlyForwardDestination" type="OutgoingDNorSIPURI" nillable="true" minOccurs="0"/>
+          <xs:element name="outgoingSMDIMWIisActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="outgoingSMDIMWIPhoneNumberList" type="ReplacementOutgoingDNList" nillable="true" minOccurs="0"/>
+          <xs:element name="voiceManagementisActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="processing" type="VoiceMessagingMessageProcessing" minOccurs="0"/>
+          <xs:element name="voiceMessageDeliveryEmailAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="usePhoneMessageWaitingIndicator" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="sendVoiceMessageNotifyEmail" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="voiceMessageNotifyEmailAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="sendCarbonCopyVoiceMessage" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="voiceMessageCarbonCopyEmailAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="transferOnZeroToPhoneNumber" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="transferPhoneNumber" type="OutgoingDN" nillable="true" minOccurs="0"/>
+          <xs:element name="alwaysRedirectToVoiceMail" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="busyRedirectToVoiceMail" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="noAnswerRedirectToVoiceMail" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="outOfPrimaryZoneRedirectToVoiceMail" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="usePersonalizedName" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="voicePortalAutoLogin" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="personalizedNameAudioFile" type="AnnouncementFileLevelKey" minOccurs="0" nillable="true"/>
+          <xs:element name="userMessagingAliasList" type="VoiceMessagingAliasReplacementList" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserModifyVoiceManagementRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user's voice messaging voice management service setting.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="processing" type="VoiceMessagingMessageProcessing" minOccurs="0"/>
+          <xs:element name="voiceMessageDeliveryEmailAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="usePhoneMessageWaitingIndicator" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="sendVoiceMessageNotifyEmail" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="voiceMessageNotifyEmailAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="sendCarbonCopyVoiceMessage" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="voiceMessageCarbonCopyEmailAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+          <xs:element name="transferOnZeroToPhoneNumber" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="transferPhoneNumber" type="OutgoingDN" nillable="true" minOccurs="0"/>
+          <xs:element name="alwaysRedirectToVoiceMail" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="busyRedirectToVoiceMail" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="noAnswerRedirectToVoiceMail" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="outOfPrimaryZoneRedirectToVoiceMail" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserVoiceMessagingUserModifyVoicePortalRequest20">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user's voice messaging voice portal settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+        Engineering Note: This command is used internally by Call Processing.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="usePersonalizedName" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="voicePortalAutoLogin" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="personalizedNameAudioFile" type="AnnouncementFileLevelKey" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Voice Messaging specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="AdditionalMessageOptionsMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal additional message options modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="saveMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="deleteMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="playEnvelope" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="callbackCaller" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="composeMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="replyMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="forwardMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="personalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="passcode" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AdditionalMessageOptionsMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal additional message options menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="saveMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="deleteMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="playEnvelope" type="DigitAny" minOccurs="0"/>
+      <xs:element name="callbackCaller" type="DigitAny" minOccurs="0"/>
+      <xs:element name="composeMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="replyMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="forwardMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="personalizedName" type="DigitAny" minOccurs="0"/>
+      <xs:element name="passcode" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AnnouncementMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal announcement menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="recordAudio" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="recordAudioVideo" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AnnouncementMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal announcement menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="recordAudio" type="DigitAny" minOccurs="0"/>
+      <xs:element name="recordAudioVideo" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AnnouncementRecordingMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal announcement recording menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="acceptRecording" type="DigitAny" minOccurs="0"/>
+      <xs:element name="rejectRerecord" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="end" type="VoicePortalDigitSequence" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AnnouncementRecordingMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal announcement recording menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="acceptRecording" type="DigitAny"/>
+      <xs:element name="rejectRerecord" type="DigitAny"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="end" type="VoicePortalDigitSequence"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CallForwardingOptionsMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal call forwarding option menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="activateCallForwarding" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="deactivateCallForwarding" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="changeCallForwardingDestination" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="listenToCallForwardingStatus" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CallForwardingOptionsMenuKeysReadEntry">
+    <xs:annotation/>
+    <xs:sequence>
+      <xs:element name="activateCallForwarding" type="DigitAny" minOccurs="0"/>
+      <xs:element name="deactivateCallForwarding" type="DigitAny" minOccurs="0"/>
+      <xs:element name="changeCallForwardingDestination" type="DigitAny" minOccurs="0"/>
+      <xs:element name="listenToCallForwardingStatus" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeBusyOrNoAnswerGreetingMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal change busy or not answer greeting menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="recordNewGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="listenToCurrentGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="revertToSystemDefaultGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeBusyOrNoAnswerGreetingMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal change busy or not answer greeting menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="recordNewGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="listenToCurrentGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="revertToSystemDefaultGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeCallForwardingDestinationMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal change call forwarding destination menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="finishEnteringNewDestinationNumber" type="DigitStarPound" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeCallForwardingDestinationMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal change call forwarding destination menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="finishEnteringNewDestinationNumber" type="DigitStarPound"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeCurrentIntroductionOrMessageOrReplyMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal change current introduction or message or reply menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="endRecording" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeCurrentIntroductionOrMessageOrReplyMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal change current introduction or message or reply menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="endRecording" type="DigitAny"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeExtendedAwayGreetingMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal change extended away greeting menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="activateExtendedAwayGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="deactivateExtendedAwayGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="recordNewGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="listenToCurrentGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="enableMessageDeposit" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="disableMessageDeposit" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeExtendedAwayGreetingMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal change extended away greeting menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="activateExtendedAwayGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="deactivateExtendedAwayGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="recordNewGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="listenToCurrentGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CommPilotExpressProfileMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal commPilot express profile menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="activateAvailableInOfficeProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="activateAvailableOutOfOfficeProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="activateBusyProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="activateUnavailableProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="noProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CommPilotExpressProfileMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal commPilot express profile menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="activateAvailableInOfficeProfile" type="DigitAny" minOccurs="0"/>
+      <xs:element name="activateAvailableOutOfOfficeProfile" type="DigitAny" minOccurs="0"/>
+      <xs:element name="activateBusyProfile" type="DigitAny" minOccurs="0"/>
+      <xs:element name="activateUnavailableProfile" type="DigitAny" minOccurs="0"/>
+      <xs:element name="noProfile" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConferenceGreetingMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal greeting menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="activateConfGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="deactivateConfGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="recordNewConfGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="listenToCurrentConfGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConferenceGreetingMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal conference greeting menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="activateConfGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="deactivateConfGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="recordNewConfGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="listenToCurrentConfGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DeleteAllMessagesMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal delete all messages menu keys modify entry modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="confirmDeletion" type="DigitAny" minOccurs="0"/>
+      <xs:element name="cancelDeletion" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DeleteAllMessagesMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal delete all messages menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="confirmDeletion" type="DigitAny"/>
+      <xs:element name="cancelDeletion" type="DigitAny"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DisableMessageDepositMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal disable message deposit menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="disconnectAfterGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="forwardAfterGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="changeForwardingDestination" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DisableMessageDepositMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal disable message deposit menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="disconnectAfterGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="forwardAfterGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="changeForwardingDestination" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FaxMessagingMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal fax messaging menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="saveFaxMessageAndSkipToNext" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="previousFaxMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="playEnvelope" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="nextFaxMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="deleteFaxMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="printFaxMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FaxMessagingMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal fax messaging menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="saveFaxMessageAndSkipToNext" type="DigitAny" minOccurs="0"/>
+      <xs:element name="previousFaxMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="playEnvelope" type="DigitAny" minOccurs="0"/>
+      <xs:element name="nextFaxMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="deleteFaxMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="printFaxMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ForwardOrComposeMessageMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal forward or compose message menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="sendToPerson" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="sendToAllGroupMembers" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="sendToDistributionList" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="changeCurrentIntroductionOrMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="listenToCurrentIntroductionOrMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setOrClearUrgentIndicator" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setOrClearConfidentialIndicator" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ForwardOrComposeMessageMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal forward or compose message menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="sendToPerson" type="DigitAny" minOccurs="0"/>
+      <xs:element name="sendToAllGroupMembers" type="DigitAny" minOccurs="0"/>
+      <xs:element name="sendToDistributionList" type="DigitAny" minOccurs="0"/>
+      <xs:element name="changeCurrentIntroductionOrMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="listenToCurrentIntroductionOrMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setOrClearUrgentIndicator" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setOrClearConfidentialIndicator" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GreetingOnlyForwardingDestinationMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal greeting only forwarding destination menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="greetingOnlyForwardingDestination" type="DigitStarPound" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GreetingOnlyForwardingDestinationMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal greeting only forwarding destination menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="greetingOnlyForwardingDestination" type="DigitStarPound" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GreetingsMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal greeting menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="personalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="conferenceGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GreetingsMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal greeting menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="personalizedName" type="DigitAny" minOccurs="0"/>
+      <xs:element name="conferenceGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HotelingMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal hoteling menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="checkHostStatus" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="associateWithHost" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="disassociateFromHost" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="disassociateFromRemoteHost" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HotelingMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal hoteling menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="checkHostStatus" type="DigitAny" minOccurs="0"/>
+      <xs:element name="associateWithHost" type="DigitAny" minOccurs="0"/>
+      <xs:element name="disassociateFromHost" type="DigitAny" minOccurs="0"/>
+      <xs:element name="disassociateFromRemoteHost" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MessageDepositMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal message deposit menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="enableMessageDeposit" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="disableMessageDeposit" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="listenToMessageDepositStatus" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MessageDepositMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal message deposit menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="enableMessageDeposit" type="DigitAny" minOccurs="0"/>
+      <xs:element name="disableMessageDeposit" type="DigitAny" minOccurs="0"/>
+      <xs:element name="listenToMessageDepositStatus" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PasscodeMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal passcode menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="finishEnteringOrReenteringPasscode" type="DigitStarPound" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitStarPound" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PasscodeMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal passcode menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="finishEnteringOrReenteringPasscode" type="DigitStarPound"/>
+      <xs:element name="returnToPreviousMenu" type="DigitStarPound"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PersonalAssistantMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal personal assistant menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="setPresenceToNone" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setPresenceToBusinessTrip" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setPresenceToGoneForTheDay" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setPresenceToLunch" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setPresenceToMeeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setPresenceToOutOfOffice" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setPresenceToTemporarilyOut" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setPresenceToTraining" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setPresenceToUnavailable" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setPresenceToVacation" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PersonalAssistantMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal personal assistant menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="setPresenceToNone" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setPresenceToBusinessTrip" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setPresenceToGoneForTheDay" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setPresenceToLunch" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setPresenceToMeeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setPresenceToOutOfOffice" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setPresenceToTemporarilyOut" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setPresenceToTraining" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setPresenceToUnavailable" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setPresenceToVacation" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PersonalizedNameMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal personalized name menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="recordNewPersonalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="listenToCurrentPersonalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="deletePersonalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PersonalizedNameMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal personalized name menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="recordNewPersonalizedName" type="DigitAny" minOccurs="0"/>
+      <xs:element name="listenToCurrentPersonalizedName" type="DigitAny" minOccurs="0"/>
+      <xs:element name="deletePersonalizedName" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PlayGreetingMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal play greeting menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="skipBackward" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="pauseOrResume" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="skipForward" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="jumpToBegin" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="jumpToEnd" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PlayGreetingMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal play greeting menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="skipBackward" type="DigitAny" minOccurs="0"/>
+      <xs:element name="pauseOrResume" type="DigitAny" minOccurs="0"/>
+      <xs:element name="skipForward" type="DigitAny" minOccurs="0"/>
+      <xs:element name="jumpToBegin" type="DigitAny" minOccurs="0"/>
+      <xs:element name="jumpToEnd" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PlayMessageMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal play message menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="skipBackward" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="pauseOrResume" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="skipForward" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="jumpToBegin" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="jumpToEnd" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PlayMessageMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal play message menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="skipBackward" type="DigitAny" minOccurs="0"/>
+      <xs:element name="pauseOrResume" type="DigitAny" minOccurs="0"/>
+      <xs:element name="skipForward" type="DigitAny" minOccurs="0"/>
+      <xs:element name="jumpToBegin" type="DigitAny" minOccurs="0"/>
+      <xs:element name="jumpToEnd" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PlayMessagesMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal play message menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="saveMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="deleteMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="playMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="previousMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="playEnvelope" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="nextMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="callbackCaller" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="composeMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="replyMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="forwardMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="additionalMessageOptions" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="personalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="passcode" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PlayMessagesMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal play message menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="saveMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="deleteMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="playMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="previousMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="playEnvelope" type="DigitAny" minOccurs="0"/>
+      <xs:element name="nextMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="callbackCaller" type="DigitAny" minOccurs="0"/>
+      <xs:element name="composeMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="replyMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="forwardMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="additionalMessageOptions" type="DigitAny" minOccurs="0"/>
+      <xs:element name="personalizedName" type="DigitAny" minOccurs="0"/>
+      <xs:element name="passcode" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RecordNewGreetingOrPersonalizedNameMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal record new greeting or personalized name menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="endRecording" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RecordNewGreetingOrPersonalizedNameMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal record new greeting or personalized name menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="endRecording" type="DigitAny"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReplyMessageMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal reply message menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="sendReplyToCaller" type="DigitAny" minOccurs="0"/>
+      <xs:element name="changeCurrentReply" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="listenToCurrentReply" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setOrClearUrgentIndicator" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="setOrClearConfidentialIndicator" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReplyMessageMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal reply message menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="sendReplyToCaller" type="DigitAny"/>
+      <xs:element name="changeCurrentReply" type="DigitAny" minOccurs="0"/>
+      <xs:element name="listenToCurrentReply" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setOrClearUrgentIndicator" type="DigitAny" minOccurs="0"/>
+      <xs:element name="setOrClearConfidentialIndicator" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReviewSelectedDistributionListMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal review selected distribution list menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="interruptPlaybackAndReturnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReviewSelectedDistributionListMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal review selected distribution list menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="interruptPlaybackAndReturnToPreviousMenu" type="DigitAny"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SelectDistributionListMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal select distribution list menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="returnToPreviousMenu" type="DigitStarPound" minOccurs="0"/>
+      <xs:element name="repeatMenuOrFinishEnteringDistributionListNumber" type="DigitStarPound" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SelectDistributionListMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal select distribution list menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="returnToPreviousMenu" type="DigitStarPound"/>
+      <xs:element name="repeatMenuOrFinishEnteringDistributionListNumber" type="DigitStarPound" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendMessageToSelectedDistributionListMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal send message to selected distribution list menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="confirmSendingToDistributionList" type="DigitStarPound" nillable="true" minOccurs="0"/>
+      <xs:element name="cancelSendingToDistributionList" type="DigitStarPound" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendMessageToSelectedDistributionListMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal send message to selected distribution list menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="confirmSendingToDistributionList" type="DigitStarPound" minOccurs="0"/>
+      <xs:element name="cancelSendingToDistributionList" type="DigitStarPound"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendToAllGroupMembersMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal send to all group memeber menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="confirmSendingToEntireGroup" type="DigitAny" minOccurs="0"/>
+      <xs:element name="cancelSendingToEntireGroup" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendToAllGroupMembersMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal send to all group memeber menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="confirmSendingToEntireGroup" type="DigitAny"/>
+      <xs:element name="cancelSendingToEntireGroup" type="DigitAny"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendToDistributionListMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal send to distribution list menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="sendMessageToSelectedDistributionList" type="DigitAny" minOccurs="0"/>
+      <xs:element name="selectDistributionList" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="reviewSelectedDistributionList" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendToDistributionListMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal send to distribution list menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="sendMessageToSelectedDistributionList" type="DigitAny"/>
+      <xs:element name="selectDistributionList" type="DigitAny" minOccurs="0"/>
+      <xs:element name="reviewSelectedDistributionList" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendToPersonMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal send to person menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="confirmSendingMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="cancelSendingMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="finishEnteringNumberWhereToSendMessageTo" type="DigitStarPound" minOccurs="0"/>
+      <xs:element name="finishForwardingOrSendingMessage" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendToPersonMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal send to person menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="confirmSendingMessage" type="DigitAny"/>
+      <xs:element name="cancelSendingMessage" type="DigitAny"/>
+      <xs:element name="finishEnteringNumberWhereToSendMessageTo" type="DigitStarPound"/>
+      <xs:element name="finishForwardingOrSendingMessage" type="DigitAny"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoiceMessagingAliasReplacementList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of dns that that replaces a previously configured list.
+        By convention, an element of this type may be set nil to clear the list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="phoneNumber" type="DN" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoiceMessagingAlternateNoAnswerGreetingModify20">
+    <xs:annotation>
+      <xs:documentation>
+        The configuration of a alternate no answer greeting.
+        It is used when modifying a user's voice messaging greeting.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="VoiceMessagingAlternateNoAnswerGreetingName" nillable="true" minOccurs="0"/>
+      <xs:element name="audioFile" type="AnnouncementFileLevelKey" minOccurs="0" nillable="true"/>
+      <xs:element name="videoFile" type="AnnouncementFileLevelKey" minOccurs="0" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoiceMessagingAlternateNoAnswerGreetingRead20">
+    <xs:annotation>
+      <xs:documentation>
+        The configuration of a alternate no answer greeting.
+        It is used when geting a user's voice messaging greeting.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="VoiceMessagingAlternateNoAnswerGreetingName"/>
+      <xs:element name="audioFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+      <xs:element name="videoFile" type="AnnouncementFileLevelKey" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoiceMessagingDistributionListModify">
+    <xs:annotation>
+      <xs:documentation>
+        A list of voice mail distribution lists
+        It is used when setting a user's voice messaging distribution lists
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="listId" type="VoiceMessagingDistributionListId"/>
+      <xs:element name="description" type="VoiceMessagingDistributionListDescription" nillable="true" minOccurs="0"/>
+      <xs:element name="phoneNumberList" type="ReplacementOutgoingDNorSIPURIList" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoiceMessagingMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal voice messaging menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="playMessages" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="changeBusyGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="changeNoAnswerGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="changeExtendedAwayGreeting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="composeMessage" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="deleteAllMessages" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="passcode" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="personalizedName" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="messageDeposit" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoiceMessagingMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal voice messaging menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="playMessages" type="DigitAny" minOccurs="0"/>
+      <xs:element name="changeBusyGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="changeNoAnswerGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="changeExtendedAwayGreeting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="composeMessage" type="DigitAny" minOccurs="0"/>
+      <xs:element name="deleteAllMessages" type="DigitAny" minOccurs="0"/>
+      <xs:element name="passcode" type="DigitAny" minOccurs="0"/>
+      <xs:element name="personalizedName" type="DigitAny" minOccurs="0"/>
+      <xs:element name="messageDeposit" type="DigitAny" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoicePortalCallingMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal calling menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="endCurrentCallAndGoBackToPreviousMenu" type="VoicePortalDigitSequence" minOccurs="0"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoicePortalCallingMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal change calling menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="endCurrentCallAndGoBackToPreviousMenu" type="VoicePortalDigitSequence"/>
+      <xs:element name="returnToPreviousMenu" type="DigitAny"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoicePortalLoginMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal voice portal login menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="accessUsingOtherMailboxId" type="VoicePortalDigitSequence" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoicePortalLoginMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal login menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="accessUsingOtherMailboxId" type="VoicePortalDigitSequence" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoicePortalMainMenuKeysModifyEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal main menu keys modify entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="voiceMessaging" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="commPilotExpressProfile" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="greetings" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="callForwardingOptions" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="voicePortalCalling" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="hoteling" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="passcode" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="exitVoicePortal" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="externalRouting" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="announcement" type="DigitAny" nillable="true" minOccurs="0"/>
+      <xs:element name="personalAssistant" type="DigitAny" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VoicePortalMainMenuKeysReadEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The voice portal main menu keys.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="voiceMessaging" type="DigitAny" minOccurs="0"/>
+      <xs:element name="commPilotExpressProfile" type="DigitAny" minOccurs="0"/>
+      <xs:element name="greetings" type="DigitAny" minOccurs="0"/>
+      <xs:element name="callForwardingOptions" type="DigitAny" minOccurs="0"/>
+      <xs:element name="voicePortalCalling" type="DigitAny" minOccurs="0"/>
+      <xs:element name="hoteling" type="DigitAny" minOccurs="0"/>
+      <xs:element name="passcode" type="DigitAny" minOccurs="0"/>
+      <xs:element name="exitVoicePortal" type="DigitAny" minOccurs="0"/>
+      <xs:element name="repeatMenu" type="DigitAny" minOccurs="0"/>
+      <xs:element name="externalRouting" type="DigitAny" minOccurs="0"/>
+      <xs:element name="announcement" type="DigitAny" minOccurs="0"/>
+      <xs:element name="personalAssistant" type="DigitAny" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="VoiceMessageSummaryUpdateSeconds">
+    <xs:annotation>
+      <xs:documentation>
+        Minimum time interval between message summary update notifications in seconds.
+        This parameter is used to avoid SIP signaling overload due to frequent device registration.
+        Broadworks sends the message-summary only if the minimum time interval has elapsed.
+        Configuring a value of zero causes the message-summary to be sent on every incoming registration (thus disabling the throttling mechanism).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="86400"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="VoiceMessagingDistributionListDescription">
+    <xs:annotation>
+      <xs:documentation>
+        Distribution List Description.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="80"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="VoiceMessagingDistributionListId">
+    <xs:annotation>
+      <xs:documentation>
+        Distribution List Id.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="14"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="VoiceMessagingGroupMailServerChoices">
+    <xs:annotation>
+      <xs:documentation>
+        Voice Messaging group-level mail server choices.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="System Mail Server"/>
+      <xs:enumeration value="Group Mail Server"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="VoiceMessagingMailServerUserId">
+    <xs:annotation>
+      <xs:documentation>
+        User Id for a mail server.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="80"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="VoiceMessagingMessageProcessing">
+    <xs:annotation>
+      <xs:documentation>
+        Choices to handle a voice message.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Unified Voice and Email Messaging"/>
+      <xs:enumeration value="Deliver To Email Address Only"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="VoiceMessagingRecordingAudioFileFormat">
+    <xs:annotation>
+      <xs:documentation>
+        The media type of a voice message.
+        WAV - A WAV file
+        MP3 - an MP3 file
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="WAV"/>
+      <xs:enumeration value="MP3"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="VoiceMessagingUserMailServerSelection">
+    <xs:annotation>
+      <xs:documentation>
+        Voice Messaging user-level mail server choices.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Group Mail Server"/>
+      <xs:enumeration value="Personal Mail Server"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="VoicePortalDigitSequence">
+    <xs:annotation>
+      <xs:documentation>
+        A sequence of digits used by the voice portal.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="3"/>
+      <xs:pattern value="([0-9]|\*|#){0,3}"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

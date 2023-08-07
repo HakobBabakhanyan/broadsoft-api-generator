@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- P E R S O N A L   A S S I S T A N T   S E R V I C E                                  -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- P E R S O N A L   A S S I S T A N T   R E Q U E S T S   A N D   R E S P O N S E S    -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    SystemPersonalAssistantGetRequest
+    SystemPersonalAssistantModifyRequest
+    UserCallToNumberGetAvailableListRequest
+    UserPersonalAssistantCallToNumberGetListRequest
+    UserPersonalAssistantCallToNumberModifyListRequest
+    UserPersonalAssistantExclusionNumberAddRequest
+    UserPersonalAssistantExclusionNumberDeleteListRequest
+    UserPersonalAssistantExclusionNumberGetListRequest
+    UserPersonalAssistantExclusionNumberGetRequest
+    UserPersonalAssistantExclusionNumberModifyRequest
+    UserPersonalAssistantGetRequest22
+    UserPersonalAssistantModifyRequest
+-->
+
+  <xs:complexType name="SystemPersonalAssistantGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get system Personal Assistant Parameters.
+        The response is either SystemPersonalAssistantGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemPersonalAssistantGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemPersonalAssistantGetRequest.
+        Returns system Personal Assistant Parameters.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="transferToAttendantKey" type="DigitAny"/>
+          <xs:element name="transferToVoiceMessagingKey" type="DigitAny"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemPersonalAssistantModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify system Personal Assistant Parameters.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="transferToAttendantKey" type="DigitAny" minOccurs="0"/>
+          <xs:element name="transferToVoiceMessagingKey" type="DigitAny" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCallToNumberGetAvailableListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the user available Call to Number List information. The response is either a UserCallToNumberGetAvailableListResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCallToNumberGetAvailableListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserCallToNumberGetAvailableListRequest.
+        Contains a list of the user available Call to Numbers".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantCallToNumberGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the user assigned Call to Number List information. The response is either a UserPersonalAssistantCallToNumberGetListResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantCallToNumberGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserPersonalAssistantCallToNumberGetListRequest.
+        Contains a list of assigned Call to Numbers".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantCallToNumberModifyListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify the user assigned Call to Number List information.
+        The response is either a SuccessResponse or an ErrorResponse.
+        For the callToNumbers in the callToNumberList, the extension element
+        is not used and the number element is only used when the type is BroadWorks Mobility.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="callToNumberList" type="ReplacementCallToNumberList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantExclusionNumberAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a User Personal Assistant Exclusion Number.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="exclusionNumber" type="DN"/>
+          <xs:element name="description" type="PersonalAssistantExclusionNumberDescription" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantExclusionNumberDeleteListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a list of User Personal Assistant Exclusion Number.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="exclusionNumber" type="DN" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantExclusionNumberGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the User Personal Assistant Exclusion Number List information.
+        The response is either a userPersonalAssistantExclusionNumberGetListResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="searchCriteriaPersonalAssistantExclusionNumber" type="SearchCriteriaPersonalAssistantExclusionNumber" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaPersonalAssistantExclusionNumberDescription" type="SearchCriteriaPersonalAssistantExclusionNumberDescription" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantExclusionNumberGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserPersonalAssistantExclusionNumberGetListRequest.
+        Contains a table with column headings:
+        "Number", "Description".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="exclusionNumberTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantExclusionNumberGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a Personal Assistant Exclusion Number.
+        The response is either UserPersonalAssistantExclusionNumberGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="exclusionNumber" type="DN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantExclusionNumberGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserPersonalAssistantExclusionNumberGetRequest
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="description" type="PersonalAssistantExclusionNumberDescription" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantExclusionNumberModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify an existing User Personal Assistant Exclusion Number description.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="exclusionNumber" type="DN"/>
+          <xs:element name="description" type="PersonalAssistantExclusionNumberDescription" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantGetRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the User Personal Assistant information.
+        The response is either a UserPersonalAssistantGetResponse22 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantGetResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserPersonalAssistantGetRequest22.
+        The response contains the user Personal Assistant information".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="presence" type="PersonalAssistantPresence"/>
+          <xs:element name="enableTransferToAttendant" type="xs:boolean"/>
+          <xs:element name="attendantNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+          <xs:element name="enableRingSplash" type="xs:boolean"/>
+          <xs:element name="enableExpirationTime" type="xs:boolean"/>
+          <xs:element name="expirationTime" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="alertMeFirst" type="xs:boolean"/>
+          <xs:element name="alertMeFirstNumberOfRings" type="PersonalAssistantAlertMeFirstNumberOfRings"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPersonalAssistantModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the User Personal Assistant information.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="presence" type="PersonalAssistantPresence" minOccurs="0"/>
+          <xs:element name="enableTransferToAttendant" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="attendantNumber" type="OutgoingDNorSIPURI" minOccurs="0" nillable="true"/>
+          <xs:element name="enableRingSplash" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableExpirationTime" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="expirationTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+          <xs:element name="alertMeFirst" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertMeFirstNumberOfRings" type="PersonalAssistantAlertMeFirstNumberOfRings" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Personal Assistant specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:simpleType name="PersonalAssistantAlertMeFirstNumberOfRings">
+    <xs:annotation>
+      <xs:documentation>
+        Maximum number of rings before invoking the Personal Assistant.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:enumeration value="0"/>
+      <xs:enumeration value="2"/>
+      <xs:enumeration value="3"/>
+      <xs:enumeration value="4"/>
+      <xs:enumeration value="5"/>
+      <xs:enumeration value="6"/>
+      <xs:enumeration value="7"/>
+      <xs:enumeration value="8"/>
+      <xs:enumeration value="9"/>
+      <xs:enumeration value="10"/>
+      <xs:enumeration value="11"/>
+      <xs:enumeration value="12"/>
+      <xs:enumeration value="13"/>
+      <xs:enumeration value="14"/>
+      <xs:enumeration value="15"/>
+      <xs:enumeration value="16"/>
+      <xs:enumeration value="17"/>
+      <xs:enumeration value="18"/>
+      <xs:enumeration value="19"/>
+      <xs:enumeration value="20"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S O R T   C R I T E R I A   P A R T                    -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:include schemaLocation="OCISchemaDataTypes.xsd"/>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Sort Criteria specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="SortByAdminFirstName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the administrator first name
+        as the column for the
+        sort, whether the
+        sort is ascending or
+        descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByAdminId">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the administrator id as the
+        column for the sort,
+        whether the
+        sort is ascending or descending,
+        and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByAdminLastName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the administrator last name
+        as the column for the
+        sort, whether the
+        sort is ascending or
+        descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByAgentThresholdProfile">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the call center agent threshold profile as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByAnnouncementFileName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the file name as the column for the sort,
+        whether the sort is ascending or descending, and whether the sort is
+        case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByAnnouncementFileSize">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the file size as the column for the sort,
+        whether the sort is ascending or descending, and whether the sort is
+        case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteriaNumeric">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByCallCenterName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the call center name as the column for the sort, whether the
+        sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByCallCenterType">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the call center type as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByCallParkName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the call park name as the column for the sort, whether the
+        sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByCallPickupName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the call pickup name as the column for the sort, whether the
+        sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByDepartmentName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the department name as the column for the sort, whether the
+        sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByDeviceMACAddress">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the device MAC address as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByDeviceName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the device name as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByDeviceNetAddress">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the device net address as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByDeviceType">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the device type as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByDn">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the DN as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByDnActivated">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the dn activation status as the column for the sort,
+        whether the sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByDnAvailable">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the dn availability as the column for the sort, whether the
+	sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByEmailAddress">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the email as the column for the sort, whether
+	the sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByEnabled">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the Broadworks Enabled Flag as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByEnterpriseCommonPhoneListName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the enterprise common phone list name as the
+        column for the sort, whether sort is ascending or descending, and
+        whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByEnterpriseCommonPhoneListNumber">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the enterprise common phone list number as as the column
+        for the sort, whether sort is ascending or descending, and whether the sort is
+        case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByExtension">
+    <xs:annotation>
+      <xs:documentation>
+                The sort criteria specifies the extension as the column for
+                the sort, whether the sort is ascending or descending, and whether the
+                sort is case sensitive.
+            </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByForwardedToNumber">
+    <xs:annotation>
+      <xs:documentation>
+                The sort criteria specifies the forwarded to phone number as the column for
+                the sort, whether the sort is ascending or descending, and whether the
+                sort is case sensitive.
+                This sort criteria data type is only intended to be used by the commands
+                introduced by BW-2301.
+                The commands are EnterpriseUserCallForwardingSettingsGetListRequest
+                and GroupUserCallForwardingSettingsGetListRequest.
+                The following Call Forwarding services are compatible for this search:
+                Call Forwarding Always, Call Forwarding Always Secondary, Call Forwarding Busy,
+                Call Forwarding No Answer, Call Forwarding Not Reachable, Call Forwarding Selective.
+            </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByGroupCommonPhoneListName">
+    <xs:annotation>
+      <xs:documentation>
+				The sort criteria specifies the group common phone list name as the column for the sort, whether
+				the sort is ascending or descending, and whether the sort is case sensitive.
+			</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByGroupCommonPhoneListNumber">
+    <xs:annotation>
+      <xs:documentation>
+				The sort criteria specifies the group common phone list number as the column for the sort, whether
+				sort is ascending or descending, and whether the sort is case sensitive.
+			</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByGroupId">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the group id as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByGroupLocationCode">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the group location code as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByGroupName">
+    <xs:annotation>
+      <xs:documentation>
+          The sort criteria specifies the group name as the column for
+          the sort, whether the sort is ascending or descending, and whether the
+          sort is case sensitive.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByHuntPolicy">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the call center hunt policy as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByImpId">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the imp id as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByLocation">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the Broadworks Location as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByMobileDirectoryNumber">
+    <xs:annotation>
+      <xs:documentation>
+          The sort criteria specifies the Mobile dn availability as the column for the
+          sort, whether the sort is ascending or descending, and whether the sort
+          is case sensitive.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByMobilePhoneNumber">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the mobile phone number as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByReceptionistNote">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the Receptionist Notes as the column for the sort, whether
+        the sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByScheduleName">
+    <xs:annotation>
+      <xs:documentation>
+          The sort criteria specifies the schedule name as the column for
+          the sort, whether the sort is ascending or descending, and whether the
+          sort is case sensitive.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByServiceProviderId">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the service provider id as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByServiceProviderName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the service provider name as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByServiceStatus">
+    <xs:annotation>
+      <xs:documentation>
+            The sort criteria specifies the service status as the column for
+            the sort, whether the sort is ascending or descending, and whether the
+            sort is case sensitive.
+            This sort criteria data type is only intended to be used by the commands
+            introduced by BW-2301.
+            The commands are EnterpriseUserCallWaitingSettingsGetListRequest, GroupUserCallWaitingSettingsGetListRequest,
+            EnterpriseUserHotelingGuestSettingsGetListRequest, and GroupUserHotelingGuestSettingsGetListRequest.
+          </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByTrunkGroupName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the trunk group name as the column for the sort, whether the
+        sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByUserDepartment">
+    <xs:annotation>
+      <xs:documentation>
+				The sort criteria specifies the user department name as the column for the sort, whether the
+				sort is ascending or descending, and whether the sort is case sensitive.
+			</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByUserFirstName">
+    <xs:annotation>
+      <xs:documentation>
+				The sort criteria specifies the user first name as the column for the sort, whether the
+				sort is ascending or descending, and whether the sort is case sensitive.
+			</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByUserId">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the user id as the column for the sort,
+        whether the sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByUserLastName">
+    <xs:annotation>
+      <xs:documentation>
+				The sort criteria specifies the user last name as the column for the sort, whether the
+				sort is ascending or descending, and whether the sort is case sensitive.
+			</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByUserPersonalPhoneListName">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the user personal phone list name as the column for the sort, whether
+	sort is ascending or descending, and whether the sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByUserPersonalPhoneListNumber">
+    <xs:annotation>
+      <xs:documentation>
+				The sort criteria specifies the user personal phone list number as the column for
+				the sort, whether the sort is ascending or descending, and whether the
+				sort is case sensitive.
+			</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortByYahooId">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies the yahoo id as the column for
+        the sort, whether the sort is ascending or descending, and whether the
+        sort is case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SortCriteria">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SortCriteria" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies whether sort is ascending or descending,
+        and	whether the sort is case sensitive. Sort order defaults to
+        ascending and case sensitive.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="isAscending" type="xs:boolean" default="true"/>
+      <xs:element name="isCaseSensitive" type="xs:boolean" default="true"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SortCriteriaNumeric" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        The sort criteria specifies whether sort is
+        ascending or descending.
+        Sort order defaults to ascending.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="isAscending" type="xs:boolean" default="true"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

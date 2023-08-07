@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- P R I O R I T Y   A L E R T   S E R V I C E                                          -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- P R I O R I T Y   A L E R T   R E Q U E S T S   A N D   R E S P O N S E S            -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    UserPriorityAlertAddCriteriaRequest16
+    UserPriorityAlertDeleteCriteriaRequest
+    UserPriorityAlertGetCriteriaListRequest
+    UserPriorityAlertGetCriteriaRequest21
+    UserPriorityAlertModifyActiveCriteriaListRequest
+    UserPriorityAlertModifyCriteriaRequest
+-->
+
+  <xs:complexType name="UserPriorityAlertAddCriteriaRequest16">
+    <xs:annotation>
+      <xs:documentation>
+        Add a criteria to the user's priority alert service.
+        The following elements are only used in AS data mode:
+          callToNumber
+
+        For the callToNumber, the extension element is not used and the number element is only used when the type is BroadWorks Mobility.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean"/>
+          <xs:element name="fromDnCriteria" type="PriorityAlertCriteriaFromDn"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPriorityAlertDeleteCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a criteria from the user's priority alert service.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPriorityAlertGetCriteriaListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the user's priority alert criteria listing.
+        The response is either a UserPriorityAlertGetCriteriaListResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPriorityAlertGetCriteriaListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserPriorityAlertGetCriteriaListRequest. The criteria table's column headings are:
+        "Is Active", "Criteria Name", "Time Schedule", "Calls From", "Blacklisted", "Holiday Schedule", "Calls To Type", "Calls To Number" and "Calls To Extension".
+        The following columns are only returned in AS data mode:
+          "Calls To Type", "Calls To Number" and "Calls To Extension"
+
+        The possible values for the "Calls To Type" column are the following or a combination of them separated by comma:
+          - Primary
+          - Alternate X (where x is a number between 1 and 10)
+          - Mobility
+        The possible values for the "Calls To Number" column are the following or a combination of them separated by comma:
+          - The value of the phone number for the corresponding Calls To Type, when the number is available. i.e. Alternate 1 may have extension, but no number.
+          - When no number is available a blank space is provided instead.
+        The possible values for the "Calls To Extension" column are the following or a combination of them separated by comma:
+          - The value of the extension for the corresponding Calls To Type, when the extension is available. i.e. Primary may have number, but no extension.
+          - For Mobility Calls To Type, this is always blank.
+          - When no extension is available a blank space is provided instead.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPriorityAlertGetCriteriaRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Get a criteria for the user's priority alert service.
+        The response is either a UserPriorityAlertGetCriteriaResponse21 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPriorityAlertGetCriteriaResponse21">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserPriorityAlertGetCriteriaRequest21.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean"/>
+          <xs:element name="fromDnCriteria" type="PriorityAlertCriteriaFromDn"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPriorityAlertModifyActiveCriteriaListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Activate the user's priority alert criteria list.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaActivation" type="CriteriaActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserPriorityAlertModifyCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a criteria for the user's priority alert service.
+        The following elements are only used in AS data mode:
+          callToNumberList
+
+        For the callToNumbers in the callToNumberList, the extension element is not used and the number element is only used when the type is BroadWorks Mobility.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="newCriteriaName" type="CriteriaName" minOccurs="0"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="fromDnCriteria" type="PriorityAlertCriteriaFromDnModify" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="callToNumberList" type="ReplacementCallToNumberList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Priority Alert specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="PriorityAlertCriteriaFromDnModify">
+    <xs:annotation>
+      <xs:documentation>
+        The from dn criteria used within a modify request.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="fromDnCriteriaSelection" type="PriorityAlertCriteriaFromDnSelection" minOccurs="0"/>
+      <xs:element name="includeAnonymousCallers" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="includeUnavailableCallers" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="phoneNumberList" type="CriteriaReplacementDNList" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

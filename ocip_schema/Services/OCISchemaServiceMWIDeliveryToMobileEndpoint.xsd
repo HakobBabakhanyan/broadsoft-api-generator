@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- M W I   D E L I V E R Y   T O   M O B I L E   E N D P O I N T                        -->
+<!-- S E R V I C E                                                                        -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- M W I   D E L I V E R Y   T O   M O B I L E   E N D P O I N T                        -->
+  <!-- R E Q U E S T S   A N D   R E S P O N S E S                                          -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupMWIDeliveryToMobileEndpointCustomTemplateAddRequest
+    GroupMWIDeliveryToMobileEndpointCustomTemplateDeleteRequest
+    GroupMWIDeliveryToMobileEndpointCustomTemplateGetRequest
+    GroupMWIDeliveryToMobileEndpointCustomTemplateModifyRequest
+    GroupMWIDeliveryToMobileEndpointGetRequest
+    GroupMWIDeliveryToMobileEndpointModifyRequest
+    ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateAddRequest
+    ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateDeleteRequest
+    ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateGetRequest
+    ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateModifyRequest
+    ServiceProviderMWIDeliveryToMobileEndpointGetRequest
+    ServiceProviderMWIDeliveryToMobileEndpointModifyRequest
+    UserMWIDeliveryToMobileEndpointGetRequest
+    UserMWIDeliveryToMobileEndpointModifyRequest
+-->
+
+  <xs:complexType name="GroupMWIDeliveryToMobileEndpointCustomTemplateAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Create a MWI Delivery to Mobile Endpoint Custom Template.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="language" type="Language"/>
+          <xs:element name="type" type="MWIDeliveryToMobileEndpointTemplateType"/>
+          <xs:element name="isEnabled" type="xs:boolean"/>
+          <xs:element name="templateBody" type="MWIDeliveryToMobileEndpointTemplateBody"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupMWIDeliveryToMobileEndpointCustomTemplateDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Delete a MWI Delivery to Mobile Endpoint Custom Template.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="language" type="Language"/>
+          <xs:element name="type" type="MWIDeliveryToMobileEndpointTemplateType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupMWIDeliveryToMobileEndpointCustomTemplateGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a MWI Delivery to Mobile Endpoint Custom Template.
+        The response is either a GroupMWIDeliveryToMobileEndpointCustomTemplateGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="language" type="Language"/>
+          <xs:element name="type" type="MWIDeliveryToMobileEndpointTemplateType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupMWIDeliveryToMobileEndpointCustomTemplateGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupMWIDeliveryToMobileEndpointCustomTemplateGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isEnabled" type="xs:boolean"/>
+          <xs:element name="templateBody" type="MWIDeliveryToMobileEndpointTemplateBody"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupMWIDeliveryToMobileEndpointCustomTemplateModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Modify a MWI Delivery to Mobile Endpoint Custom Template.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="language" type="Language"/>
+          <xs:element name="type" type="MWIDeliveryToMobileEndpointTemplateType"/>
+          <xs:element name="isEnabled" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="templateBody" type="MWIDeliveryToMobileEndpointTemplateBody" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupMWIDeliveryToMobileEndpointGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Requests group MWI custom notifications settings.
+        The response is either a GroupMWIDeliveryToMobileEndpointGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupMWIDeliveryToMobileEndpointGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupMWIDeliveryToMobileEndpointGetRequest.
+
+        The templateActivationTable contains the list of templates defined for the group.
+        The column headings are "Enable", "Language", "Type".
+
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useSettingLevel" type="MWIDeliveryToMobileEndpointGroupSettingLevel"/>
+          <xs:element name="templateActivationTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupMWIDeliveryToMobileEndpointModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Modify the group level MWI custom notifications settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+
+        If the request is executed by a group administrator and modifies the useSettingLevel, the request is rejected.
+
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="useSettingLevel" type="MWIDeliveryToMobileEndpointGroupSettingLevel" minOccurs="0"/>
+          <xs:element name="templateActivation" type="MWIDeliveryToMobileEndpointTemplateActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Create a MWI Delivery to Mobile Endpoint Custom Template.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="language" type="Language"/>
+          <xs:element name="type" type="MWIDeliveryToMobileEndpointTemplateType"/>
+          <xs:element name="isEnabled" type="xs:boolean"/>
+          <xs:element name="templateBody" type="MWIDeliveryToMobileEndpointTemplateBody"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Delete a MWI Delivery to Mobile Endpoint Custom Template.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="language" type="Language"/>
+          <xs:element name="type" type="MWIDeliveryToMobileEndpointTemplateType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a MWI Delivery to Mobile Endpoint Custom Template.
+        The response is either a ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="language" type="Language"/>
+          <xs:element name="type" type="MWIDeliveryToMobileEndpointTemplateType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isEnabled" type="xs:boolean"/>
+          <xs:element name="templateBody" type="MWIDeliveryToMobileEndpointTemplateBody"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderMWIDeliveryToMobileEndpointCustomTemplateModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Modify a MWI Delivery to Mobile Endpoint Custom Template.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="language" type="Language"/>
+          <xs:element name="type" type="MWIDeliveryToMobileEndpointTemplateType"/>
+          <xs:element name="isEnabled" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="templateBody" type="MWIDeliveryToMobileEndpointTemplateBody" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderMWIDeliveryToMobileEndpointGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the service provider level data associated with MWI Delivery to Mobile Endpoint service.
+        The response is either a ServiceProviderMWIDeliveryToMobileEndpointGetResponse or an ErrorResponse.      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderMWIDeliveryToMobileEndpointGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ServiceProviderMWIDeliveryToMobileEndpointGetRequest.
+
+        The templateActivationTable contains the list of templates defined for the service provider.
+        The column headings are "Enable", "Language", "Type".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="templateActivationTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderMWIDeliveryToMobileEndpointModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Modify the service provider level MWI custom notifications settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+    </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="templateActivation" type="MWIDeliveryToMobileEndpointTemplateActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserMWIDeliveryToMobileEndpointGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the user level data associated with MWI Delivery to Mobile Endpoint service.
+        The response is either a UserMWIDeliveryToMobileEndpointGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserMWIDeliveryToMobileEndpointGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserMWIDeliveryToMobileEndpointGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="mobilePhoneNumber" type="DN" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserMWIDeliveryToMobileEndpointModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify the user level data associated with MWI Delivery to Mobile Endpoint service.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="mobilePhoneNumber" type="DN" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The MWI Delivery To Mobile Endpoint specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="MWIDeliveryToMobileEndpointTemplateActivation">
+    <xs:annotation>
+      <xs:documentation>
+        MWI Delivery To Mobile Endpoint enabled status indicator
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="language" type="Language"/>
+      <xs:element name="type" type="MWIDeliveryToMobileEndpointTemplateType"/>
+      <xs:element name="isEnabled" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MWIDeliveryToMobileEndpointTemplateBody">
+    <xs:annotation>
+      <xs:documentation>
+         MWI Delivery To Mobile Endpoint template body.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="line" type="MWIDeliveryToMobileEndpointTemplateLine" maxOccurs="6"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MWIDeliveryToMobileEndpointTemplateLine">
+    <xs:annotation>
+      <xs:documentation>
+         MWI Delivery To Mobile Endpoint template section associated with a specific tag.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="prefix" type="MWIDeliveryToMobileEndpointTemplatePhrase" minOccurs="0"/>
+      <xs:element name="tag" type="MWIDeliveryToMobileEndpointTemplateTag" minOccurs="0"/>
+      <xs:element name="postfix" type="MWIDeliveryToMobileEndpointTemplatePhrase" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="MWIDeliveryToMobileEndpointGroupSettingLevel">
+    <xs:annotation>
+      <xs:documentation>
+        MWI Delivery To Mobile Endpoint setting for the group level.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Service Provider"/>
+      <xs:enumeration value="Group"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="MWIDeliveryToMobileEndpointTemplatePhrase">
+    <xs:annotation>
+      <xs:documentation>
+         MWI Delivery To Mobile Endpoint template message body portion.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:whiteSpace value="preserve"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="128"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="MWIDeliveryToMobileEndpointTemplateTag">
+    <xs:annotation>
+      <xs:documentation>
+          MWI Delivery To Mobile Endpoint template tag.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Voice Mail Number"/>
+      <xs:enumeration value="New Messages Count"/>
+      <xs:enumeration value="Total Messages Count"/>
+      <xs:enumeration value="Caller Name"/>
+      <xs:enumeration value="Caller Number"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="MWIDeliveryToMobileEndpointTemplateType">
+    <xs:annotation>
+      <xs:documentation>
+         MWI Delivery To Mobile Endpoint template types.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Default"/>
+      <xs:enumeration value="Single New No Previous Message"/>
+      <xs:enumeration value="Single New With Previous Message"/>
+      <xs:enumeration value="Multiple New Messages"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- R E S O U R C E   P R I O R I T Y   S E R V I C E                                    -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- R E S O U R C E   P R I O R I T Y   R E Q U E S T S   A N D   R E S P O N S E S      -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    ResellerResourcePriorityGetRequest
+    ResellerResourcePriorityModifyRequest
+    SystemResourcePriorityGetRequest
+    SystemResourcePriorityModifyRequest
+    UserResourcePriorityGetRequest
+    UserResourcePriorityModifyRequest
+-->
+
+  <xs:complexType name="ResellerResourcePriorityGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the Resource Priority service attributes for the reseller.
+        The response is either ResellerResourcePriorityGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerResourcePriorityGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ResellerResourcePriorityGetRequest.
+        The response contains the reseller Resource Priority service attributes.
+        If useSystemSettings is true, the parameters sendResourcePriorityToNetwork and
+        resourcePriority will not be returned in the response.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useSystemSettings" type="xs:boolean"/>
+          <xs:element name="sendResourcePriorityToNetwork" type="xs:boolean"/>
+          <xs:element name="resourcePriority" type="ResourcePriorityValue"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerResourcePriorityModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the Resource Priority service attributes for the reseller.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="useSystemSettings" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="sendResourcePriorityToNetwork" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="resourcePriority" type="ResourcePriorityValue" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemResourcePriorityGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the system Resource Priority service attributes.
+        The response is either SystemResourcePriorityGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemResourcePriorityGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemResourcePriorityGetRequest.
+        The response contains the system Resource Priority service attributes.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="sendResourcePriorityToNetwork" type="xs:boolean"/>
+          <xs:element name="resourcePriority" type="ResourcePriorityValue"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemResourcePriorityModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the system Resource Priority service attributes.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="sendResourcePriorityToNetwork" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="resourcePriority" type="ResourcePriorityValue" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserResourcePriorityGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the Resource Priority settings of a user.
+        The response is either UserResourcePriorityGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserResourcePriorityGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserResourcePriorityGetRequest.
+        Contains the Resource Priority settings of a user.
+        If useDefaultResourcePriority is true, parameter resourcePriority will not be returned.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useDefaultResourcePriority" type="xs:boolean"/>
+          <xs:element name="defaultResourcePriority" type="ResourcePriorityValue"/>
+          <xs:element name="userResourcePriority" type="ResourcePriorityValue"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserResourcePriorityModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the Resource Priority settings of a user.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="useDefaultResourcePriority" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="userResourcePriority" type="ResourcePriorityValue" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Resource Priority specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:simpleType name="ResourcePriorityValue">
+    <xs:annotation>
+      <xs:documentation>
+        List of valid values to set to the resource priority header. q735.0 indicates the highest priority, q735.4 indicates the lowest priority.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="q735.0"/>
+      <xs:enumeration value="q735.1"/>
+      <xs:enumeration value="q735.2"/>
+      <xs:enumeration value="q735.3"/>
+      <xs:enumeration value="q735.4"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

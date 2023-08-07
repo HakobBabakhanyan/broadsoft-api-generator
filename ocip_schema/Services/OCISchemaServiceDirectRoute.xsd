@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- D I R E C T   R O U T E   S E R V I C E                                              -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- D I R E C T   R O U T E   R E Q U E S T S   A N D   R E S P O N S E S                -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    UserDirectRouteGetRequest
+    UserDirectRouteModifyRequest
+-->
+
+  <xs:complexType name="UserDirectRouteGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the direct route setting and the list of DTGs/Trunk Identities assigned to a user.
+        The response is either UserDirectRouteGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserDirectRouteGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserDirectRouteGetRequest.
+        Contains the direct route setting and the list of DTGs/Trunk Identities assigned to a user.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="outgoingDTGPolicy" type="DirectRouteOutgoingDTGPolicy"/>
+          <xs:element name="outgoingTrunkIdentityPolicy" type="DirectRouteOutgoingTrunkIdentityPolicy"/>
+          <xs:element name="directRouteIdentityList" type="DirectRouteIdentifiers" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserDirectRouteModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the direct route setting and the list of DTGs/Trunk Identities assigned to a user.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="outgoingDTGPolicy" type="DirectRouteOutgoingDTGPolicy" minOccurs="0"/>
+          <xs:element name="outgoingTrunkIdentityPolicy" type="DirectRouteOutgoingTrunkIdentityPolicy" minOccurs="0"/>
+          <xs:element name="directRouteIdentityList" type="DirectRouteReplacementIdentityList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Direct Route specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="DirectRouteIdentifiers">
+    <xs:annotation>
+      <xs:documentation>
+        Direct Route identifiers.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:choice minOccurs="1" maxOccurs="10">
+        <xs:element name="dtgIdentity" type="OtgDtgIdentity"/>
+        <xs:element name="trunkIdentity" type="SIPURI"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DirectRouteReplacementIdentityList">
+    <xs:annotation>
+      <xs:documentation>
+        A replacement list of direct route parameters.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="10">
+        <xs:element name="dtgIdentity" type="OtgDtgIdentity"/>
+        <xs:element name="trunkIdentity" type="SIPURI"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="DirectRouteOutgoingDTGPolicy">
+    <xs:annotation>
+      <xs:documentation>
+        Direct Route Outgoing DTG policy to access devices.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Direct Route DTG"/>
+      <xs:enumeration value="Trunk Group DTG"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="DirectRouteOutgoingTrunkIdentityPolicy">
+    <xs:annotation>
+      <xs:documentation>
+        Direct Route Outgoing Trunk Identity policy to access device.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Direct Route Trunk Identity"/>
+      <xs:enumeration value="Trunk Group Trunk Identity"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- I N T E G R A T E D   I M P   S E R V I C E                                          -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- I N T E G R A T E D   I M P   R E Q U E S T S   A N D   R E S P O N S E S            -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupIntegratedIMPGetRequest21sp1
+    GroupIntegratedIMPModifyRequest
+    ResellerIntegratedIMPGetRequest22
+    ResellerIntegratedIMPModifyRequest
+    ServiceProviderIntegratedIMPGetRequest22
+    ServiceProviderIntegratedIMPModifyRequest
+    SystemIntegratedIMPGetRequest21
+    SystemIntegratedIMPModifyRequest
+    UserIntegratedIMPGeneratePasswordRequest
+    UserIntegratedIMPGetRequest21sp1
+    UserIntegratedIMPModifyRequest
+-->
+
+  <xs:complexType name="GroupIntegratedIMPGetRequest21sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Get the Integrated IMP service attributes for the group.
+        The response is either GroupIntegratedIMPGetResponse21sp1 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupIntegratedIMPGetResponse21sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupIntegratedIMPGetRequest21sp1.
+        The response contains the group Integrated IMP service attributes.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useServiceProviderSetting" type="xs:boolean"/>
+          <xs:element name="serviceDomain" type="DomainName" minOccurs="0"/>
+          <xs:element name="effectiveServiceDomain" type="DomainName" minOccurs="0"/>
+          <xs:element name="addServiceProviderInIMPUserId" type="xs:boolean"/>
+          <xs:element name="defaultImpIdType" type="IntegratedIMPUserIDType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupIntegratedIMPModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the Integrated IMP service attributes for the group.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="useServiceProviderSetting" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="serviceDomain" type="DomainName" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerIntegratedIMPGetRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Get the Integrated IMP service attributes for the reseller.
+        The response is either ResellerIntegratedIMPGetResponse22 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerIntegratedIMPGetResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ResellerIntegratedIMPGetRequest22.
+        The response contains the reseller Integrated IMP service attributes.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useSystemServiceDomain" type="xs:boolean"/>
+          <xs:element name="serviceDomain" type="DomainName" minOccurs="0"/>
+          <xs:element name="servicePort" type="Port" minOccurs="0"/>
+          <xs:element name="useSystemMessagingServer" type="xs:boolean"/>
+          <xs:element name="provisioningUrl" type="URL" minOccurs="0"/>
+          <xs:element name="provisioningUserId" type="ProvisioningBroadCloudAuthenticationUserName" minOccurs="0"/>
+          <xs:element name="boshURL" type="URL" minOccurs="0"/>
+          <xs:element name="defaultImpIdType" type="IntegratedIMPUserIDType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerIntegratedIMPModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the Integrated IMP service attributes for the reseller.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="useSystemServiceDomain" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="serviceDomain" type="DomainName" minOccurs="0" nillable="true"/>
+          <xs:element name="servicePort" type="Port" minOccurs="0" nillable="true"/>
+          <xs:element name="useSystemMessagingServer" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="provisioningUrl" type="URL" minOccurs="0" nillable="true"/>
+          <xs:element name="provisioningUserId" type="ProvisioningBroadCloudAuthenticationUserName" minOccurs="0" nillable="true"/>
+          <xs:element name="provisioningPassword" type="ProvisioningBroadCloudAuthenticationPassword" minOccurs="0" nillable="true"/>
+          <xs:element name="boshURL" type="URL" minOccurs="0" nillable="true"/>
+          <xs:element name="defaultImpIdType" type="IntegratedIMPUserIDType" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderIntegratedIMPGetRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Get the Integrated IMP service attributes for the service provider.
+        The response is either ServiceProviderIntegratedIMPGetResponse22 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderIntegratedIMPGetResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ServiceProviderIntegratedIMPGetRequest22.
+        The response contains the service provider Integrated IMP service attributes.
+        If the service provider is within a reseller, useSystemServiceDomain means using reseller level service
+        domain setting. And useSystemMessagingServer means using the reseller level messaging server setting.
+        The element useResellerIMPIdSetting means using the reseller level IMP User ID setting.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useSystemServiceDomain" type="xs:boolean"/>
+          <xs:element name="serviceDomain" type="DomainName" minOccurs="0"/>
+          <xs:element name="servicePort" type="Port" minOccurs="0"/>
+          <xs:element name="useSystemMessagingServer" type="xs:boolean"/>
+          <xs:element name="provisioningUrl" type="URL" minOccurs="0"/>
+          <xs:element name="provisioningUserId" type="ProvisioningBroadCloudAuthenticationUserName" minOccurs="0"/>
+          <xs:element name="boshURL" type="URL" minOccurs="0"/>
+          <xs:choice>
+            <xs:element name="defaultImpIdType" type="IntegratedIMPUserIDType"/>
+            <xs:element name="useResellerIMPIdSetting" type="xs:boolean"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceProviderIntegratedIMPModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the Integrated IMP service attributes for the service provider.
+        The response is either a SuccessResponse or an ErrorResponse.
+        If the service provider is within a reseller, useSystemServiceDomain means using reseller level service
+        domain setting. And useSystemMessagingServer means using the reseller level messaging server setting.
+
+        The following elements are only used in AS data mode:
+          servicePort
+          useSystemMessagingServer
+          provisioningUrl
+          provisioningUserId
+          provisioningPassword
+          boshURL
+          defaultImpIdType
+          useResellerIMPIdSetting
+
+        The element useResellerIMPIdSetting is only applicable for a service provider within a reseller.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="useSystemServiceDomain" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="serviceDomain" type="DomainName" minOccurs="0" nillable="true"/>
+          <xs:element name="servicePort" type="Port" minOccurs="0" nillable="true"/>
+          <xs:element name="useSystemMessagingServer" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="provisioningUrl" type="URL" minOccurs="0" nillable="true"/>
+          <xs:element name="provisioningUserId" type="ProvisioningBroadCloudAuthenticationUserName" minOccurs="0" nillable="true"/>
+          <xs:element name="provisioningPassword" type="ProvisioningBroadCloudAuthenticationPassword" minOccurs="0" nillable="true"/>
+          <xs:element name="boshURL" type="URL" minOccurs="0" nillable="true"/>
+          <xs:choice minOccurs="0">
+            <xs:element name="defaultImpIdType" type="IntegratedIMPUserIDType"/>
+            <xs:element name="useResellerIMPIdSetting" type="xs:boolean" fixed="true"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemIntegratedIMPGetRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Get the system Integrated IMP service attributes.
+        The response is either SystemIntegratedIMPGetResponse19 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemIntegratedIMPGetResponse21">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemIntegratedIMPGetRequest21.
+        The response contains the system Integrated IMP service attributes.
+
+        The following elements are only used in AS data mode:
+          boshURL
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="serviceDomain" type="DomainName" minOccurs="0"/>
+          <xs:element name="servicePort" type="Port" minOccurs="0"/>
+          <xs:element name="addServiceProviderInIMPUserId" type="xs:boolean"/>
+          <xs:element name="boshURL" type="URL" minOccurs="0"/>
+          <xs:element name="allowImpPasswordRetrieval" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemIntegratedIMPModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the system Integrated IMP service attributes.
+        The response is either a SuccessResponse or an ErrorResponse.
+
+        The following elements are only used in AS data mode:
+          boshURL
+          allowImpPasswordRetrieval
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceDomain" type="DomainName" minOccurs="0" nillable="true"/>
+          <xs:element name="servicePort" type="Port" minOccurs="0" nillable="true"/>
+          <xs:element name="addServiceProviderInIMPUserId" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="boshURL" type="URL" minOccurs="0" nillable="true"/>
+          <xs:element name="allowImpPasswordRetrieval" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserIntegratedIMPGeneratePasswordRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Generate a new IMP password for the user. The new generated password is synchronized to BroadCloud/service Messaging Server.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserIntegratedIMPGetRequest21sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Get the Integrated IMP specific service attribute for the user.
+        The response is either UserIMPGetResponse21sp1 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserIntegratedIMPGetResponse21sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserIntegratedIMPGetRequest21sp1.
+        The response contains the Integrated IMP specific service attributes for the user.
+        The following elements are only used in AS data mode and not returned in XS data mode:
+          impId
+          isAlternateImpId
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="impId" type="IMPUserId" minOccurs="0"/>
+          <xs:element name="isAlternateImpId" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserIntegratedIMPModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modifies the Integrated IMP specific service attribute for the user.
+        The response is either a SuccessResponse or an ErrorResponse.
+        If the impId element is set in the request, the impId element does
+        not take effect on the service for the user unless the request also
+        has the isActive element set to true to turn the service from off
+        to on.
+        If impId is based on an alternate user ID and the impId and userId
+        are identical, isAlternateImpId should be set to true to determine
+        that impId is the user's alternate ID.
+        The following elements are only used in AS data mode and ignored in
+        XS data mode:
+          impId
+          isAlternateImpId
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="impId" type="IMPUserId" minOccurs="0"/>
+          <xs:element name="isAlternateImpId" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,199 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Group Properties API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8000/command/"
+    }
+  ],
+  "paths": {
+    "/bug/UserGroupCommonPhoneListGetPagedSortedListRequest": {
+      "post": {
+        "tags": [
+          "bug"
+        ],
+        "summary": "UserGroupCommonPhoneListGetPagedSortedListRequest",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserGroupCommonPhoneListGetPagedSortedListRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "UserGroupCommonPhoneListGetPagedSortedListRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "required": true,
+            "type": "string",
+            "minLength": "1",
+            "maxLength": "161"
+          },
+          "responsePagingControl": {
+            "type": "object",
+            "required": true,
+            "properties": {
+              "responseStartIndex": {
+                "required": true,
+                "type": "integer",
+                "minimum": "1"
+              },
+              "responsePageSize": {
+                "required": true,
+                "type": "integer",
+                "minimum": "1",
+                "maximum": "2000"
+              }
+            }
+          },
+          "searchCriteriaModeOr": {
+            "required": false,
+            "type": "boolean"
+          },
+          "searchCriteriaGroupCommonPhoneListName": {
+            "type": "array",
+            "required": false,
+            "items": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "required": true,
+                  "type": "string",
+                  "enum": [
+                    "Starts With",
+                    "Contains",
+                    "Equal To"
+                  ]
+                },
+                "value": {
+                  "required": true,
+                  "type": "string",
+                  "minLength": "1",
+                  "maxLength": "50"
+                },
+                "isCaseInsensitive": {
+                  "required": true,
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "searchCriteriaGroupCommonPhoneListNumber": {
+            "type": "array",
+            "required": false,
+            "items": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "required": true,
+                  "type": "string",
+                  "enum": [
+                    "Starts With",
+                    "Contains",
+                    "Equal To"
+                  ]
+                },
+                "value": {
+                  "required": true,
+                  "type": "string",
+                  "minLength": "1",
+                  "maxLength": "30"
+                },
+                "isCaseInsensitive": {
+                  "required": true,
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "searchCriteriaGroupCommonMultiPartPhoneListName": {
+            "type": "array",
+            "required": false,
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "required": true,
+                  "type": "string",
+                  "minLength": "1",
+                  "maxLength": "50"
+                },
+                "isCaseInsensitive": {
+                  "required": true,
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "sortByGroupCommonPhoneListNumber": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "isAscending": {
+                    "required": true,
+                    "type": "boolean"
+                  },
+                  "isCaseSensitive": {
+                    "required": true,
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "sortByGroupCommonPhoneListName": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "isAscending": {
+                    "required": true,
+                    "type": "boolean"
+                  },
+                  "isCaseSensitive": {
+                    "required": true,
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

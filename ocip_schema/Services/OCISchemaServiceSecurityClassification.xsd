@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- S E C U R I T Y   C L A S S I F I C A T I O N                                        -->
+<!-- S E R V I C E                                                                        -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- S E C U R I T Y   C L A S S I F I C A T I O N                                        -->
+  <!-- R E Q U E S T S   A N D   R E S P O N S E S                                          -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupTrunkGroupSecurityClassificationGetRequest
+    GroupTrunkGroupSecurityClassificationModifyRequest
+    SystemSecurityClassificationAddClassificationRequest
+    SystemSecurityClassificationDeleteClassificationRequest
+    SystemSecurityClassificationGetClassificationRequest
+    SystemSecurityClassificationGetClassificationTrunkGroupUsageListRequest
+    SystemSecurityClassificationGetClassificationUserUsageListRequest
+    SystemSecurityClassificationGetRequest21
+    SystemSecurityClassificationModifyClassificationRequest
+    SystemSecurityClassificationModifyRequest
+    UserSecurityClassificationGetRequest22
+    UserSecurityClassificationModifyRequest
+-->
+
+  <xs:complexType name="GroupTrunkGroupSecurityClassificationGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a trunk group's Security Classifications configuration.
+        The response is either GroupTrunkGroupSecurityClassificationGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="trunkGroupKey" type="TrunkGroupKey"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupTrunkGroupSecurityClassificationGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupTrunkGroupSecurityClassificationGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="defaultSecurityClassification" type="SecurityClassificationName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupTrunkGroupSecurityClassificationModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a trunk group's Security Classification configuration
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="trunkGroupKey" type="TrunkGroupKey"/>
+          <xs:element name="defaultSecurityClassification" type="SecurityClassificationName" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationAddClassificationRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a new Security Classification
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="securityClassificationName" type="SecurityClassificationName"/>
+          <xs:element name="audioFile" type="LabeledMediaFileResource"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationDeleteClassificationRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a System Security Classification
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="securityClassificationName" type="SecurityClassificationName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationGetClassificationRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a system Security Classification.
+        The response is either SystemSecurityClassificationGetClassificationResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="securityClassificationName" type="SecurityClassificationName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationGetClassificationResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemSecurityClassificationGetClassificationRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="audioAnnouncementFileDescription" type="FileDescription"/>
+          <xs:element name="audioAnnouncementFileType" type="MediaFileType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationGetClassificationTrunkGroupUsageListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of users that currently have the specified Security Classification assigned.
+        The response is either SystemSecurityClassificationGetClassificationTrunkGroupUsageListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="securityClassification" type="SecurityClassificationName"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaTrunkGroupName" type="SearchCriteriaTrunkGroupName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaGroupId" type="SearchCriteriaGroupId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaServiceProviderId" type="SearchCriteriaServiceProviderId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactOrganizationType" type="SearchCriteriaExactOrganizationType" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationGetClassificationTrunkGroupUsageListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemSecurityClassificationGetClassificationTrunkGroupUsageListRequest.
+        Contains a table with column headings:
+        "Trunk Group Name","Group ID","Organization ID" and "Organization Type"
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="usageTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationGetClassificationUserUsageListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of users that currently have the specified Security Classification assigned.
+        The response is either SystemSecurityClassificationGetClassificationUserUsageListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="securityClassification" type="SecurityClassificationName"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationGetClassificationUserUsageListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemSecurityClassificationGetClassificationUserUsageListRequest.
+        Contains a table with column headings:
+        "User ID", "Last Name", "First Name", "Phone Number", "Extension", "Service Provider Id", "Group Id".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="usageTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationGetRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Get system Security Classifications parameters.
+        The response is either SystemSecurityClassificationGetResponse21 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationGetResponse21">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemSecurityClassificationGetRequest21.
+        Contains a table with column headings:
+        "Name", "Priority".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="meetMeAnncThreshold" type="SecurityClassificationMeetMeConferenceAnnouncementThresholdSeconds"/>
+          <xs:element name="playTrunkUserSecurityClassificationAnnouncement" type="xs:boolean"/>
+          <xs:element name="SecurityClassificationTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationModifyClassificationRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a Security Classification
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="securityClassificationName" type="SecurityClassificationName"/>
+          <xs:element name="newSecurityClassificationName" type="SecurityClassificationName" minOccurs="0"/>
+          <xs:element name="audioFile" type="LabeledMediaFileResource" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemSecurityClassificationModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify security classification parameters.
+        The response is either a SuccessResponse or an ErrorResponse.
+        NOTE: The security classifications must be specified in order of priority. The command fails if all the security classifications defined for the system are not provided.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="meetMeAnncThreshold" type="SecurityClassificationMeetMeConferenceAnnouncementThresholdSeconds" minOccurs="0"/>
+          <xs:element name="playTrunkUserSecurityClassificationAnnouncement" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="securityClassificationName" type="SecurityClassificationName" minOccurs="0" maxOccurs="20"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserSecurityClassificationGetRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Get a user's Security Classifications configuration.
+        The response is either UserSecurityClassificationGetResponse22 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserSecurityClassificationGetResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserSecurityClassificationGetRequest22.
+        The following elements are only used in Amplify data mode and not returned in AS and XS data mode:
+          customizedSecurityClassification
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="securityClassification" type="SecurityClassificationName" minOccurs="0"/>
+          <xs:element name="customizedSecurityClassification" type="SecurityClassificationName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserSecurityClassificationModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a user's Security Classification configuration
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="securityClassification" type="SecurityClassificationName" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

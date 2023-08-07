@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- F A X   M E S S A G I N G   S E R V I C E                                            -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- F A X   M E S S A G I N G   R E Q U E S T S   A N D   R E S P O N S E S              -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    SystemFaxMessagingGetRequest
+    SystemFaxMessagingModifyRequest
+    UserFaxMessagingGetRequest17sp1
+    UserFaxMessagingModifyRequest
+-->
+
+  <xs:complexType name="SystemFaxMessagingGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the system level data associated with Fax Messaging.
+        The response is either a SystemFaxMessagingGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemFaxMessagingGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemFAXMessagingGetRequest.
+
+        The following elements are only used in AS data mode:
+           statusDurationHours
+           statusAuditIntervalHours
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="statusDurationHours" type="FaxMessagingStatusDurationHours"/>
+          <xs:element name="statusAuditIntervalHours" type="FaxMessagingStatusAuditIntervalHours"/>
+          <xs:element name="maximumConcurrentFaxesPerUser" type="FaxMessagingMaximumConcurrentFaxesPerUser"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemFaxMessagingModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the system level data associated with Fax Messaging.
+        The following elements are only used in AS data mode and ignored in XS data mode:
+          statusDurationHours
+          statusAuditIntervalHours
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="statusDurationHours" type="FaxMessagingStatusDurationHours" minOccurs="0"/>
+          <xs:element name="statusAuditIntervalHours" type="FaxMessagingStatusAuditIntervalHours" minOccurs="0"/>
+          <xs:element name="maximumConcurrentFaxesPerUser" type="FaxMessagingMaximumConcurrentFaxesPerUser" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserFaxMessagingGetRequest17sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Request the user level data associated with Fax Messaging.
+        The response is either a UserFaxMessagingGetResponse17sp1 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserFaxMessagingGetResponse17sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserFaxMessagingGetRequest17sp1.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="phoneNumber" type="DN" minOccurs="0"/>
+          <xs:element name="extension" type="Extension17" minOccurs="0"/>
+          <xs:element name="alias" type="SIPURI" minOccurs="0" maxOccurs="3"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserFaxMessagingModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user level data associated with Fax Messaging.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="phoneNumber" type="DN" nillable="true" minOccurs="0"/>
+          <xs:element name="extension" type="Extension17" nillable="true" minOccurs="0"/>
+          <xs:element name="sipAliasList" type="ReplacementSIPAliasList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Fax Messaging specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:simpleType name="FaxMessagingMaximumConcurrentFaxesPerUser">
+    <xs:annotation>
+      <xs:documentation>
+        FaxMessagingMaximumConcurrentFaxesPerUser - the maximum number of concurrent active fax requests allowed per user.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="10"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="FaxMessagingStatusAuditIntervalHours">
+    <xs:annotation>
+      <xs:documentation>
+        FaxMessagingStatusAuditIntervalHours - the time (in hours) between audits.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="24"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="FaxMessagingStatusDurationHours">
+    <xs:annotation>
+      <xs:documentation>
+        FaxMessagingStatusDurationHours - the amount of time (in hours) to keep the status of a fax after the fax request completes.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="24"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

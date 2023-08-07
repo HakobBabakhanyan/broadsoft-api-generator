@@ -1,0 +1,1094 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- C O L L A B O R A T E   S E R V I C E                                                -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSortCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- C O L L A B O R A T E   R E Q U E S T S   A N D   R E S P O N S E S                  -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupCollaborateBridgeAddInstanceRequest20sp1
+    GroupCollaborateBridgeConsolidatedAddInstanceRequest
+    GroupCollaborateBridgeConsolidatedDeleteInstanceRequest
+    GroupCollaborateBridgeConsolidatedModifyInstanceRequest
+    GroupCollaborateBridgeDeleteInstanceRequest
+    GroupCollaborateBridgeGetAvailableUserListRequest
+    GroupCollaborateBridgeGetAvailableUserPagedSortedListRequest
+    GroupCollaborateBridgeGetInstanceListRequest
+    GroupCollaborateBridgeGetInstancePagedSortedListRequest
+    GroupCollaborateBridgeGetInstanceRequest20sp1
+    GroupCollaborateBridgeModifyInstanceRequest20sp1
+    ResellerCollaborateGetRequest
+    ResellerCollaborateModifyRequest
+    SystemCollaborateGetRequest20sp1V2
+    SystemCollaborateModifyRequest20sp1V2
+    UserCollaborateBridgeGetRequest20sp1
+    UserCollaborateDeleteRoomRequest
+    UserCollaborateInstantRoomAddRequest
+    UserCollaborateInstantRoomGetRequest
+    UserCollaborateInstantRoomParametersGetRequest
+    UserCollaborateInstantRoomParametersModifyRequest
+    UserCollaborateMyRoomGetRequest
+    UserCollaborateMyRoomModifyRequest
+    UserCollaborateProjectRoomAddRequest
+    UserCollaborateProjectRoomGetRequest
+    UserCollaborateProjectRoomModifyRequest
+    UserCollaborateRoomGetRequest
+    UserCollaborateRoomIDRegenerateRequest
+    UserCollaborateRoomListGetRequest
+    UserCollaborateRoomModifyRequest
+-->
+
+  <xs:complexType name="GroupCollaborateBridgeAddInstanceRequest20sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Add a collaborate bridge to a group.
+        The domain is required in the serviceUserId.
+        The request fails when supportOutdial is enabled and the system-level collaborate supportOutdial setting is disabled.
+        The response is either SuccessResponse or ErrorResponse.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceAddProfile"/>
+          <xs:element name="maximumBridgeParticipants" type="CollaborateBridgeMaximumParticipants"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+          <xs:element name="maxCollaborateRoomParticipants" type="CollaborateRoomMaximumParticipants20sp1"/>
+          <xs:element name="supportOutdial" type="xs:boolean"/>
+          <xs:element name="collaborateOwnerUserId" type="UserId" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeConsolidatedAddInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a collaborate bridge to a group.
+        The domain is required in the serviceUserId.
+        The request fails when supportOutdial is enabled and the system-level collaborate supportOutdial setting is disabled.
+        If the phoneNumber has not been assigned to the group and addPhoneNumberToGroup is set to true,
+        it will be added to group if the command is executed by a service provider administrator or above
+        and the number is already assigned to the service provider. The command will fail otherwise.
+
+        The response is either SuccessResponse or ErrorResponse.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="addPhoneNumberToGroup" type="xs:boolean" minOccurs="0" fixed="true"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceAddProfile"/>
+          <xs:element name="maximumBridgeParticipants" type="CollaborateBridgeMaximumParticipants"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+          <xs:element name="maxCollaborateRoomParticipants" type="CollaborateRoomMaximumParticipants20sp1"/>
+          <xs:element name="supportOutdial" type="xs:boolean"/>
+          <xs:element name="collaborateOwnerUserId" type="UserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="service" type="ConsolidatedUserServiceAssignment" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeConsolidatedDeleteInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a collaborate bridge from a group.
+        The request fails when attempting to delete the default collaborate bridge.
+        If UnassignPhoneNumbersLevel is set to 'Group', the user's primary phone number, fax number and any alternate numbers, will be un-assigned from the group if the command is executed by a service provider administrator or above.
+        When set to 'Service Provider', they will be un-assigned from the group and service provider if the command is executed by a provisioning administrator or above.
+        When omitted, the number(s) will be left assigned to the group.
+        An ErrorResponse will be returned if any number cannot be unassigned because of insufficient privilege.
+
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="unassignPhoneNumbers" type="UnassignPhoneNumbersLevel" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeConsolidatedModifyInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify a Collaborate bridge.
+        The request fails when the collaborateOwnerUserIdList is included in the request for the default collaborate bridge.
+        The request fails when the supportOutdial is included in the request and the system-level collaborate supportOutdial setting is disabled.
+        When phone numbers are un-assigned from the user, the unused numbers may be un-assigned from the group and service provider. If UnassignPhoneNumbersLevel is set to 'Group', the user's primary phone number, fax number and any alternate numbers, will be un-assigned from the group if the command is executed by a service provider administrator or above.
+        When set to 'Service Provider', they will be un-assigned from the group and service provider if the command is executed by a provisioning administrator or above.
+        When omitted, the number(s) will be left assigned to the group.
+        An ErrorResponse will be returned if any number cannot be unassigned because of insufficient privilege.
+
+        If the phoneNumber has not been assigned to the group and addPhoneNumberToGroup is set to true, it will be added to group if needed if the command is executed by a service provider administrator and above. The command will fail otherwise.
+
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="unassignPhoneNumbers" type="UnassignPhoneNumbersLevel" minOccurs="0"/>
+          <xs:element name="addPhoneNumberToGroup" type="xs:boolean" minOccurs="0" fixed="true"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceModifyProfile" minOccurs="0"/>
+          <xs:element name="maximumBridgeParticipants" type="CollaborateBridgeMaximumParticipants" minOccurs="0"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+          <xs:element name="maxCollaborateRoomParticipants" type="CollaborateRoomMaximumParticipants20sp1" minOccurs="0"/>
+          <xs:element name="supportOutdial" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="collaborateOwnerUserIdList" type="ReplacementUserIdList" nillable="true" minOccurs="0"/>
+          <xs:element name="serviceList" type="ReplacementConsolidatedUserServiceAssignmentList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeDeleteInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a collaborate bridge from a group.
+        The request fails when attempting to delete the default collaborate bridge.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeGetAvailableUserListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of users with the Collaborate – Audio service assigned that can be assigned to a collaborate bridge.  For an Enterprise Group this will include all users in the group’s enterprise.
+        The SearchCriteriaExactUserGroup parameter is only applicable for enterprise groups.
+        The response is either GroupCollaborateBridgeGetAvailableUserListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactUserDepartment" type="SearchCriteriaExactUserDepartment" minOccurs="0"/>
+          <xs:element name="searchCriteriaExactUserGroup" type="SearchCriteriaExactUserGroup" minOccurs="0"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeGetAvailableUserListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCollaborateBridgeGetAvailableUserListRequest.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name", and "Hiragana First Name",
+        "Phone Number", "Extension", "Department", "Department Type", "Parent Department", "Parent Department Type", "Email Address".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="userTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeGetAvailableUserPagedSortedListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of users with the Collaborate – Audio service assigned that can be assigned to a collaborate bridge.  For an Enterprise Group this will include all users in the group’s enterprise.
+        The searchCriteriaGroupId parameter is only applicable for enterprise groups.
+        If no sortOrder is included the response is sorted by Last Name ascending by default.
+
+        A limitation to the search by DN activation exists when the Number Activation mode is set to
+        Off. In this case DNs not assigned to users are never returned by queries with the
+        "dnActivationSearchCriteria" included.
+        Multiple search criteria are logically ANDed together unless the searchCriteriaModeOr option is included.
+        Then the search criteria are logically ORed together.
+
+        The response is either GroupCollaborateBridgeGetAvailableUserPagedSortedListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="responsePagingControl" type="ResponsePagingControl" minOccurs="0"/>
+          <xs:element name="sortOrder" type="SortOrderGroupCollaborateBridgeGetAvailableUserPagedSortedList" minOccurs="0" maxOccurs="3"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDepartmentName" type="SearchCriteriaDepartmentName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaGroupId" type="SearchCriteriaGroupId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactDnActivation" type="SearchCriteriaExactDnActivation" minOccurs="0"/>
+          <xs:element name="searchCriteriaModeOr" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeGetAvailableUserPagedSortedListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCollaborateBridgeGetAvailableUserPagedSortedListRequest.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name",
+        "Phone Number", "Is Phone Number Activated", "Country Code","National Prefix", "Extension", "Department", "Department Type",
+        "Parent Department", "Parent Department Type", "Email Address", "IMP Id", "Mobile Number", "Group Id", "Group Name".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="userTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeGetInstanceListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of collaborate bridges within a group.
+        The response is either GroupCollaborateBridgeGetInstanceListResponse or ErrorResponse.
+        It is possible to get the instances within a specified department.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="departmentName" type="DepartmentName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeGetInstanceListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCollaborateBridgeGetInstanceListRequest.
+        Contains a table with column headings: "Service User Id", "Name", "Phone Number", "Extension", "Department", "Participants", and "Is Default".
+        The column values for "Is default" can either be true, or false.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="collaborateBridgeTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeGetInstancePagedSortedListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of collaborate bridges within a group.
+        The response is either GroupCollaborateBridgeGetInstancePagedSortedListResponse or ErrorResponse.
+
+        If the responsePagingControl element is not provided,
+        the paging startIndex will be set to 1 by default,
+        and the responsePageSize will be set to the maximum responsePageSize by
+        default.
+
+        If no sortOrder is included the response is sorted by Name ascending by default. .
+
+        Multiple search criteria are logically ANDed together unless the searchCriteriaModeOr option is included.
+        Then the search criteria are logically ORed together.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="responsePagingControl" type="ResponsePagingControl" minOccurs="0"/>
+          <xs:element name="sortOrder" type="SortOrderGroupCollaborateBridgeGetInstancePagedSortedList" minOccurs="0" maxOccurs="3"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDepartmentName" type="SearchCriteriaDepartmentName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactDnActivation" type="SearchCriteriaExactDnActivation" minOccurs="0"/>
+          <xs:element name="searchCriteriaModeOr" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeGetInstancePagedSortedListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCollaborateBridgeGetInstancePagedSortedListRequest.
+        Contains a table with column headings: "Service User Id", "Name", "Phone Number", "Is Phone Number Activated",
+        "Country Code","National Prefix", "Extension", "Department", "Department Type",
+        "Parent Department", "Parent Department Type", "Participants", "Is Default", "Max Room Participants",
+        "Is Support Outdial".
+        The column values for "Is default", "Is Support Outdial" can either be true, or false.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="collaborateBridgeTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeGetInstanceRequest20sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get all the information of a collaborate bridge.
+        The response is either GroupCollaborateBridgeGetInstanceResponse20sp1 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeGetInstanceResponse20sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupCollaborateBridgeGetInstanceRequest20sp1.
+        The system-level collaborate supportOutdial setting is returned in the response when the system-level collaborate
+        supportOutdial setting is disabled.
+        Contains the service profile information and a table of assigned owners.
+        The table has column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name",
+        "Hiragana First Name", Phone Number", "Extension", "Department", "Email Address",
+        "Is Phone Number Activated", "Country Code", "National Prefix", "Department Name",
+        "Department Type", "Parent Department", "Parent Department Type", "Group Id", "Group Name".
+        Collaborate bridge maximum participant’s choices unlimited or a quantified number of participants.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceReadProfile19sp1"/>
+          <xs:element name="maximumBridgeParticipants" type="CollaborateBridgeMaximumParticipants"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+          <xs:element name="isDefault" type="xs:boolean"/>
+          <xs:element name="maxCollaborateRoomParticipants" type="CollaborateRoomMaximumParticipants20sp1"/>
+          <xs:element name="supportOutdial" type="xs:boolean"/>
+          <xs:element name="collaborateOwnerUserTable" type="core:OCITable" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCollaborateBridgeModifyInstanceRequest20sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify a Collaborate bridge.
+        The request fails when the collaborateOwnerUserIdList is included in the request for the default collaborate bridge.
+        The request fails when the supportOutdial is included in the request and the system-level collaborate supportOutdial setting is disabled.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceModifyProfile" minOccurs="0"/>
+          <xs:element name="maximumBridgeParticipants" type="CollaborateBridgeMaximumParticipants" minOccurs="0"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+          <xs:element name="maxCollaborateRoomParticipants" type="CollaborateRoomMaximumParticipants20sp1" minOccurs="0"/>
+          <xs:element name="supportOutdial" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="collaborateOwnerUserIdList" type="ReplacementUserIdList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerCollaborateGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the reseller level data associated with Collaborate.
+        The response is either a ResellerCollaborateGetResponse or an
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerCollaborateGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerCollaborateGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="collaborateFromAddress" type="EmailAddress" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerCollaborateModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the reseller level data associated with Collaborate.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="collaborateFromAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemCollaborateGetRequest20sp1V2">
+    <xs:annotation>
+      <xs:documentation>
+        Request the system level data associated with collaborate services.
+        The response is either a SystemCollaborateGetResponse20sp1V2 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemCollaborateGetResponse20sp1V2">
+    <xs:annotation>
+      <xs:documentation>
+        Response to SystemCollaborateGetRequest20sp1V2.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="collaborateRoomIdLength" type="CollaboratePassCodeLength"/>
+          <xs:element name="instantRoomIdleTimeoutSeconds" type="CollaborateInstantRoomIdleTimeoutSeconds20sp1"/>
+          <xs:element name="collaborateRoomMaximumDurationMinutes" type="CollaborateRoomMaximumDurationMinutes"/>
+          <xs:element name="supportOutdial" type="xs:boolean"/>
+          <xs:element name="maxCollaborateRoomParticipants" type="CollaborateRoomMaximumParticipants20sp1"/>
+          <xs:element name="collaborateActiveTalkerRefreshIntervalSeconds" type="CollaborateActiveTalkerRefreshIntervalSeconds"/>
+          <xs:element name="terminateCollaborateAfterGracePeriod" type="xs:boolean"/>
+          <xs:element name="collaborateGracePeriod" type="CollaborateGracePeriodDuration"/>
+          <xs:element name="enableActiveCollaborateNotification" type="xs:boolean"/>
+          <xs:element name="collaborateFromAddress" type="EmailAddress" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemCollaborateModifyRequest20sp1V2">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the system level data associated with collaborate services.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="collaborateRoomIdLength" type="CollaboratePassCodeLength" minOccurs="0"/>
+          <xs:element name="instantRoomIdleTimeoutSeconds" type="CollaborateInstantRoomIdleTimeoutSeconds20sp1" minOccurs="0"/>
+          <xs:element name="collaborateRoomMaximumDurationMinutes" type="CollaborateRoomMaximumDurationMinutes" minOccurs="0"/>
+          <xs:element name="supportOutdial" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="maxCollaborateRoomParticipants" type="CollaborateRoomMaximumParticipants20sp1" minOccurs="0"/>
+          <xs:element name="collaborateActiveTalkerRefreshIntervalSeconds" type="CollaborateActiveTalkerRefreshIntervalSeconds" minOccurs="0"/>
+          <xs:element name="terminateCollaborateAfterGracePeriod" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="collaborateGracePeriod" type="CollaborateGracePeriodDuration" minOccurs="0"/>
+          <xs:element name="enableActiveCollaborateNotification" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="collaborateFromAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateBridgeGetRequest20sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Request the collaborate bridged assigned to the user. The user can only be assigned to one collaborate bridge at any given time.
+        The response is either UserCollaborateBridgeGetResponse20sp1 or
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateBridgeGetResponse20sp1">
+    <xs:annotation>
+      <xs:documentation>
+        The system-level collaborate supportOutdial setting is returned in the response when the system-level collaborate supportOutdial setting is disabled.
+        Response to UserCollaborateBridgeGetRequest20sp1.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="bridgeId" type="UserId"/>
+          <xs:element name="bridgeName" type="CollaborateBridgeName"/>
+          <xs:element name="phoneNumber" type="DN" minOccurs="0"/>
+          <xs:element name="extension" type="Extension17" minOccurs="0"/>
+          <xs:element name="alternateNumberEntry" type="AlternateNumberEntry21" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="supportOutDial" type="xs:boolean"/>
+          <xs:element name="maxCollaborateRoomParticipants" type="CollaborateRoomMaximumParticipants20sp1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateDeleteRoomRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to delete a collaborate room.  The request only applies to project rooms and instant rooms.
+        The request fails when deleting a collaborate My Room.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateInstantRoomAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to add collaborate instant room.
+        The response is either a UserCollaborateInstantRoomAddResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:choice>
+            <xs:element name="roomName" type="CollaborateRoomName"/>
+            <xs:element name="useRoomIdAsRoomName" type="xs:boolean" fixed="true"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateInstantRoomAddResponse">
+    <xs:annotation>
+      <xs:documentation>
+	    Response to UserCollaborateInstantRoomAddRequest.
+	 </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateInstantRoomGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the collaborate room settings for an instant room.
+        The request fails when requesting collaborate room settings for My Room or project rooms.
+        The response is either UserCollaboratInstantRoomGetResponse or
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateInstantRoomGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+         Response to UserCollaborateInstantRoomGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="roomName" type="CollaborateRoomName" minOccurs="0"/>
+          <xs:element name="instantRoomStartTime" type="xs:dateTime"/>
+          <xs:element name="instantRoomEndTime" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateInstantRoomParametersGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request collaborate instant room settings.
+        The response is either UserCollaborateInstantRoomParametersGetResponse or
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateInstantRoomParametersGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+         Response to UserCollaborateInstantRoomParametersGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="attendeeNotification" type="CollaborateRoomAttendeeNotification"/>
+          <xs:element name="endCollaborateRoomSessionOnOwnerExit" type="xs:boolean"/>
+          <xs:element name="ownerRequired" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateInstantRoomParametersModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify collaborate instant room settings.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="attendeeNotification" type="CollaborateRoomAttendeeNotification" minOccurs="0"/>
+          <xs:element name="endCollaborateRoomSessionOnOwnerExit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="ownerRequired" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateMyRoomGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request collaborate room settings for MyRoom.
+        The response is either UserCollaboratMyRoomGetResponse or
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateMyRoomGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+ 	     Response to UserCollaborateMyRoomGetRequest.
+ 	  </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+          <xs:element name="roomName" type="CollaborateRoomName"/>
+          <xs:element name="attendeeNotification" type="CollaborateRoomAttendeeNotification"/>
+          <xs:element name="endCollaborateRoomSessionOnOwnerExit" type="xs:boolean"/>
+          <xs:element name="ownerRequired" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateMyRoomModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify collaborate room settings for MyRoom.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="roomName" type="CollaborateRoomName" minOccurs="0"/>
+          <xs:element name="attendeeNotification" type="CollaborateRoomAttendeeNotification" minOccurs="0"/>
+          <xs:element name="endCollaborateRoomSessionOnOwnerExit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="ownerRequired" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateProjectRoomAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to add collaborate project room.
+        The response is either a UserCollaborateProjectRoomAddResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="roomName" type="CollaborateRoomName"/>
+          <xs:element name="attendeeNotification" type="CollaborateRoomAttendeeNotification"/>
+          <xs:element name="endCollaborateRoomSessionOnOwnerExit" type="xs:boolean"/>
+          <xs:element name="ownerRequired" type="xs:boolean"/>
+          <xs:element name="roomSchedule" type="CollaborateRoomSchedule"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateProjectRoomAddResponse">
+    <xs:annotation>
+      <xs:documentation>
+         Response to UserCollaborateProjectRoomAddRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateProjectRoomGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request collaborate room settings for a project room.
+        The request fails when requesting collaborate room settings for instant rooms or My Room.
+        The response is either UserCollaboratProjectRoomGetResponse or
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateProjectRoomGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+ 	       Response to UserCollaborateProjectRoomGetRequest.
+ 	    </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="roomName" type="CollaborateRoomName"/>
+          <xs:element name="attendeeNotification" type="CollaborateRoomAttendeeNotification"/>
+          <xs:element name="endCollaborateRoomSessionOnOwnerExit" type="xs:boolean"/>
+          <xs:element name="ownerRequired" type="xs:boolean"/>
+          <xs:element name="roomSchedule" type="CollaborateRoomSchedule"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateProjectRoomModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify collaborate room settings for a project room.
+        The request fails when modifying collaborate room settings for instant rooms or My Room.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+          <xs:element name="roomName" type="CollaborateRoomName" minOccurs="0"/>
+          <xs:element name="attendeeNotification" type="CollaborateRoomAttendeeNotification" minOccurs="0"/>
+          <xs:element name="endCollaborateRoomSessionOnOwnerExit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="ownerRequired" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="roomSchedule" type="CollaborateRoomSchedule" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateRoomGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the settings for My Room, Instant Room or Project Room.
+      The roomType and roomName parameters are returned for all rooms.
+      For My room and Project Room, the following parameters are returned:
+      attendeeNotification, endRoomSessionOnOwnerExit and ownerRequired.
+      In addition, the roomSchedule is returned for Project Room and
+      the roomStartTime and roomEndTime are returned for Instant Room.
+        The response is either UserCollaboratetRoomGetResponse or
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateRoomGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+         Response to UserCollaborateRoomGetRequest.
+          The roomType and roomName parameters are returned for all rooms.
+          The following parameters are returned for My room and Project Room:
+          attendeeNotification, endCollaborateRoomSessionOnOwnerExit and
+          ownerRequired. In addition, the roomSchedule is returned for
+          Project Room and the instantRoomStartTime and instantRoomEndTime
+          are returned for Instant Room.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="roomType" type="CollaborateRoomType"/>
+          <xs:element name="roomName" type="CollaborateRoomName"/>
+          <xs:element name="attendeeNotification" type="CollaborateRoomAttendeeNotification" minOccurs="0"/>
+          <xs:element name="endCollaborateRoomSessionOnOwnerExit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="ownerRequired" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="instantRoomStartTime" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="instantRoomEndTime" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="roomSchedule" type="CollaborateRoomSchedule" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateRoomIDRegenerateRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to regenerate collaborate room id for MyRoom and project room.
+        The request fails when requesting to regenerate room ID for an instant room.
+        The response is either a UserCollaborateRoomIDRegenerateResponse or an
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateRoomIDRegenerateResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserCollaborateRoomIDRegenerateRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateRoomListGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the list of collaborate room instances for this specific user.
+        The response is either a UserCollaborateRoomListGetResponse or an
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateRoomListGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserCollaborateRoomListGetRequest.
+        Contains a table with column headings :  "Room Type", "Name", "Room Id",
+        in a row for each collaborate room instance.
+        Possible values for Room Type column are MyRoom, Project Room and
+        Instant Room.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="roomInstanceTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCollaborateRoomModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify room settings for a specific Project Room or My Room.
+        Request to modify room settings for a specific Instant Room is responded
+        with an ErrorResponse. The roomSchedule parameter is applicable for
+        Project Room only. If the roomSchedule parameter is specified in the
+        request to modify My Room, the request will be failed.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="roomId" type="CollaborateRoomId"/>
+          <xs:element name="roomName" type="CollaborateRoomName" minOccurs="0"/>
+          <xs:element name="attendeeNotification" type="CollaborateRoomAttendeeNotification" minOccurs="0"/>
+          <xs:element name="endCollaborateRoomSessionOnOwnerExit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="ownerRequired" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="roomSchedule" type="CollaborateRoomSchedule" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Collaborate specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="SortOrderGroupCollaborateBridgeGetAvailableUserPagedSortedList">
+    <xs:annotation>
+      <xs:documentation>
+        Used to sort the GroupCollaborateBridgeGetAvailableUserPagedSortedListRequest request.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="sortByUserId" type="SortByUserId"/>
+      <xs:element name="sortByUserLastName" type="SortByUserLastName"/>
+      <xs:element name="sortByUserFirstName" type="SortByUserFirstName"/>
+      <xs:element name="sortByDn" type="SortByDn"/>
+      <xs:element name="sortByExtension" type="SortByExtension"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="SortOrderGroupCollaborateBridgeGetInstancePagedSortedList">
+    <xs:annotation>
+      <xs:documentation>
+        Used to sort the GroupCollaborateBridgeGetInstancePagedSortedListRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="sortByUserId" type="SortByUserId"/>
+      <xs:element name="sortByUserLastName" type="SortByUserLastName"/>
+      <xs:element name="sortByDn" type="SortByDn"/>
+      <xs:element name="sortByExtension" type="SortByExtension"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="CollaborateInstantRoomExpirationSeconds">
+    <xs:annotation>
+      <xs:documentation>
+      The expiration period in seconds for an instant room to exist.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="524700"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

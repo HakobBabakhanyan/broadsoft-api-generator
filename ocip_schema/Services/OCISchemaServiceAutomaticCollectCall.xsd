@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- A U T O M A T I C   C O L L E C T   C A L L                                          -->
+<!-- S E R V I C E                                                                        -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- A U T O M A T I C   C O L L E C T   C A L L                                          -->
+  <!-- R E Q U E S T S   A N D   R E S P O N S E S                                          -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    SystemAutomaticCollectCallGetRequest22
+    SystemAutomaticCollectCallModifyRequest
+    SystemAutomaticCollectCallPrefixDigitsAddListRequest
+    SystemAutomaticCollectCallPrefixDigitsDeleteListRequest
+    SystemAutomaticCollectCallPrefixDigitsGetListRequest
+    UserAutomaticCollectCallGetRequest
+    UserAutomaticCollectCallModifyRequest
+-->
+
+  <xs:complexType name="SystemAutomaticCollectCallGetRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Get system Automatic Collect Call service settings.
+        The response is either SystemAutomaticCollectCallGetResponse22 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAutomaticCollectCallGetResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemAutomaticCollectCallGetRequest22.
+        Returns system Automatic Collect Call service settings.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="enableAutomaticCollectCall" type="xs:boolean"/>
+          <xs:element name="enableConnectTone" type="xs:boolean"/>
+          <xs:element name="includeCountryCodeInCic" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAutomaticCollectCallModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify system Automatic Collect Call service settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="enableAutomaticCollectCall" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableConnectTone" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="includeCountryCodeInCic" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAutomaticCollectCallPrefixDigitsAddListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a system automatic collect call prefix digits entry.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="prefixDigitsEntry" type="AutomaticCollectCallPrefixDigitsEntry" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAutomaticCollectCallPrefixDigitsDeleteListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete an entry in system automatic collect call prefix table.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="prefixDigitsEntry" type="AutomaticCollectCallPrefixDigitsEntry" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAutomaticCollectCallPrefixDigitsGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the system automatic collect call prefix digits lists.
+        The response is either SystemAutomaticCollectCallPrefixDigitsGetListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="countryCode" type="CountryCode" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemAutomaticCollectCallPrefixDigitsGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemAutomaticCollectCallPrefixDigitsGetListRequest.
+        Contains a table with column headings: "Country Code", "Prefix".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="prefixTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserAutomaticCollectCallGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get user Automatic Collect Call service settings.
+        The response is either UserAutomaticCollectCallGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserAutomaticCollectCallGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserAutomaticCollectCallGetRequest.
+        Returns user Automatic Collect Call service settings.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="enableAutomaticCollectCall" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserAutomaticCollectCallModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify user Automatic Collect Call service settings.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="enableAutomaticCollectCall" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Automatic Collect Call specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="AutomaticCollectCallPrefixDigitsEntry">
+    <xs:annotation>
+      <xs:documentation>
+        The Automatic Collect Call prefix digits entry.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="countryCode" type="CountryCode"/>
+      <xs:element name="prefixDigits" type="AutomaticCollectCallPrefixDigits"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="AutomaticCollectCallPrefixDigits">
+    <xs:annotation>
+      <xs:documentation>
+        Prefix digits for automatic collect call.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="30"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

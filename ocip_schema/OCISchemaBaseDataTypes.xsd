@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ********************************************************************** -->
+<!-- Copyright © 2017 BroadSoft Inc.          -->
+<!-- ********************************************************************** -->
+<!--       O C I   X M L   S C H E M A  :  C O R E   P A R T                -->
+<!--                                                                        -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server  -->
+<!-- Open Client Interface (OCI).                                           -->
+<!-- ********************************************************************** -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="C" targetNamespace="C">
+
+
+<xs:complexType xmlns="C" name="ExternalUserIdentity">
+    <xs:annotation>
+      <xs:documentation>
+        External user identity id identifies pre-authenticated user/admin id performing a session-less OCI request.
+        id can be a user/admin’s primary Id/alternate Id/external Id.
+        organizationId identifies organization id the user/admin belongs to.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+       <xs:element name="id" type="ExternalUserIdentityId">
+         <xs:annotation>
+           <xs:documentation>
+             The ID of the user or administrator initiating the OCI-P request.
+             The ID must match a primary, alternate or external ID configured on the AS for
+             a user or administrator
+           </xs:documentation>
+         </xs:annotation>
+       </xs:element>
+       <xs:element name="organizationId" type="ExternalUserIdentityOrganizationId">
+         <xs:annotation>
+           <xs:documentation>
+             The ID of the user or administrator's organization
+             The ID must match a service provider or enterprise external id
+           </xs:documentation>
+         </xs:annotation>
+       </xs:element>
+       <xs:element name="role" type="ExternalUserIdentityRole">
+         <xs:annotation>
+           <xs:documentation>
+             The role of the external user identity.
+           </xs:documentation>
+         </xs:annotation>
+       </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType xmlns="C" name="ExternalUserIdentityId">
+    <xs:annotation>
+      <xs:documentation>
+        The external user identity ID
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="NonEmptyToken">
+      <xs:maxLength value="161"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType xmlns="C" name="ExternalUserIdentityOrganizationId">
+    <xs:annotation>
+      <xs:documentation>
+        The external user identity organization ID
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="NonEmptyToken">
+      <xs:maxLength value="36"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType xmlns="C" name="ExternalUserIdentityRole">
+    <xs:annotation>
+      <xs:documentation>
+        The role of the authenticated external user.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="NonEmptyToken">
+      <xs:enumeration value="User"/>
+      <xs:enumeration value="Administrator"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType xmlns="C" name="NonEmptyToken">
+    <xs:annotation>
+      <xs:documentation>
+        Token that cannot be empty.  Used where whitespace is not considered
+        relevant and hence can be collapsed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- C A L L   P A R K   S E R V I C E                                                    -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSortCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- C A L L   P A R K   R E Q U E S T S   A N D   R E S P O N S E S                      -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupCallParkAddInstanceRequest16sp2
+    GroupCallParkDeleteInstanceRequest
+    GroupCallParkGetAvailableAlternateRecallUserListRequest
+    GroupCallParkGetAvailableAlternateRecallUserPagedSortedListRequest
+    GroupCallParkGetAvailableUserListRequest
+    GroupCallParkGetAvailableUserPagedSortedListRequest
+    GroupCallParkGetInstanceListRequest
+    GroupCallParkGetInstancePagedSortedListRequest
+    GroupCallParkGetInstancePagedSortedRequest
+    GroupCallParkGetInstanceRequest16sp2
+    GroupCallParkGetRequest16sp2
+    GroupCallParkModifyInstanceRequest
+    GroupCallParkModifyRequest
+    UserCallParkGetRequest
+-->
+
+  <xs:complexType name="GroupCallParkAddInstanceRequest16sp2">
+    <xs:annotation>
+      <xs:documentation>
+        Adds a Call Park group.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="name" type="ServiceInstanceName"/>
+          <xs:element name="userId" type="UserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="recallAlternateUserId" type="UserId" minOccurs="0"/>
+          <xs:element name="recallTo" type="CallParkRecallTo"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkDeleteInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Deletes a Call Park group.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="name" type="ServiceInstanceName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetAvailableAlternateRecallUserListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of hunt groups that are available to select as an alternate recall user.
+        The response is either GroupCallParkGetAvailableAlternateRecallUserListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactUserDepartment" type="SearchCriteriaExactUserDepartment" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetAvailableAlternateRecallUserListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCallParkGetAvailableAlternateRecallUserListResponse.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableHuntGroupTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetAvailableAlternateRecallUserPagedSortedListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of hunt groups that are available to select as an alternate recall user.
+
+        If the responsePagingControl element is not provided, the paging startIndex will be set to 1
+        by default, and the responsePageSize will be set to the maximum ResponsePageSize by default.
+        It is possible to search by various criteria to restrict the number of rows returned.
+
+        If no sortOrder is included the response is sorted by User Id ascending by default.
+
+        Multiple search criteria are logically ANDed together unless the searchCriteriaModeOr option is included.
+        Then the search criteria are logically ORed together.
+
+        The response is either GroupCallParkGetAvailableAlternateRecallUserPagedSortedListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="responsePagingControl" type="ResponsePagingControl" minOccurs="0"/>
+          <xs:element name="sortOrder" type="SortOrderGroupCallParkGetAvailableAlternateRecallUserPagedSortedList" minOccurs="0" maxOccurs="3"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDepartmentName" type="SearchCriteriaDepartmentName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaModeOr" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetAvailableAlternateRecallUserPagedSortedListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCallParkGetAvailableAlternateRecallUserPagedSortedListResponse.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name",
+        “Phone Number”, “Extension”, “Department”, “Email Address”. The Email Address will never be populated, since Hunt Groups don't
+        have Email Addresses.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableHuntGroupTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetAvailableUserListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of users that can be assigned to a Call Park group.
+        The available user list for a new Call Park group can be obtained
+        by not setting the name.
+        The response is either GroupCallParkGetAvailableUserListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="name" type="ServiceInstanceName" minOccurs="0"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactUserDepartment" type="SearchCriteriaExactUserDepartment" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetAvailableUserListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCallParkGetAvailableUserListRequest.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name",
+        "Hiragana First Name", "Phone Number", "Extension", "Department", "Email Address".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="userTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetAvailableUserPagedSortedListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of users that can be assigned to a Call Park group.
+        The available user list for a new Call Park group can be obtained
+        by not setting the name.
+
+        If the responsePagingControl element is not provided, the paging startIndex will be set to 1
+        by default, and the responsePageSize will be set to the maximum ResponsePageSize by default.
+        It is possible to search by various criteria to restrict the number of rows returned.
+
+        If no sortOrder is included the response is sorted by User Id ascending by default.
+
+        Multiple search criteria are logically ANDed together unless the searchCriteriaModeOr option is included.
+        Then the search criteria are logically ORed together.
+
+        The response is either GroupCallParkGetAvailableUserPagedSortedListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="name" type="ServiceInstanceName" minOccurs="0"/>
+          <xs:element name="responsePagingControl" type="ResponsePagingControl" minOccurs="0"/>
+          <xs:element name="sortOrder" type="SortOrderGroupCallParkGetAvailableUserPagedSortedList" minOccurs="0" maxOccurs="3"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDepartmentName" type="SearchCriteriaDepartmentName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaEmailAddress" type="SearchCriteriaEmailAddress" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaModeOr" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetAvailableUserPagedSortedListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCallParkGetAvailableUserPagedSortedListRequest.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name",
+        "Hiragana First Name", "Phone Number", "Extension", "Department", "Email Address".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="userTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetInstanceListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get a list of Call Park group instances within a group.
+        The response is either GroupCallParkGetInstanceListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetInstanceListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCallParkGetInstanceListRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="name" type="ServiceInstanceName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetInstancePagedSortedListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get a list of Call Park group instances within a group.
+
+        If the responsePagingControl element is not provided, the paging startIndex will be set to 1
+        by default, and the responsePageSize will be set to the maximum ResponsePageSize by default.
+        It is possible to search by various criteria to restrict the number of rows returned.
+
+        Multiple search criteria are logically ANDed together unless the searchCriteriaModeOr option is included.
+        Then the search criteria are logically ORed together.
+
+        The response is either GroupCallParkGetInstancePagedSortedListResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="responsePagingControl" type="ResponsePagingControl" minOccurs="0"/>
+          <xs:element name="sortByCallParkName" type="SortByCallParkName" minOccurs="0"/>
+          <xs:element name="searchCriteriaCallParkName" type="SearchCriteriaCallParkName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaModeOr" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetInstancePagedSortedListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCallParkGetInstancePagedSortedListRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="name" type="ServiceInstanceName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetInstancePagedSortedRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Gets a Call Park group.
+
+        If the responsePagingControl element is not provided, the paging startIndex will be set to 1
+        by default, and the responsePageSize will be set to the maximum ResponsePageSize by default.
+        It is possible to search by various criteria to restrict the number of rows returned.
+
+        The sort order is based on the user order provided when creating or modifying the call park instance.
+
+        Multiple search criteria are logically ANDed together unless the searchCriteriaModeOr option is included.
+        Then the search criteria are logically ORed together.
+
+        The response is either GroupCallParkGetInstancePagedSortedResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="name" type="ServiceInstanceName"/>
+          <xs:element name="responsePagingControl" type="ResponsePagingControl" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDepartmentName" type="SearchCriteriaDepartmentName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaEmailAddress" type="SearchCriteriaEmailAddress" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaModeOr" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetInstancePagedSortedResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCallParkGetInstancePagedSortedRequest.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name",
+        "Hiragana First Name", "Phone Number", "Extension", "Department", "Email Address".
+        The users are in the table are in the order they will try to be parked on.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="recallAlternateUserId" type="UserId" minOccurs="0"/>
+          <xs:element name="recallTo" type="CallParkRecallTo"/>
+          <xs:element name="userTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetInstanceRequest16sp2">
+    <xs:annotation>
+      <xs:documentation>
+        Gets a Call Park group.
+        The response is either GroupCallParkGetInstanceResponse16sp2 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="name" type="ServiceInstanceName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetInstanceResponse16sp2">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCallParkGetInstanceRequest16sp2.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name",
+        "Hiragana First Name", "Phone Number", "Extension", "Department", "Email Address".
+        The users are in the table are in the order they will try to be parked on.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="recallAlternateUserId" type="UserId" minOccurs="0"/>
+          <xs:element name="recallTo" type="CallParkRecallTo"/>
+          <xs:element name="userTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetRequest16sp2">
+    <xs:annotation>
+      <xs:documentation>
+        Gets the Call Park Group settings.
+        The response is either GroupCallParkGetResponse16sp2 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkGetResponse16sp2">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupCallParkGetRequest16sp2.
+        Contains the settings that apply to the whole group for Call Park.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="recallTimerSeconds" type="CallParkRecallTimerSeconds"/>
+          <xs:element name="displayTimerSeconds" type="CallParkDisplayTimerSeconds"/>
+          <xs:element name="enableDestinationAnnouncement" type="xs:boolean"/>
+          <xs:element name="recallAlternateUserId" type="UserId" minOccurs="0"/>
+          <xs:element name="recallRingPattern" type="RingPattern"/>
+          <xs:element name="recallTo" type="CallParkRecallTo"/>
+          <xs:element name="alternateUserRecallTimerSeconds" type="CallParkRecallTimerSeconds"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkModifyInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modifies a Call Park group. Replaces the entire list of users in the group.
+        The users are in the list are in the order they will try to be parked on.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="name" type="ServiceInstanceName"/>
+          <xs:element name="newName" type="ServiceInstanceName" minOccurs="0"/>
+          <xs:element name="userIdList" type="ReplacementUserIdList" nillable="true" minOccurs="0"/>
+          <xs:element name="recallAlternateUserId" type="UserId" nillable="true" minOccurs="0"/>
+          <xs:element name="recallTo" type="CallParkRecallTo" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupCallParkModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modifies the Group's Call Park settings.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="recallTimerSeconds" type="CallParkRecallTimerSeconds" minOccurs="0"/>
+          <xs:element name="displayTimerSeconds" type="CallParkDisplayTimerSeconds" minOccurs="0"/>
+          <xs:element name="enableDestinationAnnouncement" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="recallAlternateUserId" type="UserId" nillable="true" minOccurs="0"/>
+          <xs:element name="recallRingPattern" type="RingPattern" minOccurs="0"/>
+          <xs:element name="recallTo" type="CallParkRecallTo" minOccurs="0"/>
+          <xs:element name="alternateUserRecallTimerSeconds" type="CallParkRecallTimerSeconds" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCallParkGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Identifies which Call Park group the user belongs to if any and the list of users in the group.
+        The response is either UserCallParkGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserCallParkGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserCallParkGetRequest.
+        Identifies which Call Park group the user belongs to and the list of users in the group.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name",
+        "Hiragana First Name".  The users are in the table in the order they will try to be parked on.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="name" type="ServiceInstanceName" minOccurs="0"/>
+          <xs:element name="userTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Call Park specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="SortOrderGroupCallParkGetAvailableAlternateRecallUserPagedSortedList">
+    <xs:annotation>
+      <xs:documentation>
+        Used to sort the GroupCallParkGetAvailableAlternateRecallUserPagedSortedListRequest request.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="sortByUserId" type="SortByUserId"/>
+      <xs:element name="sortByUserLastName" type="SortByUserLastName"/>
+      <xs:element name="sortByUserFirstName" type="SortByUserFirstName"/>
+      <xs:element name="sortByDn" type="SortByDn"/>
+      <xs:element name="sortByExtension" type="SortByExtension"/>
+      <xs:element name="sortByDepartmentName" type="SortByDepartmentName"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="SortOrderGroupCallParkGetAvailableUserPagedSortedList">
+    <xs:annotation>
+      <xs:documentation>
+        Used to sort the GroupCallParkGetAvailableUserPagedSortedListRequest request.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="sortByUserId" type="SortByUserId"/>
+      <xs:element name="sortByUserLastName" type="SortByUserLastName"/>
+      <xs:element name="sortByUserFirstName" type="SortByUserFirstName"/>
+      <xs:element name="sortByDn" type="SortByDn"/>
+      <xs:element name="sortByExtension" type="SortByExtension"/>
+      <xs:element name="sortByDepartmentName" type="SortByDepartmentName"/>
+      <xs:element name="sortByEmailAddress" type="SortByEmailAddress"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="CallParkDisplayTimerSeconds">
+    <xs:annotation>
+      <xs:documentation>
+         The timer determines how long the extension/DN of the parked against user is displayed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="2"/>
+      <xs:maxInclusive value="15"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="CallParkRecallTimerSeconds">
+    <xs:annotation>
+      <xs:documentation>
+         The timer determines how long a call can be parked before the parker is recalled.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="30"/>
+      <xs:maxInclusive value="600"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="CallParkRecallTo">
+    <xs:annotation>
+      <xs:documentation>
+	     Call Park recall user options
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Parking User Only"/>
+      <xs:enumeration value="Parking User Then Alternate User"/>
+      <xs:enumeration value="Alternate User Only"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

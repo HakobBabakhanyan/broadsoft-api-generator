@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- F L E X I B L E   S E A T I N G   G U E S T                                          -->
+<!-- S E R V I C E                                                                        -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- F L E X I B L E   S E A T I N G   G U E S T                                          -->
+  <!-- R E Q U E S T S   A N D   R E S P O N S E S                                          -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupFlexibleSeatingAccessDeviceGetListRequest
+    GroupFlexibleSeatingHostAddInstanceRequest22
+    GroupFlexibleSeatingHostDeleteInstanceRequest
+    GroupFlexibleSeatingHostGetInstanceListRequest
+    GroupFlexibleSeatingHostGetInstanceRequest22
+    GroupFlexibleSeatingHostGuestAssociationGetRequest
+    GroupFlexibleSeatingHostGuestAssociationModifyRequest
+    GroupFlexibleSeatingHostModifyActiveInstanceListRequest
+    GroupFlexibleSeatingHostModifyInstanceRequest22
+    GroupFlexibleSeatingHostRoutingPoliciesGetRequest
+    GroupFlexibleSeatingHostRoutingPoliciesModifyRequest
+    UserFlexibleSeatingGuestGetAvailableHostListRequest
+    UserFlexibleSeatingGuestGetRequest22
+    UserFlexibleSeatingGuestModifyRequest22
+-->
+
+  <xs:complexType name="GroupFlexibleSeatingAccessDeviceGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Requests the list of access devices available for assignment to a flexible
+        seating host or guest. The list includes devices created at the system, service
+        provider, and group levels that support device management.
+        The response is either GroupFlexibleSeatingAccessDeviceGetListResponse or
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingAccessDeviceGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupFlexibleSeatingAccessDeviceGetListRequest
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="availableAccessDevice" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:annotation/>
+              <xs:sequence>
+                <xs:element name="accessDevice" type="AccessDevice"/>
+                <xs:element name="staticRegistrationCapable" type="xs:boolean"/>
+                <xs:element name="useDomain" type="xs:boolean"/>
+                <xs:element name="staticLineOrdering" type="xs:boolean"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostAddInstanceRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Add a flexible seating host instance to a group.
+        The domain is required in the serviceUserId.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceAddProfileFlexibleSeatingHost"/>
+          <xs:element name="accessDeviceEndpoint" type="AccessDeviceMultipleContactEndpointAdd22" minOccurs="0"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostDeleteInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a flexible seating host instance from a group. Host cannot be deleted when a guest is associated to a host.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostGetInstanceListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of flexible seating host instances within a group.
+        The response is either GroupFlexibleSeatingHostGetInstanceListResponse or ErrorResponse.
+        It is possible to get the instances within a specified department.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="groupDepartmentName" type="DepartmentName" minOccurs="0"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaExactUserDepartment" type="SearchCriteriaExactUserDepartment" minOccurs="0"/>
+          <xs:element name="searchCriteriaServiceInstanceName" type="SearchCriteriaServiceInstanceName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostGetInstanceListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupFlexibleSeatingHostGetInstanceListRequest.
+        Contains a table with column headings:
+        "Service User Id", "Name", "Phone Number", "Extension", "Department", "Is Active".
+        The column value for "Is Active" can either be true, or false.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="flexibleSeatingHostTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostGetInstanceRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get all the information of a flexible seating host instance.
+        The response is either GroupFlexibleSeatingHostGetInstanceResponse22 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostGetInstanceResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupFlexibleSeatingHostGetInstanceRequest22.
+        Contains the service profile and access device information.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceReadProfile19sp1"/>
+          <xs:element name="defaultAlias" type="SIPURI"/>
+          <xs:element name="accessDeviceEndpoint" type="AccessDeviceMultipleContactEndpointRead22" minOccurs="0"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostGuestAssociationGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the flexible seating host guest association details.
+        The response is either a GroupFlexibleSeatingHostGuestAssociationGetResponse or an ErrorResponse.
+accessLevel is always set to Group for a Service Provider
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostGuestAssociationGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupFlexibleSeatingHostGuestAssociationGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="enforceAssociationLimit" type="xs:boolean"/>
+          <xs:element name="associationLimitHours" type="FlexibleSeatingAssociationLimitHours"/>
+          <xs:element name="accessLevel" type="FlexibleSeatingHostAccessLevel"/>
+          <xs:element name="guestLastName" type="LastName" minOccurs="0"/>
+          <xs:element name="guestFirstName" type="FirstName" minOccurs="0"/>
+          <xs:element name="guestPhoneNumber" type="DN" minOccurs="0"/>
+          <xs:element name="guestExtension" type="Extension17" minOccurs="0"/>
+          <xs:element name="guestLocationDialingCode" type="LocationDialingCode" minOccurs="0"/>
+          <xs:element name="guestAssociationDateTime" type="xs:dateTime" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostGuestAssociationModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the flexible seating host’s guest association attributes.
+        The request fails if enforceAssociationLimit or associationLimitHours are changed when the host is associated to a guest.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="enforceAssociationLimit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="associationLimitHours" type="FlexibleSeatingAssociationLimitHours" minOccurs="0"/>
+          <xs:element name="accessLevel" type="FlexibleSeatingHostAccessLevel" minOccurs="0"/>
+          <xs:element name="removeGuestAssociation" type="xs:boolean" fixed="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostModifyActiveInstanceListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to set the active status of flexible seating host instances. Host cannot be disabled when a flexible seating guest is associated.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceActivation" type="ServiceActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostModifyInstanceRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify a flexible seating host instance.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceModifyProfileFlexibleSeatingHost" minOccurs="0"/>
+          <xs:element name="accessDeviceEndpoint" type="AccessDeviceMultipleContactEndpointModify22" minOccurs="0" nillable="true"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostRoutingPoliciesGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a flexible seating host’s routing policies
+        The response is either a GroupFlexibleSeatingHostRoutingPoliciesGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostRoutingPoliciesGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupFlexibleSeatingHostRoutingPoliciesGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="allowEmergencyCalls" type="xs:boolean"/>
+          <xs:element name="allowCallsToVoicePortal" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupFlexibleSeatingHostRoutingPoliciesModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a flexible seating host’s routing policies
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="allowEmergencyCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="allowCallsToVoicePortal" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserFlexibleSeatingGuestGetAvailableHostListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of hosts that can be assigned to flexible seating guests.
+        The response is either UserFlexibleSeatingGuestGetAvailableUserListResponse or ErrorResponse. The response will include active hosts based on the following criteria.
+- host that has the equivalent device type as the guest, host already assigned to another guest and for a guest in a Service Provider host in the user’s group and for a user in an Enterprise a host within the user’s group and host in the user’s enterprise that has the accessLevel set to Enterprise.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserLastName" type="SearchCriteriaUserLastName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaUserFirstName" type="SearchCriteriaUserFirstName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactUserDepartment" type="SearchCriteriaExactUserDepartment" minOccurs="0"/>
+          <xs:element name="searchCriteriaUserId" type="SearchCriteriaUserId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaDn" type="SearchCriteriaDn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExtension" type="SearchCriteriaExtension" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserFlexibleSeatingGuestGetAvailableHostListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserFlexibleSeatingGuestGetAvailableHostListRequest.
+        Contains a table with column headings: "User Id", "Last Name", "First Name", "Hiragana Last Name", "Hiragana First Name",
+        "Phone Number", "Extension", "Department", "Email Address", "Association Limit Hours", "Enable Association Limit",
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="hostUserTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserFlexibleSeatingGuestGetRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Request the user level data associated with flexible seating guest.
+        The response is either a UserFlexibleSeatingGuestGetResponse22 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserFlexibleSeatingGuestGetResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to UserFlexibleSeatingGuestGetRequest22.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="enableAssociationLimit" type="xs:boolean"/>
+          <xs:element name="associationLimitHours" type="FlexibleSeatingAssociationLimitHours"/>
+          <xs:element name="unlockPhonePINCode" type="FlexibleSeatingGuestUnlockPhonePINCode" minOccurs="0"/>
+          <xs:element name="accessDeviceEndpoint" type="AccessDeviceMultipleContactEndpointRead22" minOccurs="0"/>
+          <xs:element name="hostUserId" type="UserId" minOccurs="0"/>
+          <xs:element name="hostLastName" type="LastName" minOccurs="0"/>
+          <xs:element name="hostFirstName" type="FirstName" minOccurs="0"/>
+          <xs:element name="hostAssociationDateTime" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="hostEnforcesAssociationLimit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="hostAssociationLimitHours" type="FlexibleSeatingAssociationLimitHours" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserFlexibleSeatingGuestModifyRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the user level data associated with flexible seating guest.
+		accessDeviceEndpoint can only be configured by group or a higher level administrator.
+		The request fails if isActive is set to false and the guest is associated to a host.
+		The request fails when enableAssociationLimit, associationLimitHours, unlockPhonePINCode are changed when the guest is associated to a host.
+		The request fails when accessDeviceEndpoint is set in the request when the guest is associated to a host.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableAssociationLimit" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="associationLimitHours" type="FlexibleSeatingAssociationLimitHours" minOccurs="0"/>
+          <xs:element name="unlockPhonePINCode" type="FlexibleSeatingGuestUnlockPhonePINCode" minOccurs="0" nillable="true"/>
+          <xs:element name="accessDeviceEndpoint" type="AccessDeviceMultipleContactEndpointModify22" minOccurs="0" nillable="true"/>
+          <xs:element name="hostUserId" type="UserId" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Flexible Seating Guest specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:simpleType name="FlexibleSeatingHostAccessLevel">
+    <xs:annotation>
+      <xs:documentation>
+        Access level of a flexible seating host
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Enterprise"/>
+      <xs:enumeration value="Group"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

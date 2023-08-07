@@ -1,0 +1,3056 @@
+[
+  {
+    "name": "UserConsolidatedAddRequest22",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "The response is either SuccessResponse or ErrorResponse.\n\n         In AS and Amplify  Data Mode:\n           The group user limit will be increased by one if needed.\n\n           The group will be added if it does not exist and if the command is executed by a Service\n           Provider level administrator or above. If the group needs to be created, the\n           groupProperties element must be set or the request will fail.\n           The groupProperties element will be ignored if the group already exists.\n\n           If the domain has not been assigned to the group, it will be added to group if the\n           command is executed by a Service provider level administrator or above.\n           If the domain has not been assigned to the service provider, it will be added to the\n           service provider if the command is executed by a Provisioning level administrator or\n           above. The command will fail otherwise.\n\n           If the phoneNumber has not been assigned to the group and addPhoneNumberToGroup is set\n           to true, it will be added to group if the command is executed by a service provider\n           administrator or above and the number is already assigned to the service provider. The\n           command will fail otherwise.\n\n           The password is not required if external authentication is enabled.\n           Alternate user ids can be added by a group level administrator or above.\n\n           When sharedCallAppearanceAccessDeviceEndpoint element is included and the Shared Call\n           Appearance is not included in the service/service pack of the request or in the\n           \"new user template\", the request will fail.\n\n           The userService/servicePack will be authorized to the group if it has not been\n           authorized to the group if the command is executed by a Service Provider level\n           administrator or above. The command will fail otherwise.\n           The authorizedQuantity will be set to unlimited if not present.\n\n           When thirdPartyVoiceMail elements are included and the Third Party Voice Mail Support\n           service is not included in the service/service pack of the request or in the\n           \"new user template\", the request will fail.\n\n           When sipAuthenticationData element is included and the Authentication service is not\n           included in the service/service pack of the request or in the \"new user template\",\n           the request will fail.\n\n\n         In XS data mode:\n           only the System level administrator has the authorization level to execute the command.\n           The group will be added if it does not exist. If the group needs to be created, the\n           groupProperties element must be set or the request will fail.\n           The groupProperties element will be ignored if the group already exists.\n\n           If the phoneNumber has not been assigned to the group, it will be added to group and\n           service provider if needed.\n\n           When sharedCallAppearanceAccessDeviceEndpoint element is included and the Shared\n           Call Appearance is not included in the service/service pack of the request, the request\n           will fail.\n\n         The following elements are ignored in XS data mode:\n           addPhoneNumberToGroup\n           nameDialingName\n           alternateUserId\n           passcode\n           trunkAddressing\n           thirdPartyVoiceMailServerSelection\n           thirdPartyVoiceMailServerUserServer\n           thirdPartyVoiceMailServerMailboxIdType\n           thirdPartyVoiceMailMailboxURL\n           sipAuthenticationData",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "groupProperties",
+          "required": false,
+          "type": "ConsolidatedGroupProperties",
+          "schema": [
+            [
+              {
+                "name": "defaultDomain",
+                "required": true,
+                "type": "NetAddress",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "userLimit",
+                "required": true,
+                "type": "GroupUserLimit",
+                "type_schema": "xs:int",
+                "minimum": "1",
+                "maximum": "999999"
+              },
+              {
+                "name": "groupName",
+                "required": false,
+                "type": "GroupName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "callingLineIdName",
+                "required": false,
+                "type": "GroupCallingLineIdName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "timeZone",
+                "required": false,
+                "type": "TimeZone",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "127"
+              },
+              {
+                "name": "locationDialingCode",
+                "required": false,
+                "type": "LocationDialingCode",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "15"
+              },
+              {
+                "name": "contact",
+                "required": false,
+                "type": "Contact",
+                "schema": [
+                  [
+                    {
+                      "name": "contactName",
+                      "required": false,
+                      "type": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "30",
+                      "type_schema": "xs:token"
+                    },
+                    {
+                      "name": "contactNumber",
+                      "required": false,
+                      "type": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "30",
+                      "type_schema": "xs:token"
+                    },
+                    {
+                      "name": "contactEmail",
+                      "required": false,
+                      "type": "EmailAddress",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "80"
+                    }
+                  ]
+                ]
+              },
+              {
+                "name": "address",
+                "required": false,
+                "type": "StreetAddress",
+                "schema": [
+                  [
+                    {
+                      "name": "addressLine1",
+                      "required": false,
+                      "type": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "80",
+                      "type_schema": "xs:token"
+                    },
+                    {
+                      "name": "addressLine2",
+                      "required": false,
+                      "type": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "80",
+                      "type_schema": "xs:token"
+                    },
+                    {
+                      "name": "city",
+                      "required": false,
+                      "type": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "50",
+                      "type_schema": "xs:token"
+                    },
+                    {
+                      "name": "stateOrProvince",
+                      "required": false,
+                      "type": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "50",
+                      "type_schema": "xs:token"
+                    },
+                    {
+                      "name": "stateOrProvinceDisplayName",
+                      "required": false,
+                      "type": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "50",
+                      "type_schema": "xs:token"
+                    },
+                    {
+                      "name": "zipOrPostalCode",
+                      "required": false,
+                      "type": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "50",
+                      "type_schema": "xs:token"
+                    },
+                    {
+                      "name": "country",
+                      "required": false,
+                      "type": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "50",
+                      "type_schema": "xs:token"
+                    }
+                  ]
+                ]
+              },
+              {
+                "name": "networkClassOfService",
+                "required": false,
+                "type": "NetworkClassOfServiceName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "40"
+              },
+              {
+                "name": "defaultNetworkClassOfService",
+                "required": false,
+                "type": "DefaultNetworkClassOfService",
+                "schema": [
+                  {
+                    "choice": [
+                      {
+                        "name": "useExisting",
+                        "required": true,
+                        "type": "xs:boolean",
+                        "type_schema": "xs:boolean"
+                      },
+                      {
+                        "name": "networkClassOfServiceName",
+                        "required": true,
+                        "type": "NetworkClassOfServiceName",
+                        "type_schema": "xs:token",
+                        "minLength": "1",
+                        "maxLength": "40"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "groupService",
+                "required": false,
+                "type": "ConsolidatedGroupServiceAssignment",
+                "schema": [
+                  [
+                    {
+                      "name": "groupServiceName",
+                      "required": true,
+                      "type": "GroupService",
+                      "type_schema": "xs:token",
+                      "enum": [
+                        "Account/Authorization Codes",
+                        "Auto Attendant",
+                        "Auto Attendant - Video",
+                        "Auto Attendant - Standard",
+                        "Call Capacity Management",
+                        "Call Park",
+                        "Call Pickup",
+                        "City-Wide Centrex",
+                        "Custom Ringback Group",
+                        "Custom Ringback Group - Video",
+                        "Emergency Zones",
+                        "Enhanced Outgoing Calling Plan",
+                        "Find-me/Follow-me",
+                        "Group Paging",
+                        "Hunt Group",
+                        "Incoming Calling Plan",
+                        "Instant Group Call",
+                        "Intercept Group",
+                        "Inventory Report",
+                        "LDAP Integration",
+                        "Meet-Me Conferencing",
+                        "Music On Hold",
+                        "Music On Hold - Video",
+                        "Outgoing Calling Plan",
+                        "Preferred Carrier Group",
+                        "Route Point",
+                        "Series Completion",
+                        "Service Scripts Group",
+                        "Trunk Group",
+                        "Voice Messaging Group",
+                        "VoiceXML"
+                      ]
+                    },
+                    {
+                      "name": "authorizedQuantity",
+                      "required": false,
+                      "type": "UnboundedPositiveInt",
+                      "schema": [
+                        {
+                          "choice": [
+                            {
+                              "name": "unlimited",
+                              "required": true,
+                              "type": "xs:boolean",
+                              "type_schema": "xs:boolean"
+                            },
+                            {
+                              "name": "quantity",
+                              "required": true,
+                              "type": "xs:int",
+                              "minimum": "1",
+                              "type_schema": "xs:int"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              },
+              {
+                "name": "servicePolicy",
+                "required": false,
+                "type": "ServicePolicyName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "userExternalId",
+          "required": false,
+          "type": "ExternalId",
+          "type_schema": "NonEmptyToken",
+          "maxLength": "36"
+        },
+        {
+          "name": "addPhoneNumberToGroup",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "lastName",
+          "required": true,
+          "type": "LastName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "firstName",
+          "required": true,
+          "type": "FirstName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "callingLineIdLastName",
+          "required": true,
+          "type": "CallingLineIdLastName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "callingLineIdFirstName",
+          "required": true,
+          "type": "CallingLineIdFirstName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "nameDialingName",
+          "required": false,
+          "type": "NameDialingName",
+          "schema": [
+            [
+              {
+                "name": "nameDialingLastName",
+                "required": true,
+                "type": "NameDialingLastName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "nameDialingFirstName",
+                "required": true,
+                "type": "NameDialingFirstName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "hiraganaLastName",
+          "required": false,
+          "type": "HiraganaLastName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "hiraganaFirstName",
+          "required": false,
+          "type": "HiraganaFirstName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "phoneNumber",
+          "required": false,
+          "type": "DN",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "23"
+        },
+        {
+          "name": "alternateUserId",
+          "required": false,
+          "type": "AlternateUserIdEntry",
+          "schema": [
+            [
+              {
+                "name": "alternateUserId",
+                "required": true,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              },
+              {
+                "name": "description",
+                "required": false,
+                "type": "AlternateUserIdDescription",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "extension",
+          "required": false,
+          "type": "Extension17",
+          "type_schema": "xs:token",
+          "minLength": "2",
+          "maxLength": "20"
+        },
+        {
+          "name": "callingLineIdPhoneNumber",
+          "required": false,
+          "type": "DN",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "23"
+        },
+        {
+          "name": "password",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        },
+        {
+          "name": "passcode",
+          "required": false,
+          "type": "Passcode",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "department",
+          "required": false,
+          "type": "DepartmentKey",
+          "schema": []
+        },
+        {
+          "name": "language",
+          "required": false,
+          "type": "Language",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "40"
+        },
+        {
+          "name": "timeZone",
+          "required": false,
+          "type": "TimeZone",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "127"
+        },
+        {
+          "name": "alias",
+          "required": false,
+          "type": "SIPURI",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "sharedCallAppearanceAccessDeviceEndpoint",
+          "required": false,
+          "type": "ConsolidatedSharedCallAppearanceAccessDeviceMultipleIdentityEndpointAdd22",
+          "schema": [
+            [
+              {
+                "name": "accessDevice",
+                "required": true,
+                "type": "AccessDevice",
+                "schema": [
+                  [
+                    {
+                      "name": "deviceLevel",
+                      "required": true,
+                      "type": "AccessDeviceLevel",
+                      "type_schema": "xs:token",
+                      "enum": [
+                        "System",
+                        "Service Provider",
+                        "Group"
+                      ]
+                    },
+                    {
+                      "name": "deviceName",
+                      "required": true,
+                      "type": "AccessDeviceName",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "40"
+                    }
+                  ]
+                ]
+              },
+              {
+                "name": "linePort",
+                "required": true,
+                "type": "AccessDeviceEndpointLinePort",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              },
+              {
+                "name": "privateIdentity",
+                "required": false,
+                "type": "AccessDeviceEndpointPrivateIdentity",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              },
+              {
+                "name": "contact",
+                "required": false,
+                "type": "SIPContact",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "1020"
+              },
+              {
+                "name": "portNumber",
+                "required": false,
+                "type": "AccessDevicePortNumber",
+                "type_schema": "xs:int",
+                "minimum": "1",
+                "maximum": "1024"
+              },
+              {
+                "name": "isActive",
+                "required": true,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              },
+              {
+                "name": "allowOrigination",
+                "required": true,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              },
+              {
+                "name": "allowTermination",
+                "required": true,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              },
+              {
+                "name": "deviceType",
+                "required": false,
+                "type": "AccessDeviceType",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "40"
+              },
+              {
+                "name": "protocol",
+                "required": false,
+                "type": "AccessDeviceProtocol",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "20"
+              },
+              {
+                "name": "netAddress",
+                "required": false,
+                "type": "NetAddress",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "port",
+                "required": false,
+                "type": "Port1025",
+                "type_schema": "xs:int",
+                "minimum": "1025",
+                "maximum": "65535"
+              },
+              {
+                "name": "outboundProxyServerNetAddress",
+                "required": false,
+                "type": "NetAddress",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "stunServerNetAddress",
+                "required": false,
+                "type": "NetAddress",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "macAddress",
+                "required": false,
+                "type": "AccessDeviceMACAddress",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "12"
+              },
+              {
+                "name": "serialNumber",
+                "required": false,
+                "type": "AccessDeviceSerialNumber",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "description",
+                "required": false,
+                "type": "AccessDeviceDescription",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "physicalLocation",
+                "required": false,
+                "type": "AccessDevicePhysicalLocation",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "1024"
+              },
+              {
+                "name": "transportProtocol",
+                "required": false,
+                "type": "ExtendedTransportProtocol",
+                "type_schema": "xs:token",
+                "enum": [
+                  "UDP",
+                  "TCP",
+                  "TLS",
+                  "Unspecified"
+                ]
+              },
+              {
+                "name": "useCustomUserNamePassword",
+                "required": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              },
+              {
+                "name": "accessDeviceCredentials",
+                "required": false,
+                "type": "DeviceManagementUserNamePassword16",
+                "schema": [
+                  [
+                    {
+                      "name": "userName",
+                      "required": true,
+                      "type": "UserId",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "161"
+                    },
+                    {
+                      "name": "password",
+                      "required": true,
+                      "type": "Password",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "60"
+                    }
+                  ]
+                ]
+              },
+              {
+                "name": "useHotline",
+                "required": true,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              },
+              {
+                "name": "hotlineContact",
+                "required": false,
+                "type": "SIPURI",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "title",
+          "required": false,
+          "type": "Title",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "50"
+        },
+        {
+          "name": "pagerPhoneNumber",
+          "required": false,
+          "type": "InformationalDN",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "mobilePhoneNumber",
+          "required": false,
+          "type": "OutgoingDN",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "emailAddress",
+          "required": false,
+          "type": "EmailAddress",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "80"
+        },
+        {
+          "name": "yahooId",
+          "required": false,
+          "type": "YahooId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "50"
+        },
+        {
+          "name": "addressLocation",
+          "required": false,
+          "type": "AddressLocation",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "80"
+        },
+        {
+          "name": "address",
+          "required": false,
+          "type": "StreetAddress",
+          "schema": [
+            [
+              {
+                "name": "addressLine1",
+                "required": false,
+                "type": "xs:token",
+                "minLength": "1",
+                "maxLength": "80",
+                "type_schema": "xs:token"
+              },
+              {
+                "name": "addressLine2",
+                "required": false,
+                "type": "xs:token",
+                "minLength": "1",
+                "maxLength": "80",
+                "type_schema": "xs:token"
+              },
+              {
+                "name": "city",
+                "required": false,
+                "type": "xs:token",
+                "minLength": "1",
+                "maxLength": "50",
+                "type_schema": "xs:token"
+              },
+              {
+                "name": "stateOrProvince",
+                "required": false,
+                "type": "xs:token",
+                "minLength": "1",
+                "maxLength": "50",
+                "type_schema": "xs:token"
+              },
+              {
+                "name": "stateOrProvinceDisplayName",
+                "required": false,
+                "type": "xs:token",
+                "minLength": "1",
+                "maxLength": "50",
+                "type_schema": "xs:token"
+              },
+              {
+                "name": "zipOrPostalCode",
+                "required": false,
+                "type": "xs:token",
+                "minLength": "1",
+                "maxLength": "50",
+                "type_schema": "xs:token"
+              },
+              {
+                "name": "country",
+                "required": false,
+                "type": "xs:token",
+                "minLength": "1",
+                "maxLength": "50",
+                "type_schema": "xs:token"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "networkClassOfService",
+          "required": false,
+          "type": "NetworkClassOfServiceName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "40"
+        },
+        {
+          "name": "userService",
+          "required": false,
+          "type": "ConsolidatedUserServiceAssignment",
+          "schema": [
+            [
+              {
+                "name": "userServiceName",
+                "required": true,
+                "type": "UserService",
+                "type_schema": "xs:token",
+                "enum": [
+                  "3G/4G Continuity",
+                  "Advice Of Charge",
+                  "Alternate Numbers",
+                  "Anonymous Call Rejection",
+                  "Attendant Console",
+                  "Authentication",
+                  "Automatic Callback",
+                  "Automatic Collect Call",
+                  "Automatic Hold/Retrieve",
+                  "Barge-in Exempt",
+                  "Basic Call Logs",
+                  "Bria For BroadWorks",
+                  "BroadTouch Business Communicator Desktop",
+                  "BroadTouch Business Communicator Desktop - Audio",
+                  "BroadTouch Business Communicator Mobile",
+                  "BroadTouch Business Communicator Mobile - Audio",
+                  "BroadTouch Business Communicator Tablet",
+                  "BroadTouch Business Communicator Tablet - Audio",
+                  "BroadTouch Business Communicator Tablet - Video",
+                  "BroadWorks Agent",
+                  "BroadWorks Anywhere",
+                  "BroadWorks Connector for Lotus Sametime",
+                  "BroadWorks Mobility",
+                  "BroadWorks Receptionist - Office",
+                  "BroadWorks Receptionist - Small Business",
+                  "BroadWorks Supervisor",
+                  "Busy Lamp Field",
+                  "Call Center - Basic",
+                  "Call Center Monitoring",
+                  "Call Center - Standard",
+                  "Call Center - Premium",
+                  "Call Forwarding Always",
+                  "Call Forwarding Always Secondary",
+                  "Call Forwarding Busy",
+                  "Call Forwarding No Answer",
+                  "Call Forwarding Not Reachable",
+                  "Call Forwarding Selective",
+                  "Call Me Now",
+                  "Call Notify",
+                  "Call Recording",
+                  "Call Return",
+                  "Call Transfer",
+                  "Call Waiting",
+                  "Calling Line ID Blocking Override",
+                  "Calling Line ID Delivery Blocking",
+                  "Calling Name Delivery",
+                  "Calling Name Retrieval",
+                  "Calling Number Delivery",
+                  "Calling Party Category",
+                  "Charge Number",
+                  "Classmark",
+                  "Client Call Control",
+                  "Client Call Control II",
+                  "Client License 1",
+                  "Client License 2",
+                  "Client License 3",
+                  "Client License 4",
+                  "Client License 5",
+                  "Client License 6",
+                  "Client License 7",
+                  "Client License 8",
+                  "Client License 9",
+                  "Client License 10",
+                  "Client License 11",
+                  "Client License 12",
+                  "Client License 13",
+                  "Client License 14",
+                  "Client License 15",
+                  "Client License 16",
+                  "Client License 17",
+                  "Client License 18",
+                  "Client License 19",
+                  "Client License 20",
+                  "Client License 21",
+                  "Client License 22",
+                  "Client License 23",
+                  "Client License 24",
+                  "Client License 25",
+                  "Client License 26",
+                  "Client License 27",
+                  "Client License 28",
+                  "Client License 29",
+                  "Client License 30",
+                  "Client License 31",
+                  "Client License 32",
+                  "Client License 33",
+                  "Client License 34",
+                  "Client License 35",
+                  "Client License 36",
+                  "Client License 37",
+                  "Client License 38",
+                  "Client License 39",
+                  "Client License 40",
+                  "Client License 41",
+                  "Client License 42",
+                  "Client License 43",
+                  "Client License 44",
+                  "Client License 45",
+                  "Client License 46",
+                  "Client License 47",
+                  "Client License 48",
+                  "Client License 49",
+                  "Client License 50",
+                  "Collaborate - Audio",
+                  "Collaborate - Video",
+                  "Collaborate - Sharing",
+                  "CommPilot Call Manager",
+                  "CommPilot Express",
+                  "CommPilot Express SR",
+                  "CommPilot Lite",
+                  "CommPilot Receptionist",
+                  "CommPilot Residential",
+                  "CommPilot Small Business",
+                  "Communication Barring User-Control",
+                  "Conference Room",
+                  "Connected Line Identification Presentation",
+                  "Connected Line Identification Restriction",
+                  "Customer Originated Trace",
+                  "Custom Ringback User",
+                  "Custom Ringback User - Call Waiting",
+                  "Custom Ringback User - Video",
+                  "Direct Route",
+                  "Directed Call Pickup",
+                  "Directed Call Pickup with Barge-in",
+                  "Directory Number Hunting",
+                  "Diversion Inhibitor",
+                  "Do Not Disturb",
+                  "Dual-Mode VCC",
+                  "Enhanced Call Logs",
+                  "Executive",
+                  "Executive-Assistant",
+                  "External Calling Line ID Delivery",
+                  "External Custom Ringback",
+                  "Fax Messaging",
+                  "Find-me/Follow-me",
+                  "Flash Call Hold",
+                  "GETS Calling Line ID Delivery Blocking",
+                  "Group Night Forwarding",
+                  "Hoteling Guest",
+                  "Hoteling Host",
+                  "Flexible Seating Guest",
+                  "Integrated IMP",
+                  "In-Call Service Activation",
+                  "IN Integration",
+                  "Intelligent Network Service Control",
+                  "Intercept User",
+                  "Internal Calling Line ID Delivery",
+                  "Last Number Redial",
+                  "Legacy Automatic Callback",
+                  "Location-Based Calling Restrictions",
+                  "Lync CTI",
+                  "Lync Softphone",
+                  "Malicious Call Trace",
+                  "Mobile Extension to Extension Dialing",
+                  "Mobility",
+                  "Multiple Call Arrangement",
+                  "Music On Hold User",
+                  "Video On Hold User",
+                  "MWI Delivery to Mobile Endpoint",
+                  "N-Way Call",
+                  "Number Portability Announcement",
+                  "OMA Presence",
+                  "Outlook Integration",
+                  "Office Communicator Tab",
+                  "PBX Integration",
+                  "Personal Assistant",
+                  "Physical Location",
+                  "Polycom Phone Services",
+                  "Pre-alerting Announcement",
+                  "Preferred Carrier User",
+                  "Prepaid",
+                  "Priority Alert",
+                  "Privacy",
+                  "Push to Talk",
+                  "Remote Office",
+                  "Resource Priority",
+                  "Route List",
+                  "SMDI Message Desk",
+                  "Security Classification",
+                  "Selective Call Acceptance",
+                  "Selective Call Rejection",
+                  "Sequential Ring",
+                  "Service Scripts User",
+                  "Shared Call Appearance",
+                  "Shared Call Appearance 5",
+                  "Shared Call Appearance 10",
+                  "Shared Call Appearance 15",
+                  "Shared Call Appearance 20",
+                  "Shared Call Appearance 25",
+                  "Shared Call Appearance 30",
+                  "Shared Call Appearance 35",
+                  "Short Message Service",
+                  "Silent Alerting",
+                  "Simultaneous Ring Family",
+                  "Simultaneous Ring Personal",
+                  "Speed Dial 100",
+                  "Speed Dial 8",
+                  "Terminating Alternate Trunk Identity",
+                  "Terminating Closed User Group",
+                  "Third-Party IMP",
+                  "Third-Party MWI Control",
+                  "Third-Party Voice Mail Support",
+                  "Three-Way Call",
+                  "Two-Stage Dialing",
+                  "Video Add-On",
+                  "Virtual On-Net Enterprise Extensions",
+                  "Visual Device Management",
+                  "Voice Messaging User",
+                  "Voice Messaging User - Video",
+                  "Voice Portal Calling",
+                  "Zone Calling Restrictions"
+                ]
+              },
+              {
+                "name": "authorizedQuantity",
+                "required": false,
+                "type": "UnboundedPositiveInt",
+                "schema": [
+                  {
+                    "choice": [
+                      {
+                        "name": "unlimited",
+                        "required": true,
+                        "type": "xs:boolean",
+                        "type_schema": "xs:boolean"
+                      },
+                      {
+                        "name": "quantity",
+                        "required": true,
+                        "type": "xs:int",
+                        "minimum": "1",
+                        "type_schema": "xs:int"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        },
+        {
+          "name": "servicePack",
+          "required": false,
+          "type": "ConsolidatedServicePackAssignment",
+          "schema": [
+            [
+              {
+                "name": "servicePackName",
+                "required": true,
+                "type": "ServicePackName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "authorizedQuantity",
+                "required": false,
+                "type": "UnboundedPositiveInt",
+                "schema": [
+                  {
+                    "choice": [
+                      {
+                        "name": "unlimited",
+                        "required": true,
+                        "type": "xs:boolean",
+                        "type_schema": "xs:boolean"
+                      },
+                      {
+                        "name": "quantity",
+                        "required": true,
+                        "type": "xs:int",
+                        "minimum": "1",
+                        "type_schema": "xs:int"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        },
+        {
+          "name": "thirdPartyVoiceMailServerSelection",
+          "required": false,
+          "type": "ThirdPartyVoiceMailSupportServerSelection",
+          "type_schema": "xs:token",
+          "enum": [
+            "Group Mail Server",
+            "User Specific Mail Server"
+          ]
+        },
+        {
+          "name": "thirdPartyVoiceMailServerUserServer",
+          "required": false,
+          "type": "ThirdPartyVoiceMailSupportMailServer",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "thirdPartyVoiceMailServerMailboxIdType",
+          "required": false,
+          "type": "ThirdPartyVoiceMailSupportMailboxIdType",
+          "type_schema": "xs:token",
+          "enum": [
+            "User Or Group Phone Number",
+            "URL"
+          ]
+        },
+        {
+          "name": "thirdPartyVoiceMailMailboxURL",
+          "required": false,
+          "type": "SIPURI",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "sipAuthenticationData",
+          "required": false,
+          "type": "SIPAuthenticationUserNamePassword",
+          "schema": [
+            [
+              {
+                "name": "sipAuthenticationUserName",
+                "required": true,
+                "type": "SIPAuthenticationUserName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "sipAuthenticationPassword",
+                "required": true,
+                "type": "Password",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "60"
+              }
+            ]
+          ]
+        },
+        {
+          "choice": [
+            [
+              {
+                "name": "groupExternalId",
+                "required": true,
+                "type": "ExternalId",
+                "type_schema": "NonEmptyToken",
+                "maxLength": "36"
+              },
+              [
+                {
+                  "name": "serviceProviderId",
+                  "required": true,
+                  "type": "ServiceProviderId",
+                  "type_schema": "xs:token",
+                  "minLength": "1",
+                  "maxLength": "30"
+                },
+                {
+                  "name": "groupId",
+                  "required": true,
+                  "type": "GroupId",
+                  "type_schema": "xs:token",
+                  "minLength": "1",
+                  "maxLength": "30"
+                }
+              ]
+            ],
+            [
+              {
+                "name": "accessDeviceEndpoint",
+                "required": false,
+                "type": "ConsolidatedAccessDeviceMultipleIdentityEndpointAndContactAdd22",
+                "schema": [
+                  [
+                    {
+                      "name": "accessDevice",
+                      "required": true,
+                      "type": "AccessDevice",
+                      "schema": [
+                        [
+                          {
+                            "name": "deviceLevel",
+                            "required": true,
+                            "type": "AccessDeviceLevel",
+                            "type_schema": "xs:token",
+                            "enum": [
+                              "System",
+                              "Service Provider",
+                              "Group"
+                            ]
+                          },
+                          {
+                            "name": "deviceName",
+                            "required": true,
+                            "type": "AccessDeviceName",
+                            "type_schema": "xs:token",
+                            "minLength": "1",
+                            "maxLength": "40"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "name": "linePort",
+                      "required": true,
+                      "type": "AccessDeviceEndpointLinePort",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "161"
+                    },
+                    {
+                      "name": "privateIdentity",
+                      "required": false,
+                      "type": "AccessDeviceEndpointPrivateIdentity",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "161"
+                    },
+                    {
+                      "name": "contact",
+                      "required": false,
+                      "type": "SIPContact",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "1020"
+                    },
+                    {
+                      "name": "portNumber",
+                      "required": false,
+                      "type": "AccessDevicePortNumber",
+                      "type_schema": "xs:int",
+                      "minimum": "1",
+                      "maximum": "1024"
+                    },
+                    {
+                      "name": "deviceType",
+                      "required": false,
+                      "type": "AccessDeviceType",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "40"
+                    },
+                    {
+                      "name": "protocol",
+                      "required": false,
+                      "type": "AccessDeviceProtocol",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "20"
+                    },
+                    {
+                      "name": "netAddress",
+                      "required": false,
+                      "type": "NetAddress",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "80"
+                    },
+                    {
+                      "name": "port",
+                      "required": false,
+                      "type": "Port1025",
+                      "type_schema": "xs:int",
+                      "minimum": "1025",
+                      "maximum": "65535"
+                    },
+                    {
+                      "name": "outboundProxyServerNetAddress",
+                      "required": false,
+                      "type": "NetAddress",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "80"
+                    },
+                    {
+                      "name": "stunServerNetAddress",
+                      "required": false,
+                      "type": "NetAddress",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "80"
+                    },
+                    {
+                      "name": "macAddress",
+                      "required": false,
+                      "type": "AccessDeviceMACAddress",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "12"
+                    },
+                    {
+                      "name": "serialNumber",
+                      "required": false,
+                      "type": "AccessDeviceSerialNumber",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "80"
+                    },
+                    {
+                      "name": "description",
+                      "required": false,
+                      "type": "AccessDeviceDescription",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "80"
+                    },
+                    {
+                      "name": "physicalLocation",
+                      "required": false,
+                      "type": "AccessDevicePhysicalLocation",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "1024"
+                    },
+                    {
+                      "name": "transportProtocol",
+                      "required": false,
+                      "type": "ExtendedTransportProtocol",
+                      "type_schema": "xs:token",
+                      "enum": [
+                        "UDP",
+                        "TCP",
+                        "TLS",
+                        "Unspecified"
+                      ]
+                    },
+                    {
+                      "name": "useCustomUserNamePassword",
+                      "required": false,
+                      "type": "xs:boolean",
+                      "type_schema": "xs:boolean"
+                    },
+                    {
+                      "name": "accessDeviceCredentials",
+                      "required": false,
+                      "type": "DeviceManagementUserNamePassword16",
+                      "schema": [
+                        [
+                          {
+                            "name": "userName",
+                            "required": true,
+                            "type": "UserId",
+                            "type_schema": "xs:token",
+                            "minLength": "1",
+                            "maxLength": "161"
+                          },
+                          {
+                            "name": "password",
+                            "required": true,
+                            "type": "Password",
+                            "type_schema": "xs:token",
+                            "minLength": "1",
+                            "maxLength": "60"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "name": "useHotline",
+                      "required": true,
+                      "type": "xs:boolean",
+                      "type_schema": "xs:boolean"
+                    },
+                    {
+                      "name": "hotlineContact",
+                      "required": false,
+                      "type": "SIPURI",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "161"
+                    }
+                  ]
+                ]
+              },
+              {
+                "name": "trunkAddressing",
+                "required": false,
+                "type": "TrunkAddressingMultipleContactAdd",
+                "schema": [
+                  [
+                    {
+                      "name": "trunkGroupDeviceEndpoint",
+                      "required": false,
+                      "type": "TrunkGroupDeviceMultipleContactEndpointAdd",
+                      "schema": [
+                        [
+                          {
+                            "name": "name",
+                            "required": true,
+                            "type": "TrunkGroupName",
+                            "type_schema": "xs:token",
+                            "minLength": "1",
+                            "maxLength": "30"
+                          },
+                          {
+                            "name": "linePort",
+                            "required": true,
+                            "type": "AccessDeviceEndpointLinePort",
+                            "type_schema": "xs:token",
+                            "minLength": "1",
+                            "maxLength": "161"
+                          },
+                          {
+                            "name": "contact",
+                            "required": false,
+                            "type": "SIPContact",
+                            "type_schema": "xs:token",
+                            "minLength": "1",
+                            "maxLength": "1020"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "name": "enterpriseTrunkName",
+                      "required": false,
+                      "type": "EnterpriseTrunkName",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "30"
+                    },
+                    {
+                      "name": "alternateTrunkIdentity",
+                      "required": false,
+                      "type": "AlternateTrunkIdentity",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "80"
+                    },
+                    {
+                      "name": "alternateTrunkIdentityDomain",
+                      "required": false,
+                      "type": "DomainName",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "80"
+                    },
+                    {
+                      "name": "physicalLocation",
+                      "required": false,
+                      "type": "AccessDevicePhysicalLocation",
+                      "type_schema": "xs:token",
+                      "minLength": "1",
+                      "maxLength": "1024"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "name": "AuthenticationVerifyRequest22V4",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "AuthenticationVerifyRequest22V4 is used to authenticate a user either by userId/password, userId/sip username/sip password,\n        dn/passcode, lineport/password or a token previously authorized with the ExternalAuthenticationAuthorizeTokenRequest.\n        The phone number may be any DN associated with a user.\n        The lineport may be any lineport associated with a user.\n        The password used for the lineport is the user's password associated with userId.\n\n        The response is a AuthenticationVerifyResponse22V4 or an ErrorResponse",
+    "type": "core:OCIRequest",
+    "schema": [
+      {
+        "choice": [
+          [
+            [
+              {
+                "name": "userId",
+                "required": true,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              },
+              {
+                "name": "password",
+                "required": true,
+                "type": "Password",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "60"
+              }
+            ],
+            [
+              {
+                "name": "phoneNumber",
+                "required": true,
+                "type": "DN",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "23"
+              },
+              {
+                "name": "passcode",
+                "required": true,
+                "type": "Passcode",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              }
+            ],
+            [
+              {
+                "name": "linePort",
+                "required": true,
+                "type": "AccessDeviceEndpointLinePort",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              },
+              {
+                "name": "password",
+                "required": true,
+                "type": "Password",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "60"
+              }
+            ],
+            [
+              {
+                "name": "loginToken",
+                "required": true,
+                "type": "LoginToken",
+                "type_schema": "xs:token",
+                "minLength": "1"
+              }
+            ],
+            [
+              {
+                "name": "sipAuthenticationUserName",
+                "required": true,
+                "type": "SIPAuthenticationUserName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "80"
+              },
+              {
+                "name": "sipAuthenticationPassword",
+                "required": true,
+                "type": "SIPAuthenticationPassword",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "60"
+              },
+              {
+                "name": "userId",
+                "required": true,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              }
+            ]
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "name": "AuthenticationVerifyResponse22V4",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Response to AuthenticationVerifyRequest22V4\n\n        The following data elements are only returned in AS data mode:\n          resellerId\n\n        If a phoneNumber is returned, it will be the primary DN of the user.\n\n        The parameter tokenRevocationTime is represented in the number of milliseconds\n        since January 1, 1970, 00:00:00 GMT, and it is set to the more current time between\n        the system level token revocation time and user level token revocation time.",
+    "type": "core:OCIDataResponse",
+    "schema": [
+      [
+        {
+          "name": "loginType",
+          "required": true,
+          "type": "LoginType22",
+          "type_schema": "xs:token",
+          "enum": [
+            "System",
+            "Provisioning",
+            "Reseller",
+            "Service Provider",
+            "Group",
+            "Group Department",
+            "User",
+            "Lawful Intercept"
+          ]
+        },
+        {
+          "name": "locale",
+          "required": true,
+          "type": "OCILocale22",
+          "type_schema": "xs:NMTOKEN",
+          "maxLength": "20"
+        },
+        {
+          "name": "encoding",
+          "required": true,
+          "type": "Encoding",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "40"
+        },
+        {
+          "name": "groupId",
+          "required": false,
+          "type": "GroupId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "serviceProviderId",
+          "required": false,
+          "type": "ServiceProviderId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "isEnterprise",
+          "required": true,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "passwordExpiresDays",
+          "required": false,
+          "type": "xs:int",
+          "type_schema": "xs:int"
+        },
+        {
+          "name": "lastName",
+          "required": false,
+          "type": "LastName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "firstName",
+          "required": false,
+          "type": "FirstName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "phoneNumber",
+          "required": false,
+          "type": "DN",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "23"
+        },
+        {
+          "name": "resellerId",
+          "required": false,
+          "type": "ResellerId22",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "36"
+        },
+        {
+          "name": "tokenRevocationTime",
+          "required": false,
+          "type": "xs:long",
+          "type_schema": "xs:long"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "AvailabilityTestRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "AvailabilityTestRequest is for high-availability support. Response is either SuccessResponse\n        or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": []
+  },
+  {
+    "name": "DeviceManagementFileAuthLocationGetRequest22V3",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Get the address and credentials of the File Repository hosting the requested access device file.\n        Also get the file name and path on the File Repository.\n        The response is either DeviceManagementFileAuthLocationGetResponse22V3 or ErrorResponse.\n        The following elements are only used in AS data mode and will fail in XS data mode:\n          deviceToken\n        The following elements are only used in XS data mode and will be ignored in AS data mode:\n          fileNameLookup\n          fileNameOnDisk",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "deviceAccessProtocol",
+          "required": true,
+          "type": "DeviceAccessProtocol22",
+          "type_schema": "xs:token",
+          "enum": [
+            "Http",
+            "Https",
+            "FTP",
+            "FTPS",
+            "SFTP",
+            "TFTP"
+          ]
+        },
+        {
+          "name": "deviceAccessMethod",
+          "required": true,
+          "type": "FileRepositoryAccessType",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "40"
+        },
+        {
+          "name": "deviceAccessURI",
+          "required": true,
+          "type": "DeviceManagementAccessURI",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "256"
+        },
+        {
+          "name": "accessDeviceUserName",
+          "required": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "accessDeviceUserPassword",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        },
+        {
+          "name": "deviceToken",
+          "required": false,
+          "type": "LoginToken",
+          "type_schema": "xs:token",
+          "minLength": "1"
+        },
+        {
+          "name": "signedPassword",
+          "required": false,
+          "type": "SignedPassword",
+          "type_schema": "xs:string",
+          "minLength": "1"
+        },
+        {
+          "name": "macAddress",
+          "required": false,
+          "type": "AccessDeviceMACAddress",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "12"
+        },
+        {
+          "name": "realmName",
+          "required": false,
+          "type": "RealmName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "265"
+        },
+        {
+          "name": "digestHa1Complement",
+          "required": false,
+          "type": "DigestHa1Complement",
+          "type_schema": "xs:token",
+          "minLength": "32",
+          "maxLength": "256"
+        },
+        {
+          "name": "digestResponse",
+          "required": false,
+          "type": "Md5Hash",
+          "type_schema": "xs:token",
+          "minLength": "32",
+          "maxLength": "32"
+        },
+        {
+          "name": "fileNameLookup",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "fileNameOnDisk",
+          "required": false,
+          "type": "CPESystemFileName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "265"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "DeviceManagementFileAuthLocationGetResponse22V3",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "This is a response to DeviceManagementFileAuthLocationGetRequest22V3.\n        Return the address and credentials of the File Repository hosting the requested access device file.\n        Also return the file name and path on the File Repository.\n        Also returns the status of the file authentication.",
+    "type": "core:OCIDataResponse",
+    "schema": [
+      [
+        {
+          "name": "status",
+          "required": false,
+          "type": "DeviceManagementFileAuthenticationStatus",
+          "type_schema": "xs:token",
+          "enum": [
+            "Challenge",
+            "Need Digest Authentication",
+            "Need User Password Authentication"
+          ]
+        },
+        {
+          "name": "fileRepositoryUserName",
+          "required": true,
+          "type": "FileRepositoryUserName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "fileRepositoryPassword",
+          "required": true,
+          "type": "FileRepositoryUserPassword",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "netAddress",
+          "required": true,
+          "type": "NetAddress",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "80"
+        },
+        {
+          "name": "remoteFileFormat",
+          "required": true,
+          "type": "DeviceManagementFileFormat",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "128"
+        },
+        {
+          "name": "portNumber",
+          "required": false,
+          "type": "Port",
+          "type_schema": "xs:int",
+          "minimum": "1",
+          "maximum": "65535"
+        },
+        {
+          "name": "rootDirectory",
+          "required": false,
+          "type": "CPEFileDirectory",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "256"
+        },
+        {
+          "name": "cpeFileDirectory",
+          "required": false,
+          "type": "CPEFileDirectory",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "256"
+        },
+        {
+          "name": "secure",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "macInNonRequestURI",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "macInCert",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "macFormatInNonRequestURI",
+          "required": false,
+          "type": "DeviceManagementAccessURI",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "256"
+        },
+        {
+          "name": "useHttpDigestAuthentication",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "macBasedFileAuthentication",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "userNamePasswordFileAuthentication",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "completionNotification",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "fileCategory",
+          "required": false,
+          "type": "DeviceManagementFileCategory22",
+          "type_schema": "xs:token",
+          "enum": [
+            "Static",
+            "Dynamic Group",
+            "Dynamic Profile",
+            "Template Only"
+          ]
+        },
+        {
+          "name": "enableCaching",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "notifyFileUpload",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "DeviceManagementPutFileRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Informs BroadWorks that a file was uploaded to the repository. The response is always a SuccessResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "deviceAccessURI",
+          "required": true,
+          "type": "DeviceManagementAccessURI",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "256"
+        },
+        {
+          "name": "ipAddress",
+          "required": true,
+          "type": "NetAddress",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "80"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "ExternalAuthenticationAuthorizeTokenRequest22",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "This command is part of the Portal API.\n        Sent when a Web or CLI user logs in using external authentication.\n        The hashed password value in the request is supported only when the request is sent from the CommPilot web portal.\n        The response is either SuccessResponse or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "password",
+          "required": false,
+          "type": "Password256",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "256"
+        },
+        {
+          "name": "isPasswordHashed",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "loginToken",
+          "required": true,
+          "type": "LoginToken",
+          "type_schema": "xs:token",
+          "minLength": "1"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "ExternalAuthenticationCreateLoginTokenRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "This command allows a BroadWorks or Third-Party Client Application to\n        create a Single Sign-On token for a user.\n        The response is either ExternalAuthenticationCreateLoginTokenResponse\n        or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "ExternalAuthenticationCreateLoginTokenResponse",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Response to ExternalAuthenticationCreateLoginTokenRequest.",
+    "type": "core:OCIDataResponse",
+    "schema": [
+      [
+        {
+          "name": "loginToken",
+          "required": true,
+          "type": "LoginToken",
+          "type_schema": "xs:token",
+          "minLength": "1"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "LoginRequest22V5",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Request to login to OCI.\n        password is not required for external authentication login from a trusted host (ACL).\n\n        The following data element is only used in XS data mode and will be ignored in AS data mode:\n          signedPassword",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "password",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        },
+        {
+          "name": "signedPassword",
+          "required": false,
+          "type": "SignedPassword",
+          "type_schema": "xs:string",
+          "minLength": "1"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "LoginResponse22V5",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Response to the OCI login request.\n\n        The following data elements are only returned in AS data mode:\n          resellerId\n\n        The parameter tokenRevocationTime is represented in the number of milliseconds\n        since January 1, 1970, 00:00:00 GMT, and it is set to the more current time between\n        the system level token revocation time and user level token revocation time.",
+    "type": "core:OCIDataResponse",
+    "schema": [
+      [
+        {
+          "name": "loginType",
+          "required": true,
+          "type": "LoginType22",
+          "type_schema": "xs:token",
+          "enum": [
+            "System",
+            "Provisioning",
+            "Reseller",
+            "Service Provider",
+            "Group",
+            "Group Department",
+            "User",
+            "Lawful Intercept"
+          ]
+        },
+        {
+          "name": "locale",
+          "required": true,
+          "type": "OCILocale22",
+          "type_schema": "xs:NMTOKEN",
+          "maxLength": "20"
+        },
+        {
+          "name": "encoding",
+          "required": true,
+          "type": "Encoding",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "40"
+        },
+        {
+          "name": "groupId",
+          "required": false,
+          "type": "GroupId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "serviceProviderId",
+          "required": false,
+          "type": "ServiceProviderId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "isEnterprise",
+          "required": true,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "passwordExpiresDays",
+          "required": false,
+          "type": "xs:int",
+          "type_schema": "xs:int"
+        },
+        {
+          "name": "userDomain",
+          "required": true,
+          "type": "NetAddress",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "80"
+        },
+        {
+          "name": "resellerId",
+          "required": false,
+          "type": "ResellerId22",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "36"
+        },
+        {
+          "name": "tokenRevocationTime",
+          "required": false,
+          "type": "xs:long",
+          "type_schema": "xs:long"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "LogoutRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "LogoutRequest is sent when an OCI user logs out or when connection is lost.\n        This command can be sent either to the server, or to the client from OCS.\n        Response is either SuccessResponse or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "reason",
+          "required": false,
+          "type": "LogoutRequestReason",
+          "type_schema": "xs:token"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "LongLivedTokenRevokeRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Revoke all previously issued long lived tokens.\n        If the userId is not specified, revoke all tokens in the system.\n        If the userId is specified, revoke all tokens issued to the user.\n        The response is either a SuccessResponse or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "PasswordGenerateRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Generate passwords based on the corresponding password/passcode rules.\n        The response is either PasswordGenerateResponse or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "systemAdministratorPassword",
+          "required": false,
+          "type": "PasswordForSystemAdministrator",
+          "schema": [
+            [
+              {
+                "name": "administratorId",
+                "required": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              },
+              {
+                "name": "generatePassword",
+                "required": true,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "serviceProviderAdministratorPassword",
+          "required": false,
+          "type": "PasswordForServiceProviderAdministrator",
+          "schema": [
+            [
+              {
+                "name": "serviceProviderId",
+                "required": true,
+                "type": "ServiceProviderId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "administratorId",
+                "required": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              },
+              {
+                "name": "generatePassword",
+                "required": true,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "groupAdministratorPassword",
+          "required": false,
+          "type": "PasswordForGroupAdministrator",
+          "schema": [
+            [
+              {
+                "name": "serviceProviderId",
+                "required": true,
+                "type": "ServiceProviderId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "groupId",
+                "required": true,
+                "type": "GroupId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "administratorId",
+                "required": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              },
+              {
+                "name": "generatePassword",
+                "required": true,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "userPassword",
+          "required": false,
+          "type": "PasswordForUser",
+          "schema": [
+            [
+              {
+                "name": "serviceProviderId",
+                "required": true,
+                "type": "ServiceProviderId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "groupId",
+                "required": true,
+                "type": "GroupId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "userId",
+                "required": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              },
+              {
+                "name": "generatePassword",
+                "required": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              },
+              {
+                "name": "generatePasscode",
+                "required": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              },
+              {
+                "name": "generateSipPassword",
+                "required": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "accessDeviceAuthenticationPassword",
+          "required": false,
+          "type": "PasswordForAccessDevice",
+          "schema": [
+            [
+              {
+                "name": "serviceProviderId",
+                "required": false,
+                "type": "ServiceProviderId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "groupId",
+                "required": false,
+                "type": "GroupId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "deviceName",
+                "required": false,
+                "type": "AccessDeviceName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "40"
+              },
+              {
+                "name": "generateDeviceAuthenticationPassword",
+                "required": true,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "trunkGroupAuthenticationPassword",
+          "required": false,
+          "type": "PasswordForTrunkGroup",
+          "schema": [
+            [
+              {
+                "name": "serviceProviderId",
+                "required": true,
+                "type": "ServiceProviderId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "groupId",
+                "required": true,
+                "type": "GroupId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "name",
+                "required": false,
+                "type": "TrunkGroupName",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "30"
+              },
+              {
+                "name": "generateTrunkGroupAuthenticationPassword",
+                "required": true,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "name": "PasswordGenerateResponse",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Response to the PasswordGenerateRequest.\n        The response contains the requested passwords.",
+    "type": "core:OCIDataResponse",
+    "schema": [
+      [
+        {
+          "name": "systemAdministratorPassword",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        },
+        {
+          "name": "serviceProviderAdministratorPassword",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        },
+        {
+          "name": "groupAdministratorPassword",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        },
+        {
+          "name": "userPassword",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        },
+        {
+          "name": "userPasscode",
+          "required": false,
+          "type": "Passcode",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "userSIPAuthenticationPassword",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        },
+        {
+          "name": "accessDeviceAuthenticationPassword",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        },
+        {
+          "name": "trunkGroupAuthenticationPassword",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "PasswordModifyRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Modify the password for a user/administrator.\n        When oldPassword is specified, password rule applies. If oldPassword in not specified,\n        any password rule related to old password does not apply.\n        The response is either a SuccessResponse or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "oldPassword",
+          "required": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        },
+        {
+          "name": "newPassword",
+          "required": true,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "60"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "PrimaryInfoGetRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Requests information about the primary server for high-availability support.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "isPrivate",
+          "required": true,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "isAddressInfoRequested",
+          "required": true,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "PrimaryInfoGetResponse",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Information about the primary server in the high-availablity cluster.\n        For optimization, we only get the hostname and addresses for primary if they are\n        explicitly requested or if the current server is not the primary.",
+    "type": "core:OCIDataResponse",
+    "schema": [
+      [
+        {
+          "name": "isPrimary",
+          "required": true,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "hostnameForPrimary",
+          "required": false,
+          "type": "NetAddress",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "80"
+        },
+        {
+          "name": "addressForPrimary",
+          "required": false,
+          "type": "NetAddress",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "80"
+        },
+        {
+          "name": "privateAddressForPrimary",
+          "required": false,
+          "type": "NetAddress",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "80"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "PublicClusterGetFullyQualifiedDomainNameRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Get the public cluster fully qualified domain name (FQDN).\n        The response is either a PublicClusterGetFullyQualifiedDomainNameResponse\n        or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": []
+  },
+  {
+    "name": "PublicClusterGetFullyQualifiedDomainNameResponse",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Response to PublicClusterGetFullyQualifiedDomainNameRequest.",
+    "type": "core:OCIDataResponse",
+    "schema": [
+      [
+        {
+          "name": "publicClusterFQDN",
+          "required": false,
+          "type": "DomainName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "80"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "TutorialFlagGetRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Get the tutorial flag setting for a user or admin.\n        The response is either a TutorialFlagGetResponse or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "TutorialFlagGetResponse",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Response to the TutorialFlagGetRequest.",
+    "type": "core:OCIDataResponse",
+    "schema": [
+      [
+        {
+          "name": "enableTutorial",
+          "required": true,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "TutorialFlagModifyRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Modify the tutorial flag setting for a user or admin.\n        The response is either a SuccessResponse or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "enableTutorial",
+          "required": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "UserGetLoginInfoRequest22V4",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "UserGetLoginInfoRequest22V4 is used to access login information for a user\n        either by a userId, dn or lineport.\n        The phone number may be any DN associated with a user.\n        The lineport may be any lineport associated with a user.\n\n        The response is a UserGetLoginInfoResponse22V4 or an ErrorResponse.\n\n        The following elements are only used in AS data mode and ignored in XS and Amplify data mode.\n          loginRole",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "choice": [
+            {
+              "name": "phoneNumber",
+              "required": true,
+              "type": "DN"
+            },
+            {
+              "name": "linePort",
+              "required": true,
+              "type": "AccessDeviceEndpointLinePort"
+            },
+            [
+              {
+                "name": "userId",
+                "required": true,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": "1",
+                "maxLength": "161"
+              },
+              {
+                "name": "loginRole",
+                "required": false,
+                "type": "LoginRole",
+                "type_schema": "xs:token",
+                "enum": [
+                  "Administrator",
+                  "User"
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "name": "UserGetLoginInfoResponse22V4",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Response to UserGetLoginInfoRequest22V4\n\n        The following data elements are only used in AS data mode:\n          resellerId\n\n        If a phoneNumber is returned, it will be the primary DN of the user\n        The parameter\n         tokenRevocationTime is represented in the number of milliseconds\n        since January 1, 1970, 00:00:00 GMT, and it is set to the more current time between\n        the system level token revocation time and user level token revocation time.",
+    "type": "core:OCIDataResponse",
+    "schema": [
+      [
+        {
+          "name": "loginType",
+          "required": true,
+          "type": "LoginType22",
+          "type_schema": "xs:token",
+          "enum": [
+            "System",
+            "Provisioning",
+            "Reseller",
+            "Service Provider",
+            "Group",
+            "Group Department",
+            "User",
+            "Lawful Intercept"
+          ]
+        },
+        {
+          "name": "locale",
+          "required": true,
+          "type": "OCILocale22",
+          "type_schema": "xs:NMTOKEN",
+          "maxLength": "20"
+        },
+        {
+          "name": "encoding",
+          "required": true,
+          "type": "Encoding",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "40"
+        },
+        {
+          "name": "groupId",
+          "required": false,
+          "type": "GroupId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "serviceProviderId",
+          "required": false,
+          "type": "ServiceProviderId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "isEnterprise",
+          "required": true,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "passwordExpiresDays",
+          "required": false,
+          "type": "xs:int",
+          "type_schema": "xs:int"
+        },
+        {
+          "name": "lastName",
+          "required": false,
+          "type": "LastName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "firstName",
+          "required": false,
+          "type": "FirstName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "30"
+        },
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "phoneNumber",
+          "required": false,
+          "type": "DN",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "23"
+        },
+        {
+          "name": "resellerId",
+          "required": false,
+          "type": "ResellerId22",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "36"
+        },
+        {
+          "name": "tokenRevocationTime",
+          "required": false,
+          "type": "xs:long",
+          "type_schema": "xs:long"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "UserSingleSignOnCreateDeviceTokenRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "This command allows a BroadWorks or Third-Party Client Application to\n        create a Single Sign-On token for a device of a user.\n        The token is created only if:\n        1. the specified user is the owner of a lineport on the specified device\n           (including a trunk user on a trunk device).\n        2. and, the specified device is not in locked state.\n        3. and, the device type of the device does support Device Management.\n        The response is either UserSingleSignOnCreateDeviceTokenResponse\n        or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "161"
+        },
+        {
+          "name": "deviceLevel",
+          "required": true,
+          "type": "AccessDeviceLevel",
+          "type_schema": "xs:token",
+          "enum": [
+            "System",
+            "Service Provider",
+            "Group"
+          ]
+        },
+        {
+          "name": "deviceName",
+          "required": true,
+          "type": "AccessDeviceName",
+          "type_schema": "xs:token",
+          "minLength": "1",
+          "maxLength": "40"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "UserSingleSignOnCreateDeviceTokenResponse",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Response to UserSingleSignOnCreateDeviceTokenRequest.",
+    "type": "core:OCIDataResponse",
+    "schema": [
+      [
+        {
+          "name": "deviceToken",
+          "required": true,
+          "type": "LoginToken",
+          "type_schema": "xs:token",
+          "minLength": "1"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "VerifySessionIsValidRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Query the provisioning server to verify the session is authorized. Most\n        applications should not need this command, because the provisioning server\n        verifies the session is authorized for all commands.\n        The response is either a SuccessResponse or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": []
+  },
+  {
+    "name": "PasswordForAccessDevice",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Passwords to be generated for an access device.\n        The combination of serviceProviderId, groupId, and deviceName will be used\n        to find the device if it exists. If the device doesn't exist yet, then\n        the serviceProviderId and groupId will be used to choose the password\n        rules with which to generate the device password.",
+    "type": null,
+    "schema": []
+  },
+  {
+    "name": "PasswordForGroupAdministrator",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Password to be generated for a group administrator. If the administratorId is not included, or included but\n        is not an exiting administrator for the group, a password will be generated based on only the rules applicable\n        for a new user.",
+    "type": null,
+    "schema": []
+  },
+  {
+    "name": "PasswordForServiceProviderAdministrator",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Password to be generated for a service provider administrator. If the administratorId is not included,\n        or included but is not an exiting administrator for the service provider, a password will be generated\n        based on only the rules applicable for a new user.",
+    "type": null,
+    "schema": []
+  },
+  {
+    "name": "PasswordForSystemAdministrator",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Password to be generated for a System or Provisioning administrator. If the administratorId is\n        not included, or included but is not an exiting administrator for the\n        service provider, a password will be generated\n        based on only the rules applicable for a new user.",
+    "type": null,
+    "schema": []
+  },
+  {
+    "name": "PasswordForTrunkGroup",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Passwords to be generated for a trunk group.\n        The combination of serviceProviderId, groupId, and name will be used to\n        find the trunk group if it exists. If the trunk group doesn't exist yet,\n        then the serviceProviderId and groupId will be used to choose the password\n        rules with which to generate the trunk group password.",
+    "type": null,
+    "schema": []
+  },
+  {
+    "name": "PasswordForUser",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Passwords, passcode and SIP authentication passwords to be generated for a user. If the userId is not\n        included or included but is not an existing user in the group, a password will be generated based on only\n        the rules applicable for a new user.",
+    "type": null,
+    "schema": []
+  }
+]

@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- B R O A D   W O R K S   A N Y W H E R E   S E R V I C E                              -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSearchCriteria.xsd"/>
+  <xs:include schemaLocation="../OCISchemaSortCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- B R O A D   W O R K S   A N Y W H E R E   R E Q U E S T S   A N D   R E S P O N S E S  -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    GroupBroadWorksAnywhereAddInstanceRequest
+    GroupBroadWorksAnywhereDeleteInstanceRequest
+    GroupBroadWorksAnywhereGetInstanceListRequest
+    GroupBroadWorksAnywhereGetInstanceRequest19sp1
+    GroupBroadWorksAnywhereModifyActiveInstanceListRequest
+    GroupBroadWorksAnywhereModifyInstanceRequest
+    SystemBroadWorksAnywhereGetRequest
+    SystemBroadWorksAnywhereModifyRequest
+    UserBroadWorksAnywhereAddPhoneNumberRequest
+    UserBroadWorksAnywhereAddSelectiveCriteriaRequest16
+    UserBroadWorksAnywhereDeletePhoneNumberRequest
+    UserBroadWorksAnywhereDeleteSelectiveCriteriaRequest
+    UserBroadWorksAnywhereGetAvailablePortalListRequest21sp1
+    UserBroadWorksAnywhereGetPhoneNumberPagedSortedListRequest
+    UserBroadWorksAnywhereGetPhoneNumberRequest
+    UserBroadWorksAnywhereGetRequest16sp2
+    UserBroadWorksAnywhereGetSelectiveCriteriaRequest21
+    UserBroadWorksAnywhereModifyPhoneNumberRequest
+    UserBroadWorksAnywhereModifyRequest
+    UserBroadWorksAnywhereModifySelectiveCriteriaRequest
+-->
+
+  <xs:complexType name="GroupBroadWorksAnywhereAddInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a BroadWorks Anywhere instance to a group.
+        The domain is required in the serviceUserId.
+        The following elements are only used in AS data mode:
+          networkClassOfService
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceAddProfile"/>
+          <xs:element name="broadWorksAnywhereScope" type="BroadWorksAnywhereScope"/>
+          <xs:element name="promptForCLID" type="BroadWorksAnywhereCLIDPrompt"/>
+          <xs:element name="silentPromptMode" type="xs:boolean"/>
+          <xs:element name="promptForPasscode" type="xs:boolean"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksAnywhereDeleteInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a BroadWorks Anywhere instance from a group.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksAnywhereGetInstanceListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of BroadWorks Anywhere instances within a group.
+        The response is either GroupBroadWorksAnywhereGetInstanceListResponse or ErrorResponse.
+        It is possible to get the instances within a specified department.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceProviderId" type="ServiceProviderId"/>
+          <xs:element name="groupId" type="GroupId"/>
+          <xs:element name="groupDepartmentName" type="DepartmentName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksAnywhereGetInstanceListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the GroupBroadWorksAnywhereGetInstanceListRequest.
+        Contains a table with column headings:
+        "Service User Id", "Name", "Phone Number", "Extension", "Department", "Is Active".
+        The column value for "Is Active" can either be true, or false.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="broadWorksAnywhereTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksAnywhereGetInstanceRequest19sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get all the information of a BroadWorks Anywhere instance.
+        The response is either GroupBroadWorksAnywhereGetInstanceResponse19sp1 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksAnywhereGetInstanceResponse19sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Response to GroupBroadWorksAnywhereGetInstanceRequest19sp1.
+        Contains the service profile information.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceReadProfile19sp1"/>
+          <xs:element name="broadWorksAnywhereScope" type="BroadWorksAnywhereScope"/>
+          <xs:element name="promptForCLID" type="BroadWorksAnywhereCLIDPrompt"/>
+          <xs:element name="silentPromptMode" type="xs:boolean"/>
+          <xs:element name="promptForPasscode" type="xs:boolean"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksAnywhereModifyActiveInstanceListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to set the active status of BroadWorks Anywhere instances.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceActivation" type="ServiceActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupBroadWorksAnywhereModifyInstanceRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify a BroadWorks Anywhere instance.
+        The following elements are only used in AS data mode:
+          networkClassOfService
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceUserId" type="UserId"/>
+          <xs:element name="serviceInstanceProfile" type="ServiceInstanceModifyProfile" minOccurs="0"/>
+          <xs:element name="broadWorksAnywhereScope" type="BroadWorksAnywhereScope" minOccurs="0"/>
+          <xs:element name="promptForCLID" type="BroadWorksAnywhereCLIDPrompt" minOccurs="0"/>
+          <xs:element name="silentPromptMode" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="promptForPasscode" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksAnywhereGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the Broadworks Anywhere system parameters.
+        The response is either a SystemBroadWorksAnywhereGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksAnywhereGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        The response to a SystemBroadWorksAnywhereGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="enableTransferNotification" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemBroadWorksAnywhereModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the BroadWorks Anywhere system parameters.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="enableTransferNotification" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereAddPhoneNumberRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a broadworks Anywhere phone number.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="phoneNumber" type="DN"/>
+          <xs:element name="description" type="BroadWorksAnywherePhoneNumberDescription" minOccurs="0"/>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="outboundAlternateNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+          <xs:element name="broadworksCallControl" type="xs:boolean"/>
+          <xs:element name="useDiversionInhibitor" type="xs:boolean"/>
+          <xs:element name="answerConfirmationRequired" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereAddSelectiveCriteriaRequest16">
+    <xs:annotation>
+      <xs:documentation>
+        Add a criteria to the user's BroadWorks Anywhere phone number.
+        The following elements are only used in AS data mode:
+          callToNumber
+
+        For the callToNumber, the extension element is not used and the number element is only used when the type is BroadWorks Mobility.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="phoneNumber" type="DN"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean"/>
+          <xs:element name="fromDnCriteria" type="CriteriaFromDn"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereDeletePhoneNumberRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a broadworks anywhere phone number. Also deletes all the selective criteria for the phone number.
+        The response is either a SuccessResponse or an ErrorResponse.
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="phoneNumber" type="DN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereDeleteSelectiveCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a criteria from the user's BroadWorks Anywhere phone number.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="phoneNumber" type="DN"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereGetAvailablePortalListRequest21sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of all the available BroadWorks Anywhere portal instances for a specific user
+        The response is either UserBroadWorksAnywhereGetAvailableListResponse21sp1 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereGetAvailablePortalListResponse21sp1">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserBroadWorksAnywhereGetAvailablePortalListRequest21sp1.
+        Contains a table with column headings: "Portal ID", "Portal Name", "Phone Number", "Extension", "Language".
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="portalTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereGetPhoneNumberPagedSortedListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the list of all the BroadWorks Anywhere phone numbers for the user.
+        If no sortOrder is included the response is sorted by Phone Number ascending by default.
+        The response is either a UserBroadWorksAnywhereGetPhoneNumberPagedSortedListResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="responsePagingControl" type="ResponsePagingControl" minOccurs="0"/>
+          <xs:choice minOccurs="0">
+            <xs:element name="sortByLocation" type="SortByLocation"/>
+            <xs:element name="sortByEnabled" type="SortByEnabled"/>
+          </xs:choice>
+          <xs:element name="searchCriteriaLocation" type="SearchCriteriaLocation" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactLocationEnabled" type="SearchCriteriaExactLocationEnabled" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereGetPhoneNumberPagedSortedListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserBroadWorksAnywhereGetPhoneNumberPagedSortedListRequest.
+        The phoneNumberTable contains columns: "Phone Number", "Description", "Activated"
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="phoneNumberTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereGetPhoneNumberRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a broadworks anywhere phone number
+        The response is UserBroadWorksAnywhereGetPhoneNumberResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="phoneNumber" type="DN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereGetPhoneNumberResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserBroadWorksAnywhereGetPhoneNumberRequest.
+        The criteria table's column headings are: "Is Active", "Criteria Name", "Time Schedule",
+        "Calls From", "Blacklisted", "Holiday Schedule", "Calls To Type", "Calls To Number" and "Calls To Extension".
+        The following columns are only returned in AS data mode:
+          "Calls To Type", "Calls To Number" and "Calls To Extension"
+
+        The possible values for the "Calls To Type" column are the following or a combination of them separated by comma:
+          - Primary
+          - Alternate X (where x is a number between 1 and 10)
+          - Mobility
+        The possible values for the "Calls To Number" column are the following or a combination of them separated by comma:
+          - The value of the phone number for the corresponding Calls To Type, when the number is available. i.e. Alternate 1 may have extension, but no number.
+          - When no number is available a blank space is provided instead.
+        The possible values for the "Calls To Extension" column are the following or a caombination of them separated by comma:
+          - The value of the extension for the corresponding Calls To Type, when the extension is available. i.e. Primary may have number, but no extension.
+          - For Mobility Calls To Type, this is always blank.
+          - When no exension is available a blank space is provided instead.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="description" type="BroadWorksAnywherePhoneNumberDescription" minOccurs="0"/>
+          <xs:element name="outboundAlternateNumber" type="OutgoingDNorSIPURI" minOccurs="0"/>
+          <xs:element name="isActive" type="xs:boolean"/>
+          <xs:element name="broadworksCallControl" type="xs:boolean"/>
+          <xs:element name="useDiversionInhibitor" type="xs:boolean"/>
+          <xs:element name="answerConfirmationRequired" type="xs:boolean"/>
+          <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereGetRequest16sp2">
+    <xs:annotation>
+      <xs:documentation>
+        Get the list of all the BroadWorks Anywhere phone numbers for the user.
+        The response is either a UserBroadWorksAnywhereGetResponse16sp2 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereGetResponse16sp2">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserBroadWorksAnywhereGetRequest16sp2.
+        The phoneNumberTable contains columns: "Phone Number", "Description"
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="alertAllLocationsForClickToDialCalls" type="xs:boolean"/>
+          <xs:element name="alertAllLocationsForGroupPagingCalls" type="xs:boolean"/>
+          <xs:element name="phoneNumberTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereGetSelectiveCriteriaRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Get a criteria for the user's BroadWorks Anywhere phone number.
+        The response is either a UserBroadWorksAnywhereGetSelectiveCriteriaResponse21 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="phoneNumber" type="DN"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereGetSelectiveCriteriaResponse21">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserBroadWorksAnywhereGetSelectiveCriteriaRequest21.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean"/>
+          <xs:element name="fromDnCriteria" type="CriteriaFromDn"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereModifyPhoneNumberRequest">
+    <xs:annotation>
+      <xs:documentation>
+          Modify a BroadWorks Anywhere phone number
+          The response is either a SuccessResponse or an ErrorResponse.
+       </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="phoneNumber" type="DN"/>
+          <xs:element name="newPhoneNumber" type="DN" minOccurs="0"/>
+          <xs:element name="description" type="BroadWorksAnywherePhoneNumberDescription" minOccurs="0" nillable="true"/>
+          <xs:element name="isActive" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="outboundAlternateNumber" type="OutgoingDNorSIPURI" minOccurs="0" nillable="true"/>
+          <xs:element name="broadworksCallControl" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useDiversionInhibitor" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="answerConfirmationRequired" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="criteriaActivation" type="CriteriaActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify the user-level settings for the BroadWorks Anywhere service for a specified user.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="alertAllLocationsForClickToDialCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="alertAllLocationsForGroupPagingCalls" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserBroadWorksAnywhereModifySelectiveCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify selective criteria for the user's BroadWorks Anywhere phone number.
+        The following elements are only used in AS data mode:
+          callToNumbers
+
+        For the callToNumbers in the callToNumberList, the extension element is not used and the number element is only used when the type is BroadWorks Mobility.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="phoneNumber" type="DN"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="newCriteriaName" type="CriteriaName" minOccurs="0"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="fromDnCriteria" type="CriteriaFromDnModify" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="callToNumberList" type="ReplacementCallToNumberList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Broad Works Anywhere specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:simpleType name="BroadWorksAnywherePhoneNumberDescription">
+    <xs:annotation>
+      <xs:documentation>
+        BroadWorks Anywhere Phone Number Description.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="80"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

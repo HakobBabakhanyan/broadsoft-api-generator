@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   R E S E L L E R   P A R T                              -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="OCISchemaDataTypes.xsd"/>
+  <xs:include schemaLocation="OCISchemaSearchCriteria.xsd"/>
+  <xs:include schemaLocation="OCISchemaSortCriteria.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- R E S E L L E R   R E Q U E S T S   A N D   R E S P O N S E S                        -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    ResellerAddRequest
+    ResellerAdminAddRequest
+    ResellerAdminAlternateIdAddRequest
+    ResellerAdminAlternateIdDeleteRequest
+    ResellerAdminAlternateIdGetListRequest
+    ResellerAdminAlternateIdModifyRequest
+    ResellerAdminDeleteRequest
+    ResellerAdminGetListRequest
+    ResellerAdminGetRequest22
+    ResellerAdminModifyRequest
+    ResellerCallAdmissionControlPoliciesGetRequest
+    ResellerCallAdmissionControlPoliciesModifyRequest
+    ResellerCallPoliciesGetRequest22
+    ResellerCallPoliciesModifyRequest
+    ResellerDeleteRequest
+    ResellerDeviceActivationPolicyGetRequest
+    ResellerDeviceActivationPolicyModifyRequest
+    ResellerEmergencyCallNotificationGetRequest
+    ResellerEmergencyCallNotificationModifyRequest
+    ResellerGetListRequest
+    ResellerGetRequest22V2
+    ResellerMailParametersGetRequest
+    ResellerMailParametersModifyRequest
+    ResellerModifyRequest
+    ResellerNetworkClassOfServiceAssignListRequest
+    ResellerNetworkClassOfServiceGetAssignedListRequest
+    ResellerNetworkClassOfServiceGetAssignedServiceProviderListRequest
+    ResellerNetworkClassOfServiceModifyDefaultRequest
+    ResellerNetworkClassOfServiceUnassignListRequest
+    ResellerServiceAuthorizationGetRequest
+    ResellerServiceAuthorizationModifyRequest
+    ResellerStirShakenGetRequest
+    ResellerStirShakenModifyRequest
+    ResellerXsiPolicyProfileAssignListRequest
+    ResellerXsiPolicyProfileGetAssignedListRequest
+    ResellerXsiPolicyProfileGetAssignedServiceProviderListRequest
+    ResellerXsiPolicyProfileModifyDefaultRequest
+    ResellerXsiPolicyProfileUnassignListRequest
+-->
+
+  <xs:complexType name="ResellerAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a reseller.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="resellerName" type="ResellerName22" minOccurs="0"/>
+          <xs:element name="resellerExternalId" type="ExternalId" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Add a reseller administrator.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="firstName" type="FirstName" minOccurs="0"/>
+          <xs:element name="lastName" type="LastName" minOccurs="0"/>
+          <xs:element name="password" type="Password" minOccurs="0"/>
+          <xs:element name="language" type="Language" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminAlternateIdAddRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to add an alternate Id to a reseller admin.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="alternateUserId" type="UserId"/>
+          <xs:element name="description" type="AlternateUserIdDescription" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminAlternateIdDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to delete an alternate admin user id of a reseller admin.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="alternateUserId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminAlternateIdGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to get the admin id and the list of alternate admin ids of an admin.
+        The response is either ResellerAdminAlternateIdGetListResponse or ErrorResponse.
+        The "userId" can be either the admin user Id or an alternate admin user Id.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminAlternateIdGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerAdminAlternateIdGetListRequest.
+        Contains a table of the main admin user id and the alternate admin user ids, the column headings are: "User Id", "Description", "Alternate".
+        The possible values for "Alternate" are "true" and "false".
+        The "Description" is only present for alternate admin user Ids.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="adminUserIdTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminAlternateIdModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify an alternate id of a reseller admin.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="alternateUserId" type="UserId"/>
+          <xs:element name="newAlternateUserId" type="UserId" minOccurs="0"/>
+          <xs:element name="description" type="AlternateUserIdDescription" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a reseller administrator.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of reseller administrators.
+        The response is either a ResellerAdminGetListResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerAdminGetListRequest.
+        Contains a 4 column table with column headings "Administrator ID",
+        "Last Name", "First Name", "Language".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="resellerAdminTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminGetRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Get a reseller administrators profile.
+        The response is either a ResellerAdminGetResponse22 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminGetResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ResellerAdminGetRequest22.
+        The response contains the reseller administrators profile information.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="firstName" type="FirstName" minOccurs="0"/>
+          <xs:element name="lastName" type="LastName" minOccurs="0"/>
+          <xs:element name="language" type="Language"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerAdminModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the profile for a reseller administrator.
+        Since old password is not specified here, any password rule related to old password does not apply.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="firstName" type="FirstName" nillable="true" minOccurs="0"/>
+          <xs:element name="lastName" type="LastName" nillable="true" minOccurs="0"/>
+          <xs:element name="password" type="Password" nillable="true" minOccurs="0"/>
+          <xs:element name="language" type="Language" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerCallAdmissionControlPoliciesGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a reseller call admission control policies.
+        The response is either a ResellerCallAdmissionControlPoliciesGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerCallAdmissionControlPoliciesGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ResellerCallAdmissionControlPoliciesGetRequest.
+        The response contains the reseller call admission control policies information.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="enableCallAdmissionControl" type="xs:boolean"/>
+          <xs:element name="maxConcurrentNetworkSessions" type="ConcurrentNetworkSessionsLimit"/>
+          <xs:element name="maxConcurrentNetworkSessionsThreshold" type="ConcurrentNetworkSessionsThresholdLimit" minOccurs="0"/>
+          <xs:element name="maxNetworkCallsPerSecond" type="NetworkCallsPerSecondLimit"/>
+          <xs:element name="maxNetworkCallsPerSecondThreshold" type="NetworkCallsPerSecondThresholdLimit" minOccurs="0"/>
+          <xs:element name="maxConcurrentExternalSIPRECSessions" type="ConcurrentExternalSIPRECSessionsLimit"/>
+          <xs:element name="maxConcurrentExternalSIPRECSessionsThreshold" type="ConcurrentExternalSIPRECSessionsThresholdLimit" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerCallAdmissionControlPoliciesModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the reseller call admission control policies.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="enableCallAdmissionControl" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="maxConcurrentNetworkSessions" type="ConcurrentNetworkSessionsLimit" minOccurs="0"/>
+          <xs:element name="maxConcurrentNetworkSessionsThreshold" type="ConcurrentNetworkSessionsThresholdLimit" minOccurs="0" nillable="true"/>
+          <xs:element name="maxNetworkCallsPerSecond" type="NetworkCallsPerSecondLimit" minOccurs="0"/>
+          <xs:element name="maxNetworkCallsPerSecondThreshold" type="NetworkCallsPerSecondThresholdLimit" minOccurs="0" nillable="true"/>
+          <xs:element name="maxConcurrentExternalSIPRECSessions" type="ConcurrentExternalSIPRECSessionsLimit" minOccurs="0"/>
+          <xs:element name="maxConcurrentExternalSIPRECSessionsThreshold" type="ConcurrentExternalSIPRECSessionsThresholdLimit" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerCallPoliciesGetRequest22">
+    <xs:annotation>
+      <xs:documentation>
+        Request the reseller level data associated with Call Policies.
+        The response is either a ResellerCallPoliciesGetResponse22
+        or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerCallPoliciesGetResponse22">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerCallPoliciesGetRequest22.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="forceRedirectingUserIdentityForRedirectedCalls" type="xs:boolean"/>
+          <xs:element name="applyRedirectingUserIdentityToNetworkLocations" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerCallPoliciesModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the reseller level data associated with Call Policies.
+        The following elements are only used in AS data mode:
+          forceRedirectingUserIdentityForRedirectedCalls
+          applyRedirectingUserIdentityToNetworkLocations
+
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="forceRedirectingUserIdentityForRedirectedCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="applyRedirectingUserIdentityToNetworkLocations" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerDeleteRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a reseller.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:choice>
+            <xs:element name="resellerId" type="ResellerId22"/>
+            <xs:element name="resellerExternalId" type="ExternalId"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerDeviceActivationPolicyGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the Device Activation policy of a reseller.
+        The response is either a ResellerDeviceActivationPolicyGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerDeviceActivationPolicyGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerDeviceActivationPolicyGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useResellerSettings" type="xs:boolean"/>
+          <xs:element name="allowActivationCodeRequestByUser" type="xs:boolean"/>
+          <xs:element name="sendActivationCodeInEmail" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerDeviceActivationPolicyModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the Device Activation policy of a reseller.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="useResellerSettings" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="allowActivationCodeRequestByUser" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="sendActivationCodeInEmail" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerEmergencyCallNotificationGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the reseller level data associated with Emergency Call
+        Notification.
+        The response is either a
+        ResellerEmergencyCallNotificationGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerEmergencyCallNotificationGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerEmergencyCallNotificationGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="defaultFromAddress" type="EmailAddress" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerEmergencyCallNotificationModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the reseller level data associated with Emergency Call
+        Notification.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="defaultFromAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerGetListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request a list of resellers in the system.
+        It is possible to search by various criteria to restrict the number of rows returned.
+        Multiple search criteria are logically ANDed together.
+        The response is either a ResellerGetListResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaResellerId" type="SearchCriteriaResellerId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaResellerName" type="SearchCriteriaResellerName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerGetListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ResellerGetListRequest.
+        Contains a 2 column table with column headings "Reseller Id", "Reseller Name" and "Reseller External Id". A row for each reseller.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="resellerTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerGetRequest22V2">
+    <xs:annotation>
+      <xs:documentation>
+        Get the profile for a reseller.
+        The response is either ResellerGetResponse22V2 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:choice>
+            <xs:element name="resellerId" type="ResellerId22"/>
+            <xs:element name="resellerExternalId" type="ExternalId"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerGetResponse22V2">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ResellerGetRequest22V2.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="resellerName" type="ResellerName22" minOccurs="0"/>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="resellerExternalId" type="ExternalId" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerMailParametersGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request the reseller Mail parameters.
+        The response is either a ResellerMailParametersGetResponse or an
+        ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerMailParametersGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerMailParametersGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="defaultFromAddress" type="EmailAddress" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerMailParametersModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Request to modify the reseller Mail parameters.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="defaultFromAddress" type="EmailAddress" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the reseller profile.
+        The response is either SuccessResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:choice>
+            <xs:element name="resellerId" type="ResellerId22"/>
+            <xs:element name="resellerExternalId" type="ExternalId"/>
+          </xs:choice>
+          <xs:element name="resellerName" type="ResellerName22" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerNetworkClassOfServiceAssignListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Assign a list of Network Classes of Service to a reseller.
+        A default Network Class of Service is optional.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="defaultNetworkClassOfService" type="DefaultNetworkClassOfService" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerNetworkClassOfServiceGetAssignedListRequest">
+    <xs:annotation>
+      <xs:documentation>
+         Get a list of Network Classes of Service assigned to a reseller.
+        The response is either a ResellerNetworkClassOfServiceGetAssignedListResponse
+        or an ErorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerNetworkClassOfServiceGetAssignedListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerNetworkClassOfServiceGetAssignedListRequest.
+        Contains a table of all Network Classes of Service assigned to the
+        reseller. The column headings are: "Name", "Description" and "Default".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="networkClassOfServiceTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerNetworkClassOfServiceGetAssignedServiceProviderListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of service provider/enterprises within a reseller that have a given
+        Network Class of Service assigned.
+        The response is either a ResellerNetworkClassOfServiceGetAssignedServiceProviderListResponse
+        or an ErorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaServiceProviderId" type="SearchCriteriaServiceProviderId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaServiceProviderName" type="SearchCriteriaServiceProviderName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerNetworkClassOfServiceGetAssignedServiceProviderListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerNetworkClassOfServiceGetAssignedServiceProviderListRequest.
+        Contains a table of Service Providers that have the Network Class of Service
+        assigned. The column headings are: "Service Provider Id" and "Service Provider Name".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="spTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerNetworkClassOfServiceModifyDefaultRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modifies the default Network Classes of Service of a reseller.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerNetworkClassOfServiceUnassignListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Unassign a list of Network Classes of Service from a reseller.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="networkClassOfService" type="NetworkClassOfServiceName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="defaultNetworkClassOfService" type="DefaultNetworkClassOfService" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerServiceAuthorizationGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the reseller service authorization
+        The response is either ResellerServiceAuthorizationGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerServiceAuthorizationGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ResellerServiceAuthorizationGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="serviceOffering" type="xs:base64Binary" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerServiceAuthorizationModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the reseller service authorization file.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="serviceOffering" type="FileResource" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerStirShakenGetRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get Reseller Stir Shaken service settings.
+        The response is either ResellerStirShakenGetResponse or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerStirShakenGetResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the ResellerStirShakenGetRequest.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="useParentLevelSettings" type="xs:boolean"/>
+          <xs:element name="signingPolicy" type="StirShakenSigningPolicy"/>
+          <xs:element name="taggingPolicy" type="StirShakenTaggingPolicy"/>
+          <xs:element name="signEmergencyCalls" type="xs:boolean"/>
+          <xs:element name="tagEmergencyCalls" type="xs:boolean"/>
+          <xs:element name="signingServiceURL" type="URL" minOccurs="0"/>
+          <xs:element name="tagFromOrPAI" type="StirShakenTagFromOrPAI"/>
+          <xs:element name="verstatTag" type="StirShakenVerstatTag"/>
+          <xs:element name="useOSValueForOrigId" type="xs:boolean"/>
+          <xs:element name="origUUID" type="StirShakenOrigUUID" minOccurs="0"/>
+          <xs:element name="attestationLevel" type="StirShakenAttestationLevel"/>
+          <xs:element name="enableVerification" type="xs:boolean"/>
+          <xs:element name="verificationServiceURL" type="URL" minOccurs="0"/>
+          <xs:element name="verificationErrorHandling" type="StirShakenVerificationErrorHandling"/>
+          <xs:element name="proxyVerstatToCNAMSubscribe" type="xs:boolean"/>
+          <xs:element name="useUnknownHeadersFromCNAMNotify" type="xs:boolean"/>
+          <xs:element name="enableSigningForUnscreenedTrunkGroupOriginations" type="xs:boolean"/>
+          <xs:element name="enableTaggingForUnscreenedTrunkGroupOriginations" type="xs:boolean"/>
+          <xs:element name="unscreenedTrunkGroupOriginationAttestationLevel" type="StirShakenUnscreenedTrunkGroupOriginationAttestationLevel"/>
+          <xs:element name="verifyGETSCalls" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerStirShakenModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify reseller Stir Shaken service settings.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="useParentLevelSettings" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="signingPolicy" type="StirShakenSigningPolicy" minOccurs="0"/>
+          <xs:element name="taggingPolicy" type="StirShakenTaggingPolicy" minOccurs="0"/>
+          <xs:element name="signEmergencyCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="tagEmergencyCalls" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="signingServiceURL" type="URL" nillable="true" minOccurs="0"/>
+          <xs:element name="tagFromOrPAI" type="StirShakenTagFromOrPAI" minOccurs="0"/>
+          <xs:element name="verstatTag" type="StirShakenVerstatTag" minOccurs="0"/>
+          <xs:element name="useOSValueForOrigId" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="origUUID" type="StirShakenOrigUUID" nillable="true" minOccurs="0"/>
+          <xs:element name="attestationLevel" type="StirShakenAttestationLevel" minOccurs="0"/>
+          <xs:element name="enableVerification" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="verificationServiceURL" type="URL" nillable="true" minOccurs="0"/>
+          <xs:element name="verificationErrorHandling" type="StirShakenVerificationErrorHandling" minOccurs="0"/>
+          <xs:element name="proxyVerstatToCNAMSubscribe" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="useUnknownHeadersFromCNAMNotify" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableSigningForUnscreenedTrunkGroupOriginations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="enableTaggingForUnscreenedTrunkGroupOriginations" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="unscreenedTrunkGroupOriginationAttestationLevel" type="StirShakenUnscreenedTrunkGroupOriginationAttestationLevel" minOccurs="0"/>
+          <xs:element name="verifyGETSCalls" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerXsiPolicyProfileAssignListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Assign a list of Xsi policy profile to a reseller.
+        It contains the service provider, group, user level Xsi policy profile.
+        Each level has one default Xsi policy profile assigned.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="spXsiPolicyProfile" type="XsiPolicyProfileAssignEntry" minOccurs="0"/>
+          <xs:element name="groupXsiPolicyProfile" type="XsiPolicyProfileAssignEntry" minOccurs="0"/>
+          <xs:element name="userXsiPolicyProfile" type="XsiPolicyProfileAssignEntry" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerXsiPolicyProfileGetAssignedListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of Xsi policy profile assigned.
+        The response is either a XsiPolicyProfileGetAssignedListResponse
+        or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="level" type="XsiPolicyProfileLevel" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerXsiPolicyProfileGetAssignedListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerXsiPolicyProfileGetAssignedListRequest.
+        Contains a table of all Xsi Policy Profile assigned to.
+        The column headings are: "Name", "Level", "Description" and "Default".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="assignedTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerXsiPolicyProfileGetAssignedServiceProviderListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get a list of service provider/enterprises within a reseller that have a given
+        Service provider Xsi policy profile assigned.
+        The response is either a ResellerXsiPolichProfileGetAssignedServiceProviderListResponse
+        or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="xsiPolicyProfile" type="XsiPolicyProfileKey"/>
+          <xs:element name="responseSizeLimit" type="ResponseSizeLimit" minOccurs="0"/>
+          <xs:element name="searchCriteriaServiceProviderId" type="SearchCriteriaServiceProviderId" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaServiceProviderName" type="SearchCriteriaServiceProviderName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="searchCriteriaExactOrganizationType" type="SearchCriteriaExactOrganizationType" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerXsiPolicyProfileGetAssignedServiceProviderListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to ResellerXsiPolicyProfileGetAssignedServiceProviderListRequest.
+        Contains a table of Service Providers that have the Xsi Policy Profile
+        assigned. The column headings are: "Organization ID", "Organization Name", "Organization Type".
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="svcProviderTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerXsiPolicyProfileModifyDefaultRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modifies the default Xsi policy profile for a reseller.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="spDefaultXsiPolicyProfile" type="XsiPolicyProfileName" minOccurs="0"/>
+          <xs:element name="groupDefaultXsiPolicyProfile" type="XsiPolicyProfileName" minOccurs="0"/>
+          <xs:element name="userDefaultXsiPolicyProfile" type="XsiPolicyProfileName" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ResellerXsiPolicyProfileUnassignListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Unassign a list of Xsi policy profile.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="resellerId" type="ResellerId22"/>
+          <xs:element name="spXsiPolicyProfile" type="XsiPolicyProfileUnassignEntry" minOccurs="0"/>
+          <xs:element name="groupXsiPolicyProfile" type="XsiPolicyProfileUnassignEntry" minOccurs="0"/>
+          <xs:element name="userXsiPolicyProfile" type="XsiPolicyProfileUnassignEntry" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Reseller specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:simpleType name="ConcurrentExternalSIPRECSessionsLimit">
+    <xs:annotation>
+      <xs:documentation>
+        Range of values for concurrent external SIPREC sessions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="2147483647"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ConcurrentExternalSIPRECSessionsThresholdLimit">
+    <xs:annotation>
+      <xs:documentation>
+        Range of values for concurrent SIPREC sessions threshold.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="2147483647"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ConcurrentNetworkSessionsLimit">
+    <xs:annotation>
+      <xs:documentation>
+        Range of values for the concurrent network sessions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="2147483647"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ConcurrentNetworkSessionsThresholdLimit">
+    <xs:annotation>
+      <xs:documentation>
+        Range of values for the concurrent network sessions threshold.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="2147483647"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="NetworkCallsPerSecondLimit">
+    <xs:annotation>
+      <xs:documentation>
+        Range of values for network calls per second.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="2147483647"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="NetworkCallsPerSecondThresholdLimit">
+    <xs:annotation>
+      <xs:documentation>
+        Range of values for network calls per second threshold.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="2147483647"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

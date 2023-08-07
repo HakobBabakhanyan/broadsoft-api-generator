@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- T H I R D   P A R T Y   I M P   S E R V I C E                                        -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- T H I R D   P A R T Y   I M P   R E Q U E S T S   A N D   R E S P O N S E S          -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    SystemThirdPartyIMPGetRequest19
+    SystemThirdPartyIMPModifyRequest
+-->
+
+  <xs:complexType name="SystemThirdPartyIMPGetRequest19">
+    <xs:annotation>
+      <xs:documentation>
+        Get the system Third-Party IMP service attributes.
+        The response is either SystemThirdPartyIMPGetResponse19 or ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemThirdPartyIMPGetResponse19">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the SystemThirdPartyIMPGetRequest19.
+        The response contains the system Third-Party IMP service attributes.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="serviceNetAddress" type="NetAddress" minOccurs="0"/>
+          <xs:element name="servicePort" type="Port" minOccurs="0"/>
+          <xs:element name="boshURL" type="URL" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SystemThirdPartyIMPModifyRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Modify the system Third-Party IMP service attributes.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="serviceNetAddress" type="NetAddress" minOccurs="0" nillable="true"/>
+          <xs:element name="servicePort" type="Port" minOccurs="0" nillable="true"/>
+          <xs:element name="boshURL" type="URL" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

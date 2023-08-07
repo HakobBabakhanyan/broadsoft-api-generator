@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ************************************************************************************ -->
+<!-- Copyright © 2018 BroadSoft Inc. All rights reserved.-->
+<!-- ************************************************************************************ -->
+<!-- O C I   X M L   S C H E M A   S E R V I C E   P A R T                                -->
+<!--                                                                                      -->
+<!-- S E L E C T I V E   C A L L   R E J E C T I O N                                      -->
+<!-- S E R V I C E                                                                        -->
+<!--                                                                                      -->
+<!-- This file defines the XML Schema for the BroadSoft Application Server                -->
+<!-- Open Client Interface (OCI).                                                         -->
+<!-- ************************************************************************************ -->
+<xs:schema xmlns:core="C" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+
+  <xs:import namespace="C" schemaLocation="../OCISchemaBASE.xsd"/>
+
+  <xs:include schemaLocation="../OCISchemaDataTypes.xsd"/>
+
+  <!-- ************************************************************************************ -->
+  <!-- S E L E C T I V E   C A L L   R E J E C T I O N                                      -->
+  <!-- R E Q U E S T S   A N D   R E S P O N S E S                                          -->
+  <!-- ************************************************************************************ -->
+  <!--
+  Requests and responses are listed here in alphabetical order.
+  The non-primitive attributes inside the commands are defined in another
+  section of the schema.
+
+  Requests in this schema file:
+    UserSelectiveCallRejectionAddCriteriaRequest16
+    UserSelectiveCallRejectionDeleteCriteriaRequest
+    UserSelectiveCallRejectionGetCriteriaListRequest
+    UserSelectiveCallRejectionGetCriteriaRequest21
+    UserSelectiveCallRejectionModifyActiveCriteriaListRequest
+    UserSelectiveCallRejectionModifyCriteriaRequest16
+-->
+
+  <xs:complexType name="UserSelectiveCallRejectionAddCriteriaRequest16">
+    <xs:annotation>
+      <xs:documentation>
+        Add a criteria to the user's selective call rejection service.
+        The following elements are only used in AS data mode:
+          callToNumber
+
+        For the callToNumber, the extension element is not used and the number element is only used when the type is BroadWorks Mobility.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="fromDnCriteria" type="SelectiveCallRejectionCriteriaCallType"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserSelectiveCallRejectionDeleteCriteriaRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Delete a criteria from the user's selective call rejection service.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserSelectiveCallRejectionGetCriteriaListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Get the user's selective call rejection criteria listing.
+        The response is either a UserSelectiveCallRejectionGetResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserSelectiveCallRejectionGetCriteriaListResponse">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserSelectiveCallRejectionGetCriteriaListRequest.
+        The criteria table's column headings are:
+        "Is Active", "Criteria Name", "Time Schedule", "Calls From", "Blacklisted", "Holiday Schedule", "Calls To Type", "Calls To Number" and "Calls To Extension".
+        The following columns are only returned in AS data mode:
+          "Calls To Type", "Calls To Number" and "Calls To Extension"
+
+        The possible values for the "Calls To Type" column are the following or a combination of them separated by comma:
+          - Primary
+          - Alternate X (where x is a number between 1 and 10)
+          - Mobility
+        The possible values for the "Calls To Number" column are the following or a combination of them separated by comma:
+          - The value of the phone number for the corresponding Calls To Type, when the number is available. i.e. Alternate 1 may have extension, but no number.
+          - When no number is available a blank space is provided instead.
+        The possible values for the "Calls To Extension" column are the following or a combination of them separated by comma:
+          - The value of the extension for the corresponding Calls To Type, when the extension is available. i.e. Primary may have number, but no extension.
+          - For Mobility Calls To Type, this is always blank.
+          - When no extension is available a blank space is provided instead.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="criteriaTable" type="core:OCITable"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserSelectiveCallRejectionGetCriteriaRequest21">
+    <xs:annotation>
+      <xs:documentation>
+        Get a criteria for the user's selective call rejection service.
+        The response is either a UserSelectiveCallRejectionGetCriteriaResponse21 or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserSelectiveCallRejectionGetCriteriaResponse21">
+    <xs:annotation>
+      <xs:documentation>
+        Response to the UserSelectiveCallRejectionGetCriteriaRequest21.
+        Private Phone Numbers are omitted from the fromDnCriteria.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIDataResponse">
+        <xs:sequence>
+          <xs:element name="timeSchedule" type="TimeSchedule" minOccurs="0"/>
+          <xs:element name="fromDnCriteria" type="SelectiveCallRejectionCriteriaCallType"/>
+          <xs:element name="blacklisted" type="xs:boolean"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" minOccurs="0"/>
+          <xs:element name="private" type="xs:boolean"/>
+          <xs:element name="callToNumber" type="CallToNumber" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserSelectiveCallRejectionModifyActiveCriteriaListRequest">
+    <xs:annotation>
+      <xs:documentation>
+        Activate the user's selective call rejection criteria list.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaActivation" type="CriteriaActivation" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UserSelectiveCallRejectionModifyCriteriaRequest16">
+    <xs:annotation>
+      <xs:documentation>
+        Modify a criteria for the user's selective call rejection service.
+        The following elements are only used in AS data mode:
+          callToNumberList
+
+        For the callToNumbers in the callToNumberList, the extension element is not used and the number element is only used when the type is BroadWorks Mobility.
+        The response is either a SuccessResponse or an ErrorResponse.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="core:OCIRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="UserId"/>
+          <xs:element name="criteriaName" type="CriteriaName"/>
+          <xs:element name="newCriteriaName" type="CriteriaName" minOccurs="0"/>
+          <xs:element name="timeSchedule" type="TimeSchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="fromDnCriteria" type="SelectiveCallRejectionCriteriaCallTypeModify" minOccurs="0"/>
+          <xs:element name="holidaySchedule" type="HolidaySchedule" nillable="true" minOccurs="0"/>
+          <xs:element name="blacklisted" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="callToNumberList" type="ReplacementCallToNumberList" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- ******************************************************************** -->
+  <!-- M E S S A G E   P A R A M E T E R S                                  -->
+  <!-- ******************************************************************** -->
+  <!--
+  The Selective Call Rejection specific non-primitive attributes are listed here in alphabetical order.
+  -->
+
+
+  <xs:complexType name="SelectiveCallRejectionCriteriaCallTypeModify">
+    <xs:annotation>
+      <xs:documentation>
+        The call type criteria used within a modify request.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="fromDnCriteriaSelection" type="SelectiveCallRejectionCriteriaCallTypeSelection" minOccurs="0"/>
+      <xs:element name="includeAnonymousCallers" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="includeUnavailableCallers" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="phoneNumberList" type="CriteriaReplacementDNList" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
