@@ -1,4 +1,5 @@
 import json
+import pprint
 
 import humps
 
@@ -37,10 +38,10 @@ def get_format_types(element):
         utils_get_format_types['maxLength'] = int(element['maxLength'])
 
     if 'minimum' in element:
-        utils_get_format_types['minimum'] = int(element['minimum'])
+        utils_get_format_types['minimum'] = float(element['minimum'])
 
     if 'maximum' in element:
-        utils_get_format_types['maximum'] = int(element['maximum'])
+        utils_get_format_types['maximum'] = float(element['maximum'])
 
     if 'enum' in element:
         utils_get_format_types['enum'] = element['enum']
@@ -61,120 +62,130 @@ def get_properties(schema, studio_schema):
                     "name": schema_item['name'],
                     "spec": get_properties(schema_item['schema'], []),
                 })
-                # swagger_schema[schema_item['name']] = {
-                #     'type': 'array',
-                #     'required': schema_item.get('required', False),
-                #     "items": {
-                #         "type": "object",
-                #         'properties': get_properties(schema_item['schema'], {}),
-                #     },
-                #     # **get_choice(schema_item['schema'], {}),
-                #     # **get_format_types(schema_item)
-                # }
-            else:
-                # def remove_required_fields(swagger_dict):
-                #     keys_to_remove = []
-                #     for key, value in swagger_dict.items():
-                #         if isinstance(value, dict) and value.get("required", False):
-                #             keys_to_remove.append(key)
-                #     for key in keys_to_remove:
-                #         swagger_dict.pop(key, None)
-                #
-                #     for value in swagger_dict.values():
-                #         if isinstance(value, dict) and "properties" in value:
-                #             remove_required_fields(value["properties"])
 
-                properties = get_properties(schema_item['schema'], [])
+                choice = get_choice(schema_item['schema'], [])
+                if choice:
+                    studio_schema[-1]['spec'].append(choice)
+                    # studio_schema = studio_schema + choice
+                    # studio_schema = get_choice(schema_item['schema'], studio_schema)
+            else:
+                properties = get_properties(schema_item['schema'], []) + get_choice(schema_item['schema'], [])
                 # remove_required_fields(properties)
                 studio_schema.append({
                     "name": schema_item['name'],
                     "type": "collection",
+                    'required': schema_item['required'],
                     "spec": properties
                 })
         elif 'type_schema' in schema_item:
-            studio_schema.append({
-                'name': schema_item['name'],
-                'type': get_type(schema_item['type_schema']),
-                'required': schema_item['required'],
-            })
-            # swagger_schema[schema_item['name']] = {
-            #     'required': schema_item['required'],
-            #     'type': get_type(schema_item['type_schema']),
-            #     **get_type_and_format(schema_item['type_schema']),
-            #     **get_format_types(schema_item)
-            # }
+            if 'array' in schema_item and schema_item.get('array', False):
+
+                studio_schema.append({
+                    "type": "array",
+                    "name": schema_item['name'],
+                    "spec": {},
+                })
+
+                if get_format_types(schema_item).get("enum", False):
+                    studio_schema[-1]['spec'] = {
+                        "label": schema_item['name'],
+                        "type": "select",
+                        "name": schema_item['name'],
+                        'required': schema_item['required'],
+                        "options": list(map(lambda item: {'value': item, 'label': item},
+                                            get_format_types(schema_item).get("enum", False)))
+                    }
+                else:
+                    studio_schema[-1]['spec'] = {
+                        'name': schema_item['name'],
+                        'type': get_type(schema_item['type_schema']),
+                        'required': schema_item['required'],
+                    }
+
+            else:
+                if get_format_types(schema_item).get("enum", False):
+                    studio_schema.append({
+                        "label": schema_item['name'],
+                        "type": "select",
+                        "name": schema_item['name'],
+                        'required': schema_item['required'],
+                        "options": list(map(lambda item: {'value': item, 'label': item},
+                                            get_format_types(schema_item).get("enum", False)))
+                    })
+                else:
+                    studio_schema.append({
+                        'name': schema_item['name'],
+                        'type': get_type(schema_item['type_schema']),
+                        'required': schema_item['required'],
+                    })
     return studio_schema
+
+
+def get_label(data):
+    if isinstance(data, list):
+        for d in data:
+            return get_label(d)
+    else:
+        return data['name']
 
 
 def get_choice_rec(choice, studio_schema):
     import uuid
+    from flatten_dict import flatten, unflatten  # type: ignore
     # todo need to improve this function. i think there has bug but not sure
     # group = any(isinstance(schema_item_choice_item, list) for schema_item_choice_item in choice)
     count_of_lists = sum(isinstance(schema_item_choice_item, list) for schema_item_choice_item in choice)
     if count_of_lists == len(choice):
-        # swagger_schema['anyOf'] = []
-        return studio_schema
-        studio_schema.append({
-            "label": "select One",
-            "type": "select",
-            "options": []
-        })
         for schema_item_choice in choice:
-
-            if isinstance(schema_item_choice, dict):
-                continue
-                studio_schema[-1]['options'].append({
-                    'value': str(uuid.uuid4()),
-                    'nested': get_properties([schema_item_choice], [])
-                })
-            else:
-                studio_schema[-1]['options'].append({
-                    'value': str(uuid.uuid4()),
-                    'nested': {
-                        "label": "select One",
-                        "type": "select",
-                        "options": []
-                    }
-                })
-
-                for schema_item_choice_item in schema_item_choice:
-                    studio_schema[-1]['options'][-1]['nested']['options'].append({
+            studio_schema.append({
+                "label": "select One",
+                "type": "select",
+                "name": f'remove_{str(uuid.uuid4())}',
+                "options": []
+            })
+            try:
+                if isinstance(schema_item_choice, dict):
+                    studio_schema[-1]['options'].append({
                         'value': str(uuid.uuid4()),
-                        'nested': get_properties([schema_item_choice_item], [])
+                        'label': get_label(schema_item_choice),
+                        'nested': get_properties([schema_item_choice], [])
                     })
-                    # swagger_schema['anyOf'][-1]['oneOf'].append({
-                    #     'type': 'object',
-                    #     # 'required': schema_item_choice[
-                    #     #     'required'] if 'required' in schema_item_choice else False,
-                    #     'properties': get_properties([schema_item_choice_item], {})
-                    # })
+
+                else:
+                    for schema_item_choice_item in schema_item_choice:
+                        studio_schema[-1]['options'].append({
+                            'value': str(uuid.uuid4()),
+                            'label': get_label(schema_item_choice_item),
+                            'nested': get_properties([schema_item_choice_item], [])
+                        })
+            except  Exception as ex:
+                print(schema_item_choice)
     else:
         studio_schema.append({
             "label": "select One",
             "type": "select",
+            "name": f'remove_{str(uuid.uuid4())}',
             "options": []
         })
+
         for schema_item_choice in choice:
-            group = any(
-                isinstance(schema_item_choice_item, list) for schema_item_choice_item in schema_item_choice)
-            if group and len(schema_item_choice) > 1:
-                for schema_item_choice_item in schema_item_choice:
-                    continue
-                    studio_schema[-1]['options'].append({
-                        'value': str(uuid.uuid4()),
-                        'nested': get_properties([schema_item_choice_item], [])
-                    })
-                    # studio_schema[-1]['options'].append({
-                    #     'name': 'object',
-                    #     # 'required': schema_item_choice_item[
-                    #     #     'required'] if 'required' in schema_item_choice_item else False,
-                    #     'spec': get_properties([schema_item_choice_item], [])
-                    # })
-            else:
+            if isinstance(schema_item_choice, dict):
                 studio_schema[-1]['options'].append({
                     'value': str(uuid.uuid4()),
+                    'label': get_label(schema_item_choice),
                     'nested': get_properties([schema_item_choice], [])
                 })
+            else:
+                label = ""
+                for schema_item_choice_item in schema_item_choice:
+                    label = label + " " + schema_item_choice_item['name']
+                    # flattened_dict: dict = flatten(schema_item_choice_item, reducer="underscore")
+                    studio_schema[-1]['options'].append({
+                        'value': str(uuid.uuid4()),
+                        'label': label,
+                        'nested': get_properties([schema_item_choice_item], [])
+                    })
+
     return studio_schema
 
 
@@ -229,7 +240,69 @@ def main(schema_file_name, studio_file_name):
     file.close()
 
 
-for key in STUDIO_CONVERT_ALL:
-    print(key)
-    main(key, STUDIO_CONVERT_ALL[key])
-# main()
+def snake_to_pascal_case(snake_str):
+    words = snake_str.split('_')
+    pascal_words = [word.capitalize() for word in words]
+    return ' '.join(pascal_words)
+
+
+def mainOneFile():
+    studio_doc = {
+
+    }
+
+    def update_generate_studio_doc(schema, name):
+        studio_doc[name] = schema
+        return studio_doc
+
+    for key in STUDIO_CONVERT_ALL:
+
+        with open(key, 'r') as file:
+            schema_oci = json.load(file)
+
+        for request in schema_oci:
+            if request['type'] == 'core:OCIRequest':
+                array = []
+                get_properties(request['schema'], array)
+
+                choice = []
+                get_choice(request['schema'], choice)
+
+                update_generate_studio_doc(array + choice, name=request['name'])
+
+    file = open('converted-data/v2/studio/studio.json', "w")
+
+    # Write content to the file
+    def fix_required(schema):
+        if not isinstance(schema, dict):
+            return None
+        schema_items = schema.copy().items()
+        for key, value in schema_items:
+            if key == 'spec':
+                data_dict = dict(schema_items)
+                if 'required' in data_dict and not data_dict['required']:
+                    for item_value in data_dict['spec']:
+                        if 'required' in item_value:
+                            item_value.pop('required')
+                # exit()
+            if isinstance(value, dict):
+                fix_required(value)
+            if isinstance(value, list):
+                for v in value:
+                    if isinstance(v, dict):
+                        fix_required(v)
+
+    fix_required(studio_doc)
+    file.write(json.dumps(studio_doc))
+
+    # Close the file
+    file.close()
+
+
+mainOneFile()
+
+# with open('studio.json', 'r') as file:
+#     schema_oci = json.load(file)
+#     print(len(schema_oci))
+# for key in STUDIO_CONVERT_ALL:
+#     main(key, STUDIO_CONVERT_ALL[key])

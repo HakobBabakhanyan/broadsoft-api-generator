@@ -1,0 +1,1125 @@
+{
+  "ServiceProviderServiceModifyAuthorizationListRequest": [
+    {
+      "name": "serviceProviderId",
+      "type": "text",
+      "required": true
+    },
+    {
+      "type": "array",
+      "name": "groupServiceAuthorization",
+      "spec": [
+        {
+          "label": "serviceName",
+          "type": "select",
+          "name": "serviceName",
+          "required": true,
+          "options": [
+            {
+              "value": "Account/Authorization Codes",
+              "label": "Account/Authorization Codes"
+            },
+            {
+              "value": "Auto Attendant",
+              "label": "Auto Attendant"
+            },
+            {
+              "value": "Auto Attendant - Video",
+              "label": "Auto Attendant - Video"
+            },
+            {
+              "value": "Auto Attendant - Standard",
+              "label": "Auto Attendant - Standard"
+            },
+            {
+              "value": "Call Capacity Management",
+              "label": "Call Capacity Management"
+            },
+            {
+              "value": "Call Park",
+              "label": "Call Park"
+            },
+            {
+              "value": "Call Pickup",
+              "label": "Call Pickup"
+            },
+            {
+              "value": "City-Wide Centrex",
+              "label": "City-Wide Centrex"
+            },
+            {
+              "value": "Custom Ringback Group",
+              "label": "Custom Ringback Group"
+            },
+            {
+              "value": "Custom Ringback Group - Video",
+              "label": "Custom Ringback Group - Video"
+            },
+            {
+              "value": "Emergency Zones",
+              "label": "Emergency Zones"
+            },
+            {
+              "value": "Enhanced Outgoing Calling Plan",
+              "label": "Enhanced Outgoing Calling Plan"
+            },
+            {
+              "value": "Find-me/Follow-me",
+              "label": "Find-me/Follow-me"
+            },
+            {
+              "value": "Group Paging",
+              "label": "Group Paging"
+            },
+            {
+              "value": "Hunt Group",
+              "label": "Hunt Group"
+            },
+            {
+              "value": "Incoming Calling Plan",
+              "label": "Incoming Calling Plan"
+            },
+            {
+              "value": "Instant Group Call",
+              "label": "Instant Group Call"
+            },
+            {
+              "value": "Intercept Group",
+              "label": "Intercept Group"
+            },
+            {
+              "value": "Inventory Report",
+              "label": "Inventory Report"
+            },
+            {
+              "value": "LDAP Integration",
+              "label": "LDAP Integration"
+            },
+            {
+              "value": "Meet-Me Conferencing",
+              "label": "Meet-Me Conferencing"
+            },
+            {
+              "value": "Music On Hold",
+              "label": "Music On Hold"
+            },
+            {
+              "value": "Music On Hold - Video",
+              "label": "Music On Hold - Video"
+            },
+            {
+              "value": "Outgoing Calling Plan",
+              "label": "Outgoing Calling Plan"
+            },
+            {
+              "value": "Preferred Carrier Group",
+              "label": "Preferred Carrier Group"
+            },
+            {
+              "value": "Route Point",
+              "label": "Route Point"
+            },
+            {
+              "value": "Series Completion",
+              "label": "Series Completion"
+            },
+            {
+              "value": "Service Scripts Group",
+              "label": "Service Scripts Group"
+            },
+            {
+              "value": "Trunk Group",
+              "label": "Trunk Group"
+            },
+            {
+              "value": "Voice Messaging Group",
+              "label": "Voice Messaging Group"
+            },
+            {
+              "value": "VoiceXML",
+              "label": "VoiceXML"
+            }
+          ]
+        },
+        [
+          {
+            "label": "select One",
+            "type": "select",
+            "options": [
+              {
+                "value": "1f61fa6c-79bf-483a-90bb-98ade0c2d7b9",
+                "label": "authorizedQuantity",
+                "nested": [
+                  {
+                    "name": "authorizedQuantity",
+                    "type": "collection",
+                    "required": true,
+                    "spec": [
+                      {
+                        "label": "select One",
+                        "type": "select",
+                        "options": [
+                          {
+                            "value": "7d261c26-755b-4539-8c99-d3bcbef72869",
+                            "label": "unlimited",
+                            "nested": [
+                              {
+                                "name": "unlimited",
+                                "type": "boolean",
+                                "required": true
+                              }
+                            ]
+                          },
+                          {
+                            "value": "754b0f65-4065-4e43-8c5e-f14c3b704ecf",
+                            "label": "quantity",
+                            "nested": [
+                              {
+                                "name": "quantity",
+                                "type": "integer",
+                                "required": true
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "value": "aaf83eac-d33a-4691-a14e-84678e601ef1",
+                "label": "unauthorized",
+                "nested": [
+                  {
+                    "name": "unauthorized",
+                    "type": "boolean",
+                    "required": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "type": "array",
+      "name": "userServiceAuthorization",
+      "spec": [
+        {
+          "label": "serviceName",
+          "type": "select",
+          "name": "serviceName",
+          "required": true,
+          "options": [
+            {
+              "value": "3G/4G Continuity",
+              "label": "3G/4G Continuity"
+            },
+            {
+              "value": "Advice Of Charge",
+              "label": "Advice Of Charge"
+            },
+            {
+              "value": "Alternate Numbers",
+              "label": "Alternate Numbers"
+            },
+            {
+              "value": "Anonymous Call Rejection",
+              "label": "Anonymous Call Rejection"
+            },
+            {
+              "value": "Attendant Console",
+              "label": "Attendant Console"
+            },
+            {
+              "value": "Authentication",
+              "label": "Authentication"
+            },
+            {
+              "value": "Automatic Callback",
+              "label": "Automatic Callback"
+            },
+            {
+              "value": "Automatic Collect Call",
+              "label": "Automatic Collect Call"
+            },
+            {
+              "value": "Automatic Hold/Retrieve",
+              "label": "Automatic Hold/Retrieve"
+            },
+            {
+              "value": "Barge-in Exempt",
+              "label": "Barge-in Exempt"
+            },
+            {
+              "value": "Basic Call Logs",
+              "label": "Basic Call Logs"
+            },
+            {
+              "value": "Bria For BroadWorks",
+              "label": "Bria For BroadWorks"
+            },
+            {
+              "value": "BroadTouch Business Communicator Desktop",
+              "label": "BroadTouch Business Communicator Desktop"
+            },
+            {
+              "value": "BroadTouch Business Communicator Desktop - Audio",
+              "label": "BroadTouch Business Communicator Desktop - Audio"
+            },
+            {
+              "value": "BroadTouch Business Communicator Mobile",
+              "label": "BroadTouch Business Communicator Mobile"
+            },
+            {
+              "value": "BroadTouch Business Communicator Mobile - Audio",
+              "label": "BroadTouch Business Communicator Mobile - Audio"
+            },
+            {
+              "value": "BroadTouch Business Communicator Tablet",
+              "label": "BroadTouch Business Communicator Tablet"
+            },
+            {
+              "value": "BroadTouch Business Communicator Tablet - Audio",
+              "label": "BroadTouch Business Communicator Tablet - Audio"
+            },
+            {
+              "value": "BroadTouch Business Communicator Tablet - Video",
+              "label": "BroadTouch Business Communicator Tablet - Video"
+            },
+            {
+              "value": "BroadWorks Agent",
+              "label": "BroadWorks Agent"
+            },
+            {
+              "value": "BroadWorks Anywhere",
+              "label": "BroadWorks Anywhere"
+            },
+            {
+              "value": "BroadWorks Connector for Lotus Sametime",
+              "label": "BroadWorks Connector for Lotus Sametime"
+            },
+            {
+              "value": "BroadWorks Mobility",
+              "label": "BroadWorks Mobility"
+            },
+            {
+              "value": "BroadWorks Receptionist - Office",
+              "label": "BroadWorks Receptionist - Office"
+            },
+            {
+              "value": "BroadWorks Receptionist - Small Business",
+              "label": "BroadWorks Receptionist - Small Business"
+            },
+            {
+              "value": "BroadWorks Supervisor",
+              "label": "BroadWorks Supervisor"
+            },
+            {
+              "value": "Busy Lamp Field",
+              "label": "Busy Lamp Field"
+            },
+            {
+              "value": "Call Center - Basic",
+              "label": "Call Center - Basic"
+            },
+            {
+              "value": "Call Center Monitoring",
+              "label": "Call Center Monitoring"
+            },
+            {
+              "value": "Call Center - Standard",
+              "label": "Call Center - Standard"
+            },
+            {
+              "value": "Call Center - Premium",
+              "label": "Call Center - Premium"
+            },
+            {
+              "value": "Call Forwarding Always",
+              "label": "Call Forwarding Always"
+            },
+            {
+              "value": "Call Forwarding Always Secondary",
+              "label": "Call Forwarding Always Secondary"
+            },
+            {
+              "value": "Call Forwarding Busy",
+              "label": "Call Forwarding Busy"
+            },
+            {
+              "value": "Call Forwarding No Answer",
+              "label": "Call Forwarding No Answer"
+            },
+            {
+              "value": "Call Forwarding Not Reachable",
+              "label": "Call Forwarding Not Reachable"
+            },
+            {
+              "value": "Call Forwarding Selective",
+              "label": "Call Forwarding Selective"
+            },
+            {
+              "value": "Call Me Now",
+              "label": "Call Me Now"
+            },
+            {
+              "value": "Call Notify",
+              "label": "Call Notify"
+            },
+            {
+              "value": "Call Recording",
+              "label": "Call Recording"
+            },
+            {
+              "value": "Call Return",
+              "label": "Call Return"
+            },
+            {
+              "value": "Call Transfer",
+              "label": "Call Transfer"
+            },
+            {
+              "value": "Call Waiting",
+              "label": "Call Waiting"
+            },
+            {
+              "value": "Calling Line ID Blocking Override",
+              "label": "Calling Line ID Blocking Override"
+            },
+            {
+              "value": "Calling Line ID Delivery Blocking",
+              "label": "Calling Line ID Delivery Blocking"
+            },
+            {
+              "value": "Calling Name Delivery",
+              "label": "Calling Name Delivery"
+            },
+            {
+              "value": "Calling Name Retrieval",
+              "label": "Calling Name Retrieval"
+            },
+            {
+              "value": "Calling Number Delivery",
+              "label": "Calling Number Delivery"
+            },
+            {
+              "value": "Calling Party Category",
+              "label": "Calling Party Category"
+            },
+            {
+              "value": "Charge Number",
+              "label": "Charge Number"
+            },
+            {
+              "value": "Classmark",
+              "label": "Classmark"
+            },
+            {
+              "value": "Client Call Control",
+              "label": "Client Call Control"
+            },
+            {
+              "value": "Client Call Control II",
+              "label": "Client Call Control II"
+            },
+            {
+              "value": "Client License 1",
+              "label": "Client License 1"
+            },
+            {
+              "value": "Client License 2",
+              "label": "Client License 2"
+            },
+            {
+              "value": "Client License 3",
+              "label": "Client License 3"
+            },
+            {
+              "value": "Client License 4",
+              "label": "Client License 4"
+            },
+            {
+              "value": "Client License 5",
+              "label": "Client License 5"
+            },
+            {
+              "value": "Client License 6",
+              "label": "Client License 6"
+            },
+            {
+              "value": "Client License 7",
+              "label": "Client License 7"
+            },
+            {
+              "value": "Client License 8",
+              "label": "Client License 8"
+            },
+            {
+              "value": "Client License 9",
+              "label": "Client License 9"
+            },
+            {
+              "value": "Client License 10",
+              "label": "Client License 10"
+            },
+            {
+              "value": "Client License 11",
+              "label": "Client License 11"
+            },
+            {
+              "value": "Client License 12",
+              "label": "Client License 12"
+            },
+            {
+              "value": "Client License 13",
+              "label": "Client License 13"
+            },
+            {
+              "value": "Client License 14",
+              "label": "Client License 14"
+            },
+            {
+              "value": "Client License 15",
+              "label": "Client License 15"
+            },
+            {
+              "value": "Client License 16",
+              "label": "Client License 16"
+            },
+            {
+              "value": "Client License 17",
+              "label": "Client License 17"
+            },
+            {
+              "value": "Client License 18",
+              "label": "Client License 18"
+            },
+            {
+              "value": "Client License 19",
+              "label": "Client License 19"
+            },
+            {
+              "value": "Client License 20",
+              "label": "Client License 20"
+            },
+            {
+              "value": "Client License 21",
+              "label": "Client License 21"
+            },
+            {
+              "value": "Client License 22",
+              "label": "Client License 22"
+            },
+            {
+              "value": "Client License 23",
+              "label": "Client License 23"
+            },
+            {
+              "value": "Client License 24",
+              "label": "Client License 24"
+            },
+            {
+              "value": "Client License 25",
+              "label": "Client License 25"
+            },
+            {
+              "value": "Client License 26",
+              "label": "Client License 26"
+            },
+            {
+              "value": "Client License 27",
+              "label": "Client License 27"
+            },
+            {
+              "value": "Client License 28",
+              "label": "Client License 28"
+            },
+            {
+              "value": "Client License 29",
+              "label": "Client License 29"
+            },
+            {
+              "value": "Client License 30",
+              "label": "Client License 30"
+            },
+            {
+              "value": "Client License 31",
+              "label": "Client License 31"
+            },
+            {
+              "value": "Client License 32",
+              "label": "Client License 32"
+            },
+            {
+              "value": "Client License 33",
+              "label": "Client License 33"
+            },
+            {
+              "value": "Client License 34",
+              "label": "Client License 34"
+            },
+            {
+              "value": "Client License 35",
+              "label": "Client License 35"
+            },
+            {
+              "value": "Client License 36",
+              "label": "Client License 36"
+            },
+            {
+              "value": "Client License 37",
+              "label": "Client License 37"
+            },
+            {
+              "value": "Client License 38",
+              "label": "Client License 38"
+            },
+            {
+              "value": "Client License 39",
+              "label": "Client License 39"
+            },
+            {
+              "value": "Client License 40",
+              "label": "Client License 40"
+            },
+            {
+              "value": "Client License 41",
+              "label": "Client License 41"
+            },
+            {
+              "value": "Client License 42",
+              "label": "Client License 42"
+            },
+            {
+              "value": "Client License 43",
+              "label": "Client License 43"
+            },
+            {
+              "value": "Client License 44",
+              "label": "Client License 44"
+            },
+            {
+              "value": "Client License 45",
+              "label": "Client License 45"
+            },
+            {
+              "value": "Client License 46",
+              "label": "Client License 46"
+            },
+            {
+              "value": "Client License 47",
+              "label": "Client License 47"
+            },
+            {
+              "value": "Client License 48",
+              "label": "Client License 48"
+            },
+            {
+              "value": "Client License 49",
+              "label": "Client License 49"
+            },
+            {
+              "value": "Client License 50",
+              "label": "Client License 50"
+            },
+            {
+              "value": "Collaborate - Audio",
+              "label": "Collaborate - Audio"
+            },
+            {
+              "value": "Collaborate - Video",
+              "label": "Collaborate - Video"
+            },
+            {
+              "value": "Collaborate - Sharing",
+              "label": "Collaborate - Sharing"
+            },
+            {
+              "value": "CommPilot Call Manager",
+              "label": "CommPilot Call Manager"
+            },
+            {
+              "value": "CommPilot Express",
+              "label": "CommPilot Express"
+            },
+            {
+              "value": "CommPilot Express SR",
+              "label": "CommPilot Express SR"
+            },
+            {
+              "value": "CommPilot Lite",
+              "label": "CommPilot Lite"
+            },
+            {
+              "value": "CommPilot Receptionist",
+              "label": "CommPilot Receptionist"
+            },
+            {
+              "value": "CommPilot Residential",
+              "label": "CommPilot Residential"
+            },
+            {
+              "value": "CommPilot Small Business",
+              "label": "CommPilot Small Business"
+            },
+            {
+              "value": "Communication Barring User-Control",
+              "label": "Communication Barring User-Control"
+            },
+            {
+              "value": "Conference Room",
+              "label": "Conference Room"
+            },
+            {
+              "value": "Connected Line Identification Presentation",
+              "label": "Connected Line Identification Presentation"
+            },
+            {
+              "value": "Connected Line Identification Restriction",
+              "label": "Connected Line Identification Restriction"
+            },
+            {
+              "value": "Customer Originated Trace",
+              "label": "Customer Originated Trace"
+            },
+            {
+              "value": "Custom Ringback User",
+              "label": "Custom Ringback User"
+            },
+            {
+              "value": "Custom Ringback User - Call Waiting",
+              "label": "Custom Ringback User - Call Waiting"
+            },
+            {
+              "value": "Custom Ringback User - Video",
+              "label": "Custom Ringback User - Video"
+            },
+            {
+              "value": "Direct Route",
+              "label": "Direct Route"
+            },
+            {
+              "value": "Directed Call Pickup",
+              "label": "Directed Call Pickup"
+            },
+            {
+              "value": "Directed Call Pickup with Barge-in",
+              "label": "Directed Call Pickup with Barge-in"
+            },
+            {
+              "value": "Directory Number Hunting",
+              "label": "Directory Number Hunting"
+            },
+            {
+              "value": "Diversion Inhibitor",
+              "label": "Diversion Inhibitor"
+            },
+            {
+              "value": "Do Not Disturb",
+              "label": "Do Not Disturb"
+            },
+            {
+              "value": "Dual-Mode VCC",
+              "label": "Dual-Mode VCC"
+            },
+            {
+              "value": "Enhanced Call Logs",
+              "label": "Enhanced Call Logs"
+            },
+            {
+              "value": "Executive",
+              "label": "Executive"
+            },
+            {
+              "value": "Executive-Assistant",
+              "label": "Executive-Assistant"
+            },
+            {
+              "value": "External Calling Line ID Delivery",
+              "label": "External Calling Line ID Delivery"
+            },
+            {
+              "value": "External Custom Ringback",
+              "label": "External Custom Ringback"
+            },
+            {
+              "value": "Fax Messaging",
+              "label": "Fax Messaging"
+            },
+            {
+              "value": "Find-me/Follow-me",
+              "label": "Find-me/Follow-me"
+            },
+            {
+              "value": "Flash Call Hold",
+              "label": "Flash Call Hold"
+            },
+            {
+              "value": "GETS Calling Line ID Delivery Blocking",
+              "label": "GETS Calling Line ID Delivery Blocking"
+            },
+            {
+              "value": "Group Night Forwarding",
+              "label": "Group Night Forwarding"
+            },
+            {
+              "value": "Hoteling Guest",
+              "label": "Hoteling Guest"
+            },
+            {
+              "value": "Hoteling Host",
+              "label": "Hoteling Host"
+            },
+            {
+              "value": "Flexible Seating Guest",
+              "label": "Flexible Seating Guest"
+            },
+            {
+              "value": "Integrated IMP",
+              "label": "Integrated IMP"
+            },
+            {
+              "value": "In-Call Service Activation",
+              "label": "In-Call Service Activation"
+            },
+            {
+              "value": "IN Integration",
+              "label": "IN Integration"
+            },
+            {
+              "value": "Intelligent Network Service Control",
+              "label": "Intelligent Network Service Control"
+            },
+            {
+              "value": "Intercept User",
+              "label": "Intercept User"
+            },
+            {
+              "value": "Internal Calling Line ID Delivery",
+              "label": "Internal Calling Line ID Delivery"
+            },
+            {
+              "value": "Last Number Redial",
+              "label": "Last Number Redial"
+            },
+            {
+              "value": "Legacy Automatic Callback",
+              "label": "Legacy Automatic Callback"
+            },
+            {
+              "value": "Location-Based Calling Restrictions",
+              "label": "Location-Based Calling Restrictions"
+            },
+            {
+              "value": "Lync CTI",
+              "label": "Lync CTI"
+            },
+            {
+              "value": "Lync Softphone",
+              "label": "Lync Softphone"
+            },
+            {
+              "value": "Malicious Call Trace",
+              "label": "Malicious Call Trace"
+            },
+            {
+              "value": "Mobile Extension to Extension Dialing",
+              "label": "Mobile Extension to Extension Dialing"
+            },
+            {
+              "value": "Mobility",
+              "label": "Mobility"
+            },
+            {
+              "value": "Multiple Call Arrangement",
+              "label": "Multiple Call Arrangement"
+            },
+            {
+              "value": "Music On Hold User",
+              "label": "Music On Hold User"
+            },
+            {
+              "value": "Video On Hold User",
+              "label": "Video On Hold User"
+            },
+            {
+              "value": "MWI Delivery to Mobile Endpoint",
+              "label": "MWI Delivery to Mobile Endpoint"
+            },
+            {
+              "value": "N-Way Call",
+              "label": "N-Way Call"
+            },
+            {
+              "value": "Number Portability Announcement",
+              "label": "Number Portability Announcement"
+            },
+            {
+              "value": "OMA Presence",
+              "label": "OMA Presence"
+            },
+            {
+              "value": "Outlook Integration",
+              "label": "Outlook Integration"
+            },
+            {
+              "value": "Office Communicator Tab",
+              "label": "Office Communicator Tab"
+            },
+            {
+              "value": "PBX Integration",
+              "label": "PBX Integration"
+            },
+            {
+              "value": "Personal Assistant",
+              "label": "Personal Assistant"
+            },
+            {
+              "value": "Physical Location",
+              "label": "Physical Location"
+            },
+            {
+              "value": "Polycom Phone Services",
+              "label": "Polycom Phone Services"
+            },
+            {
+              "value": "Pre-alerting Announcement",
+              "label": "Pre-alerting Announcement"
+            },
+            {
+              "value": "Preferred Carrier User",
+              "label": "Preferred Carrier User"
+            },
+            {
+              "value": "Prepaid",
+              "label": "Prepaid"
+            },
+            {
+              "value": "Priority Alert",
+              "label": "Priority Alert"
+            },
+            {
+              "value": "Privacy",
+              "label": "Privacy"
+            },
+            {
+              "value": "Push to Talk",
+              "label": "Push to Talk"
+            },
+            {
+              "value": "Remote Office",
+              "label": "Remote Office"
+            },
+            {
+              "value": "Resource Priority",
+              "label": "Resource Priority"
+            },
+            {
+              "value": "Route List",
+              "label": "Route List"
+            },
+            {
+              "value": "SMDI Message Desk",
+              "label": "SMDI Message Desk"
+            },
+            {
+              "value": "Security Classification",
+              "label": "Security Classification"
+            },
+            {
+              "value": "Selective Call Acceptance",
+              "label": "Selective Call Acceptance"
+            },
+            {
+              "value": "Selective Call Rejection",
+              "label": "Selective Call Rejection"
+            },
+            {
+              "value": "Sequential Ring",
+              "label": "Sequential Ring"
+            },
+            {
+              "value": "Service Scripts User",
+              "label": "Service Scripts User"
+            },
+            {
+              "value": "Shared Call Appearance",
+              "label": "Shared Call Appearance"
+            },
+            {
+              "value": "Shared Call Appearance 5",
+              "label": "Shared Call Appearance 5"
+            },
+            {
+              "value": "Shared Call Appearance 10",
+              "label": "Shared Call Appearance 10"
+            },
+            {
+              "value": "Shared Call Appearance 15",
+              "label": "Shared Call Appearance 15"
+            },
+            {
+              "value": "Shared Call Appearance 20",
+              "label": "Shared Call Appearance 20"
+            },
+            {
+              "value": "Shared Call Appearance 25",
+              "label": "Shared Call Appearance 25"
+            },
+            {
+              "value": "Shared Call Appearance 30",
+              "label": "Shared Call Appearance 30"
+            },
+            {
+              "value": "Shared Call Appearance 35",
+              "label": "Shared Call Appearance 35"
+            },
+            {
+              "value": "Short Message Service",
+              "label": "Short Message Service"
+            },
+            {
+              "value": "Silent Alerting",
+              "label": "Silent Alerting"
+            },
+            {
+              "value": "Simultaneous Ring Family",
+              "label": "Simultaneous Ring Family"
+            },
+            {
+              "value": "Simultaneous Ring Personal",
+              "label": "Simultaneous Ring Personal"
+            },
+            {
+              "value": "Speed Dial 100",
+              "label": "Speed Dial 100"
+            },
+            {
+              "value": "Speed Dial 8",
+              "label": "Speed Dial 8"
+            },
+            {
+              "value": "Terminating Alternate Trunk Identity",
+              "label": "Terminating Alternate Trunk Identity"
+            },
+            {
+              "value": "Terminating Closed User Group",
+              "label": "Terminating Closed User Group"
+            },
+            {
+              "value": "Third-Party IMP",
+              "label": "Third-Party IMP"
+            },
+            {
+              "value": "Third-Party MWI Control",
+              "label": "Third-Party MWI Control"
+            },
+            {
+              "value": "Third-Party Voice Mail Support",
+              "label": "Third-Party Voice Mail Support"
+            },
+            {
+              "value": "Three-Way Call",
+              "label": "Three-Way Call"
+            },
+            {
+              "value": "Two-Stage Dialing",
+              "label": "Two-Stage Dialing"
+            },
+            {
+              "value": "Video Add-On",
+              "label": "Video Add-On"
+            },
+            {
+              "value": "Virtual On-Net Enterprise Extensions",
+              "label": "Virtual On-Net Enterprise Extensions"
+            },
+            {
+              "value": "Visual Device Management",
+              "label": "Visual Device Management"
+            },
+            {
+              "value": "Voice Messaging User",
+              "label": "Voice Messaging User"
+            },
+            {
+              "value": "Voice Messaging User - Video",
+              "label": "Voice Messaging User - Video"
+            },
+            {
+              "value": "Voice Portal Calling",
+              "label": "Voice Portal Calling"
+            },
+            {
+              "value": "Zone Calling Restrictions",
+              "label": "Zone Calling Restrictions"
+            }
+          ]
+        },
+        [
+          {
+            "label": "select One",
+            "type": "select",
+            "options": [
+              {
+                "value": "c7b184be-0d9b-4553-9453-cf26e3c41d2f",
+                "label": "authorizedQuantity",
+                "nested": [
+                  {
+                    "name": "authorizedQuantity",
+                    "type": "collection",
+                    "required": true,
+                    "spec": [
+                      {
+                        "label": "select One",
+                        "type": "select",
+                        "options": [
+                          {
+                            "value": "4bbe23d6-744b-44ce-af32-e61473f841a7",
+                            "label": "unlimited",
+                            "nested": [
+                              {
+                                "name": "unlimited",
+                                "type": "boolean",
+                                "required": true
+                              }
+                            ]
+                          },
+                          {
+                            "value": "d45b0b52-dcf1-40a2-bcf2-945811e3106a",
+                            "label": "quantity",
+                            "nested": [
+                              {
+                                "name": "quantity",
+                                "type": "integer",
+                                "required": true
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "value": "46d56061-1caa-4e00-8417-a831bc7244b0",
+                "label": "unauthorized",
+                "nested": [
+                  {
+                    "name": "unauthorized",
+                    "type": "boolean",
+                    "required": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ]
+    }
+  ]
+}

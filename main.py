@@ -14,8 +14,14 @@ file_path_schemas = {
     'Enterprise': 'ocip_schema/OCISchemaEnterprise.xsd',
     'Reseller': 'ocip_schema/OCISchemaReseller.xsd',
     'System': 'ocip_schema/OCISchemaSystem.xsd',
+    'ServiceProvider': 'ocip_schema/OCISchemaServiceProvider.xsd',
+    'Login': 'ocip_schema/OCISchemaLogin.xsd',
     # 'bug': 'ocip_schema/bugs.xsd',
 }
+folder_path_schemas = {
+    "Services":'ocip_schema/Services'
+}
+
 
 
 # output_file = 'converted-data/group.json'
@@ -38,10 +44,10 @@ def get_format_types(element):
         utils_get_format_types['maxLength'] = int(element['xs:maxLength']['@value'])
 
     if 'xs:minInclusive' in element:
-        utils_get_format_types['minimum'] = int(element['xs:minInclusive']['@value'])
+        utils_get_format_types['minimum'] = float(element['xs:minInclusive']['@value'])
 
     if 'xs:maxInclusive' in element:
-        utils_get_format_types['maximum'] = int(element['xs:maxInclusive']['@value'])
+        utils_get_format_types['maximum'] = float(element['xs:maxInclusive']['@value'])
 
     return utils_get_format_types
 
@@ -70,10 +76,9 @@ def get_file_content(tags):
     :return: AnyStr
     """
     # Read the content of the file
-    content = open(f'converted-data/{humps.kebabize(tags[0])}.json', "r").read()
+    content = open(f'converted-data/v2/base/{humps.kebabize(tags[0])}.json', "r").read()
 
     # Close the file
-    file.close()
 
     # Print the content
     return content
@@ -138,10 +143,7 @@ def get_object_schema_rec(extensions: dict, body: list):
             get_object_schema_rec(extension, body[-1])
     else:
         if 'xs:sequence'in extensions and extensions.get('xs:sequence') is None:
-            base = getTypeXSD(extensions.get('@base'))
-            # if base is None:
-            #     print(base, extensions)
-            #     exit()
+            base = getTypeXSD(extensions.get('@base'), schema_data_types)
             body.append(base)
 
         if extensions.get('xs:element'):
@@ -173,7 +175,7 @@ def write_output_file_content(content, tags):
     :return:
     """
     # Open the file in write mode
-    write_file = open(f'./converted-data/{humps.kebabize(tags[0])}.json', "w")
+    write_file = open(f'./converted-data/v2/base/{humps.kebabize(tags[0])}.json', "w")
 
     # Write content to the file
     write_file.write(content)
@@ -182,7 +184,7 @@ def write_output_file_content(content, tags):
     write_file.close()
 
 
-def xml_schema_to_json_schema(xml_object: dict, xml_data_str, tags):
+def xml_schema_to_json_schema(xml_object: dict, xml_data_str, tags, add):
     """
     the main function convertor # todo need more info
 
@@ -194,6 +196,8 @@ def xml_schema_to_json_schema(xml_object: dict, xml_data_str, tags):
 
     xs_schema = xml_object.get('xs:schema')
     complex_types = xs_schema.get('xs:complexType')
+    if not complex_types:
+        return
     for complex_type in complex_types:
         body = []
 
@@ -226,11 +230,9 @@ def xml_schema_to_json_schema(xml_object: dict, xml_data_str, tags):
         """
                         SORT END
         """
-        # print(complex_content_extension)
-        # print(match.group(0))
         http_requests = json.loads(get_file_content(tags))
         http_requests.append(http_request)
-        # print(json.dumps([http_request]))
+
         write_output_file_content(json.dumps(http_requests), tags)
 
 
@@ -256,7 +258,7 @@ def get_sort(xml_data_str, name):
 #     return xml_data
 
 
-def getTypeXSD(type_name):
+def getTypeXSD(type_name, schema_data_types):
     for schema_data_type in schema_data_types:
         schema_data_type_schema = schema_data_type['xs:schema']
         for complex_type in schema_data_type_schema['xs:complexType']:
@@ -270,15 +272,20 @@ def getTypeXSD(type_name):
                 return get_object_schema_rec(complex_type, body)
 
         if 'xs:simpleType' in schema_data_type_schema:
-            for complex_type in schema_data_type_schema['xs:simpleType']:
+            if isinstance(schema_data_type_schema['xs:simpleType'], list):
+                for complex_type in schema_data_type_schema['xs:simpleType']:
+                    if complex_type["@name"] == type_name:
+                        return {
+                        'type': complex_type['xs:restriction']['@base'],
+                        **get_format_types(element=complex_type['xs:restriction'])
+                        }
+            else:
+                complex_type = schema_data_type_schema['xs:simpleType']
                 if complex_type["@name"] == type_name:
-                    if complex_type["@name"] == 'addressLine1':
-                        exit(4)
                     return {
                         'type': complex_type['xs:restriction']['@base'],
                         **get_format_types(element=complex_type['xs:restriction'])
                     }
-
     return type_name
 
 
@@ -303,8 +310,10 @@ def get_type_schema(type_name, xml_main):
     else:
         if 'xs:simpleType' in schema_main and schema_main['xs:simpleType']["@name"] == type_name:
             return schema_main['xs:simpleType']['xs:restriction']['@base']
+    #  bug getting enum continue 
 
     return type_name
+
 
 
 def get_type_and_sort(item, xml_main):
@@ -317,8 +326,11 @@ def get_type_and_sort(item, xml_main):
     if 'type' in item and item['type']:
         type_xsd = get_type_schema(type_name=item['type'], xml_main=xml_main)
 
+
         if isinstance(type_xsd, str) and type_xsd not in CONST_TYPES:
-            type_xsd = getTypeXSD(type_name=item['type'])
+            type_xsd = getTypeXSD(type_name=item['type'], schema_data_types=schema_data_types)
+        if isinstance(type_xsd, str):
+            type_xsd = getTypeXSD(type_name=item['type'], schema_data_types=[xml_main])
         if 'type' in type_xsd and isinstance(type_xsd['type'], str):
             item['type_schema'] = type_xsd['type']
             item.update({key: type_xsd[key] for key in type_xsd if key not in item})
@@ -326,6 +338,9 @@ def get_type_and_sort(item, xml_main):
             item['type_schema'] = type_xsd  # todo change logic and  remove  this case type' in type_xsd
         else:
             item['schema'] = type_xsd
+            if not type_xsd:
+                type_xsd = getTypeXSD(type_name=item['type'], schema_data_types=[xml_main])
+                item['schema'] = type_xsd
             # todo  get_schema_data_types_xsd return only  one data file need all
             """
             SORT START
@@ -334,6 +349,7 @@ def get_type_and_sort(item, xml_main):
             """
             SORT START
             """
+
     return item
 
 
@@ -360,12 +376,33 @@ def get_schema_rec(schema, xml_main):
 
 import os
 
-for file_path_schema in file_path_schemas:
-    with open(file_path_schemas[file_path_schema], 'r') as file:
-        xml_data = file.read()
+def run_files():
+    print('run_files')
+    for file_path_schema in file_path_schemas:
+        with open(file_path_schemas[file_path_schema], 'r') as file:
+            xml_data = file.read()
 
-    os.makedirs(os.path.dirname(f'./converted-data/{humps.kebabize(file_path_schema)}.json'), exist_ok=True)
-    write_output_file_content('[]', [file_path_schema])
-    xml_dict_main = xmltodict.parse(xml_data, dict_constructor=OrderedDict)
+        os.makedirs(os.path.dirname(f'./converted-data/v2/base/{humps.kebabize(file_path_schema)}.json'), exist_ok=True)
+        write_output_file_content('[]', [file_path_schema])
+        xml_dict_main = xmltodict.parse(xml_data, dict_constructor=OrderedDict)
 
-    xml_schema_to_json_schema(xml_object=xml_dict_main, xml_data_str=xml_data, tags=[f'{file_path_schema}'])
+        xml_schema_to_json_schema(xml_object=xml_dict_main, xml_data_str=xml_data, tags=[f'{file_path_schema}'], add=False)
+    print('end')
+run_files()
+
+def services():
+    contents = os.listdir('ocip_schema/Services')
+    os.makedirs(os.path.dirname(f'./converted-data/v2/base/{humps.kebabize("services")}.json'), exist_ok=True)
+    write_output_file_content('[]', [f'./converted-data/v2/base/{humps.kebabize("services")}.json'])
+    files = [file for file in contents if os.path.isfile(os.path.join("ocip_schema/Services", file))]
+
+    for file_name in files:
+        with open(f'./ocip_schema/Services/{file_name}', 'r') as file:
+            xml_data = file.read()
+        xml_dict_main = xmltodict.parse(xml_data, dict_constructor=OrderedDict)
+
+        xml_schema_to_json_schema(xml_object=xml_dict_main, xml_data_str=xml_data, tags=[f'services'], add=True)
+
+
+
+#         xml_data = file.read()

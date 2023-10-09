@@ -2,7 +2,7 @@ import json
 
 import humps
 
-from constants import CONST_TYPES, CONST_TYPE_FORMATS, SWAGGER_FILE_NAME, OCI_SCHEMA_JSON_FILE_NAME, SWAGGER_CONVERT_ALL
+from constants import CONST_TYPES, CONST_TYPE_FORMATS, SWAGGER_FILE_NAME, OCI_SCHEMA_JSON_FILE_NAME, SWAGGER_CONVERT_ALL, SWAGGER_CONVERT_V2_ALL
 
 
 # todo BUG /UserAnnouncementFileAddRequest  (Enterprise - abstract)
@@ -55,12 +55,14 @@ def get_properties(schema, swagger_schema):
             swagger_schema = get_properties(schema_item, swagger_schema)
         elif 'schema' in schema_item:
             if 'array' in schema_item and schema_item.get('array', False):
+                print(schema_item)
                 swagger_schema[schema_item['name']] = {
                     'type': 'array',
                     'required': schema_item.get('required', False),
                     "items": {
                         "type": "object",
                         'properties': get_properties(schema_item['schema'], {}),
+                        **get_choice(schema_item['schema'], {}),
                     },
                     # **get_choice(schema_item['schema'], {}),
                     # **get_format_types(schema_item)
@@ -88,13 +90,25 @@ def get_properties(schema, swagger_schema):
                     **get_format_types(schema_item)
                 }
         elif 'type_schema' in schema_item:
-
-            swagger_schema[schema_item['name']] = {
-                'required': schema_item['required'],
-                'type': get_type(schema_item['type_schema']),
-                **get_type_and_format(schema_item['type_schema']),
-                **get_format_types(schema_item)
-            }
+            if 'array' in schema_item and schema_item.get('array', False):
+                print(schema_item)
+                swagger_schema[schema_item['name']] = {
+                    'type': 'array',
+                    'required': schema_item.get('required', False),
+                    "items": {
+                        "type": "string",
+                        **get_format_types(schema_item)
+                    },
+                    # **get_choice(schema_item['schema'], {}),
+                    # **get_format_types(schema_item)
+                }
+            else:
+                swagger_schema[schema_item['name']] = {
+                    'required': schema_item['required'],
+                    'type': get_type(schema_item['type_schema']),
+                    **get_type_and_format(schema_item['type_schema']),
+                    **get_format_types(schema_item)
+                }
     return swagger_schema
 
 def get_choice_rec(choice, swagger_schema):
@@ -170,9 +184,14 @@ def main(schema_file_name, swagger_file_name):
             "title": "Group Properties API",
             "version": "1.0.0"
         },
-        "servers": [
+         "servers": [
             {
-                "url": "http://127.0.0.1:8000/command/"
+                "description": "Lab",
+                "url": "https://b7ftljz4m6.execute-api.us-west-2.amazonaws.com/v1/command"
+            },
+            {
+                "description": "Prod",
+                "url": " https://dtjdrpasm2.execute-api.us-west-1.amazonaws.com/v1/command"
             }
         ],
         "paths": {
@@ -196,10 +215,13 @@ def main(schema_file_name, swagger_file_name):
                 'post': {
                     'tags': group,
                     'summary': name,
+                    'description': description,
                     "security": [
                         {
-                            "basicAuth": []
-                        }],
+                            "basicAuth": [],
+
+                        }
+                    ],
                     "requestBody": {
                         "required": True,
                         "content": {
@@ -212,7 +234,7 @@ def main(schema_file_name, swagger_file_name):
                     },
                     "responses": {
                         "200": {
-                            "description": description
+                            "description": ""
                         }
                     }
                 }
@@ -236,7 +258,6 @@ def main(schema_file_name, swagger_file_name):
                    fix_required(value)
                 if isinstance(value, list):
                     for v in value:
-                        print(v)
                         if isinstance(v, dict):
                             fix_required(v)
         fix_required(schema[name])
@@ -263,7 +284,7 @@ def main(schema_file_name, swagger_file_name):
                 }
             }
             remove_empty_one_of(object_schema)
-            update_generate_swagger_doc(object_schema, name=request['name'], description='', group=request['tags'])
+            update_generate_swagger_doc(object_schema, name=request['name'], description=request['documentation'], group=request['tags'])
 
     file = open(swagger_file_name, "w")
 
@@ -274,6 +295,132 @@ def main(schema_file_name, swagger_file_name):
     file.close()
 
 
-for key in SWAGGER_CONVERT_ALL:
-    main(key, SWAGGER_CONVERT_ALL[key])
-# main()
+
+
+def mainOneFile():
+    swagger_doc = {
+        "openapi": "3.0.0",
+        "info": {
+            "title": "OCI-P Rest Api",
+            "version": "1.0.0"
+        },
+        "servers": [
+            {
+                "description": "Lab",
+                "url": "https://b7ftljz4m6.execute-api.us-west-2.amazonaws.com/v1/command"
+            },
+            {
+                "description": "Prod",
+                "url": " https://dtjdrpasm2.execute-api.us-west-1.amazonaws.com/v1/command"
+            }
+        ],
+        "paths": {
+        },
+        "components": {
+            "securitySchemes": {
+                "basicAuth": {
+                    "type": "http",
+                    "scheme": "basic",
+                    "required": True
+                }
+            },
+            "schemas": {}
+        }
+    }
+    def update_generate_swagger_doc(schema, name, description, group=None):
+        if group is None:
+            group = ['defaults']
+        path = {
+            f'/{humps.kebabize(group[0])}/{name}': {
+                'post': {
+                    'tags': group,
+                    'summary': name,
+                    'description': description,
+                    "security": [
+                        {
+                            "basicAuth": []
+                        }
+                    ],
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": f'#/components/schemas/{name}'
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": ''
+                        }
+                    }
+                }
+            }
+        }
+
+        def fix_required(schema):
+            if not isinstance(schema, dict):
+                return None
+            schema_items = schema.copy().items()
+            for key, value in schema_items:
+                if key == 'properties':
+                    required_array = []
+                    for item_key, item_value in value.items():
+                        if 'required' in item_value:
+                            if item_value['required']:
+                                required_array.append(item_key)
+                            item_value.pop('required')
+                    if len(required_array) > 0:
+                        schema['required'] = required_array
+                if isinstance(value, dict):
+                    fix_required(value)
+                if isinstance(value, list):
+                    for v in value:
+                        if isinstance(v, dict):
+                            fix_required(v)
+
+        fix_required(schema[name])
+        swagger_doc['paths'].update(path)
+        swagger_doc['components']['schemas'].update(schema)
+
+        return swagger_doc
+
+    for key in SWAGGER_CONVERT_V2_ALL:
+
+        with open(key, 'r') as file:
+            schema_oci = json.load(file)
+
+        for request in schema_oci:
+            if request['type'] == 'core:OCIRequest':
+                objects = {}
+                get_properties(request['schema'], objects)
+                choice = {}
+                get_choice(request['schema'], choice)
+                object_schema = {
+                    request['name']: {
+                        "type": "object",
+                        "properties": objects,
+                        **choice
+                    }
+                }
+                remove_empty_one_of(object_schema)
+                update_generate_swagger_doc(object_schema, name=request['name'], description=request['documentation'], group=request['tags'])
+
+    file = open('converted-data/v2/swagger/swagger.json', "w")
+
+    # Write content to the file
+    file.write(json.dumps(swagger_doc))
+
+    # Close the file
+    file.close()
+
+
+
+# for key in SWAGGER_CONVERT_V2_ALL:
+#     main(key, SWAGGER_CONVERT_V2_ALL[key])
+
+
+# #
+mainOneFile()
