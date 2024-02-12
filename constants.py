@@ -19,6 +19,10 @@ CONST_TYPES_STUDIO = {
     'xs:string': 'text',
     'xs:base64Binary': 'text',
     'xs:date': 'text',
+    'xs:datetime': 'text',
+    'xs:dateTime': 'text',
+    'CallDispositionCodeDescription': 'text',
+    'xs:float': 'number',
 }
 
 CONST_TYPE_FORMATS = {
@@ -57,7 +61,7 @@ SWAGGER_CONVERT_V2_ALL = {
     'converted-data/v2/base/reseller.json':'converted-data/v2/swagger/swagger-doc-reseller.json',
     'converted-data/v2/base/system.json':'converted-data/v2/swagger/swagger-doc-system.json',
     'converted-data/v2/base/service-provider.json':'converted-data/v2/swagger/swagger-doc-service-provider.json',
-    'converted-data/v2/base/services.json':'converted-data/v2/swagger/swagger-doc-services.json',
+    'converted-data/v2/base/services.json' : 'converted-data/v2/swagger/swagger-doc-services.json',
 }
 
 BUG = {

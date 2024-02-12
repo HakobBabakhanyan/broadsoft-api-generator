@@ -66,6 +66,24 @@ def get_schema_data_types():
 
     return [oci_schema_data_types, oci_schema_search_criteria_types, oci_schema_sort_criteria_types]
 
+def get_schema_data_types_by_file_location(file):
+    """
+    this function get the data types in array
+    :return:
+    """
+    if 'OCISchemaDataTypes' in file:
+        return None
+    file_path_main = os.path.join('ocip_schema', file.replace('../', ''))
+    file_path_services = os.path.join('ocip_schema/Services', file.replace('../', ''))
+    if os.path.exists(file_path_main):
+        with open(file_path_main, 'r') as file:
+            return xmltodict.parse(file.read())
+    elif os.path.exists(file_path_services):
+        with open(file_path_services, 'r') as file:
+            return  xmltodict.parse(file.read())
+    else:
+        print(file)
+        exit(1)
 
 schema_data_types = get_schema_data_types()
 
@@ -323,14 +341,20 @@ def get_type_and_sort(item, xml_main):
     :param xml_main:
     :return:
     """
+
     if 'type' in item and item['type']:
         type_xsd = get_type_schema(type_name=item['type'], xml_main=xml_main)
-
-
         if isinstance(type_xsd, str) and type_xsd not in CONST_TYPES:
             type_xsd = getTypeXSD(type_name=item['type'], schema_data_types=schema_data_types)
         if isinstance(type_xsd, str):
-            type_xsd = getTypeXSD(type_name=item['type'], schema_data_types=[xml_main])
+            xml_by_files = []
+            for file in xml_main.get('xs:schema').get('xs:include'):
+                if isinstance(file, dict):
+                    file_content = get_schema_data_types_by_file_location(file.get('@schemaLocation'))
+                    if file_content:
+                        xml_by_files.append(file_content)
+            xml_by_files.append(xml_main)
+            type_xsd = getTypeXSD(type_name=item['type'], schema_data_types=xml_by_files)
         if 'type' in type_xsd and isinstance(type_xsd['type'], str):
             item['type_schema'] = type_xsd['type']
             item.update({key: type_xsd[key] for key in type_xsd if key not in item})
@@ -393,7 +417,7 @@ run_files()
 def services():
     contents = os.listdir('ocip_schema/Services')
     os.makedirs(os.path.dirname(f'./converted-data/v2/base/{humps.kebabize("services")}.json'), exist_ok=True)
-    write_output_file_content('[]', [f'./converted-data/v2/base/{humps.kebabize("services")}.json'])
+    write_output_file_content('[]', ['services'])
     files = [file for file in contents if os.path.isfile(os.path.join("ocip_schema/Services", file))]
 
     for file_name in files:
@@ -406,3 +430,4 @@ def services():
 
 
 #         xml_data = file.read()
+services()

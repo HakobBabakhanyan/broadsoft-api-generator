@@ -418,9 +418,7 @@ def mainOneFile():
 
 
 
-# for key in SWAGGER_CONVERT_V2_ALL:
-#     main(key, SWAGGER_CONVERT_V2_ALL[key])
-
-
+for key in SWAGGER_CONVERT_V2_ALL:
+    main(key, SWAGGER_CONVERT_V2_ALL[key])
 # #
 mainOneFile()

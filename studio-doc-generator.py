@@ -16,6 +16,8 @@ def get_type(const_type: str):
     :param const_type:
     :return:
     """
+    if const_type not in CONST_TYPES_STUDIO:
+        print(const_type)
     return CONST_TYPES_STUDIO[const_type] if const_type in CONST_TYPES_STUDIO else const_type
 
 
@@ -83,6 +85,7 @@ def get_properties(schema, studio_schema):
                 studio_schema.append({
                     "type": "array",
                     "name": schema_item['name'],
+                    'required': schema_item['required'],
                     "spec": {},
                 })
 
@@ -270,7 +273,7 @@ def mainOneFile():
 
                 update_generate_studio_doc(array + choice, name=request['name'])
 
-    file = open('converted-data/v2/studio/studio.json', "w")
+    file = open('converted-data/v3/studio/studio.json', "w")
 
     # Write content to the file
     def fix_required(schema):
@@ -280,10 +283,11 @@ def mainOneFile():
         for key, value in schema_items:
             if key == 'spec':
                 data_dict = dict(schema_items)
-                if 'required' in data_dict and not data_dict['required']:
+                if 'required' not in data_dict or ('required' in data_dict and not data_dict['required']):
                     for item_value in data_dict['spec']:
-                        if 'required' in item_value:
+                        if 'required' in item_value and not isinstance(item_value, str):
                             item_value.pop('required')
+
                 # exit()
             if isinstance(value, dict):
                 fix_required(value)

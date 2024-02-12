@@ -43550,7 +43550,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="UserGetRequest22">
+      <xs:complexType name="UserGetRequest22">
     <xs:annotation>
       <xs:documentation>
         Request to get the user information.  The response is either

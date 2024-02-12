@@ -1,1 +1,944 @@
-[{"name": "AuthenticationVerifyRequest22V4", "tags": ["Login"], "documentation": "AuthenticationVerifyRequest22V4 is used to authenticate a user either by userId/password, userId/sip username/sip password,\n        dn/passcode, lineport/password or a token previously authorized with the ExternalAuthenticationAuthorizeTokenRequest.\n        The phone number may be any DN associated with a user.\n        The lineport may be any lineport associated with a user.\n        The password used for the lineport is the user's password associated with userId.\n\n        The response is a AuthenticationVerifyResponse22V4 or an ErrorResponse", "type": "core:OCIRequest", "schema": [{"choice": [[[{"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "password", "required": true, "array": false, "type": "Password", "type_schema": "xs:token", "minLength": 1, "maxLength": 60}], [{"name": "phoneNumber", "required": true, "array": false, "type": "DN", "type_schema": "xs:token", "minLength": 1, "maxLength": 23}, {"name": "passcode", "required": true, "array": false, "type": "Passcode", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}], [{"name": "linePort", "required": true, "array": false, "type": "AccessDeviceEndpointLinePort", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "password", "required": true, "array": false, "type": "Password", "type_schema": "xs:token", "minLength": 1, "maxLength": 60}], [{"name": "loginToken", "required": true, "array": false, "type": "LoginToken", "type_schema": "xs:token", "minLength": 1}], [{"name": "sipAuthenticationUserName", "required": true, "array": false, "type": "SIPAuthenticationUserName", "type_schema": "xs:token", "minLength": 1, "maxLength": 80}, {"name": "sipAuthenticationPassword", "required": true, "array": false, "type": "SIPAuthenticationPassword", "type_schema": "xs:token", "minLength": 1, "maxLength": 60}, {"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}]]]}]}, {"name": "AvailabilityTestRequest", "tags": ["Login"], "documentation": "AvailabilityTestRequest is for high-availability support. Response is either SuccessResponse\n        or ErrorResponse.", "type": "core:OCIRequest", "schema": ["core:OCIRequest"]}, {"name": "DeviceManagementFileAuthLocationGetRequest22V3", "tags": ["Login"], "documentation": "Get the address and credentials of the File Repository hosting the requested access device file.\n        Also get the file name and path on the File Repository.\n        The response is either DeviceManagementFileAuthLocationGetResponse22V3 or ErrorResponse.\n        The following elements are only used in AS data mode and will fail in XS data mode:\n          deviceToken\n        The following elements are only used in XS data mode and will be ignored in AS data mode:\n          fileNameLookup\n          fileNameOnDisk", "type": "core:OCIRequest", "schema": [[{"name": "deviceAccessProtocol", "required": true, "array": false, "type": "DeviceAccessProtocol22", "type_schema": "xs:token", "enum": ["Http", "Https", "FTP", "FTPS", "SFTP", "TFTP"]}, {"name": "deviceAccessMethod", "required": true, "array": false, "type": "FileRepositoryAccessType", "type_schema": "xs:token", "minLength": 1, "maxLength": 40}, {"name": "deviceAccessURI", "required": true, "array": false, "type": "DeviceManagementAccessURI", "type_schema": "xs:token", "minLength": 1, "maxLength": 256}, {"name": "accessDeviceUserName", "required": false, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "accessDeviceUserPassword", "required": false, "array": false, "type": "Password", "type_schema": "xs:token", "minLength": 1, "maxLength": 60}, {"name": "deviceToken", "required": false, "array": false, "type": "LoginToken", "type_schema": "xs:token", "minLength": 1}, {"name": "signedPassword", "required": false, "array": false, "type": "SignedPassword", "type_schema": "xs:string", "minLength": 1}, {"name": "macAddress", "required": false, "array": false, "type": "AccessDeviceMACAddress", "type_schema": "xs:token", "minLength": 1, "maxLength": 12}, {"name": "realmName", "required": false, "array": false, "type": "RealmName", "type_schema": "xs:token", "minLength": 1, "maxLength": 265}, {"name": "digestHa1Complement", "required": false, "array": false, "type": "DigestHa1Complement", "type_schema": "xs:token", "minLength": 32, "maxLength": 256}, {"name": "digestResponse", "required": false, "array": false, "type": "Md5Hash", "type_schema": "xs:token", "minLength": 32, "maxLength": 32}, {"name": "fileNameLookup", "required": false, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}, {"name": "fileNameOnDisk", "required": false, "array": false, "type": "CPESystemFileName", "type_schema": "xs:token", "minLength": 1, "maxLength": 265}]]}, {"name": "DeviceManagementPutFileRequest", "tags": ["Login"], "documentation": "Informs BroadWorks that a file was uploaded to the repository. The response is always a SuccessResponse.", "type": "core:OCIRequest", "schema": [[{"name": "deviceAccessURI", "required": true, "array": false, "type": "DeviceManagementAccessURI", "type_schema": "xs:token", "minLength": 1, "maxLength": 256}, {"name": "ipAddress", "required": true, "array": false, "type": "NetAddress", "type_schema": "xs:token", "minLength": 1, "maxLength": 80}]]}, {"name": "ExternalAuthenticationAuthorizeTokenRequest22", "tags": ["Login"], "documentation": "This command is part of the Portal API.\n        Sent when a Web or CLI user logs in using external authentication.\n        The hashed password value in the request is supported only when the request is sent from the CommPilot web portal.\n        The response is either SuccessResponse or ErrorResponse.", "type": "core:OCIRequest", "schema": [[{"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "password", "required": false, "array": false, "type": "Password256", "type_schema": "xs:token", "minLength": 1, "maxLength": 256}, {"name": "isPasswordHashed", "required": false, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}, {"name": "loginToken", "required": true, "array": false, "type": "LoginToken", "type_schema": "xs:token", "minLength": 1}]]}, {"name": "ExternalAuthenticationCreateLoginTokenRequest", "tags": ["Login"], "documentation": "This command allows a BroadWorks or Third-Party Client Application to\n        create a Single Sign-On token for a user.\n        The response is either ExternalAuthenticationCreateLoginTokenResponse\n        or ErrorResponse.", "type": "core:OCIRequest", "schema": [[{"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}]]}, {"name": "LoginRequest22V5", "tags": ["Login"], "documentation": "Request to login to OCI.\n        password is not required for external authentication login from a trusted host (ACL).\n\n        The following data element is only used in XS data mode and will be ignored in AS data mode:\n          signedPassword", "type": "core:OCIRequest", "schema": [[{"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "password", "required": false, "array": false, "type": "Password", "type_schema": "xs:token", "minLength": 1, "maxLength": 60}, {"name": "signedPassword", "required": false, "array": false, "type": "SignedPassword", "type_schema": "xs:string", "minLength": 1}]]}, {"name": "LogoutRequest", "tags": ["Login"], "documentation": "LogoutRequest is sent when an OCI user logs out or when connection is lost.\n        This command can be sent either to the server, or to the client from OCS.\n        Response is either SuccessResponse or ErrorResponse.", "type": "core:OCIRequest", "schema": [[{"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "reason", "required": false, "array": false, "type": "LogoutRequestReason", "type_schema": "xs:token", "enum": ["Client Logout", "Server Connection Failure", "Open Client Server Forced Logout"]}]]}, {"name": "LongLivedTokenRevokeRequest", "tags": ["Login"], "documentation": "Revoke all previously issued long lived tokens.\n        If the userId is not specified, revoke all tokens in the system.\n        If the userId is specified, revoke all tokens issued to the user.\n        The response is either a SuccessResponse or an ErrorResponse.", "type": "core:OCIRequest", "schema": [[{"name": "userId", "required": false, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}]]}, {"name": "PasswordGenerateRequest", "tags": ["Login"], "documentation": "Generate passwords based on the corresponding password/passcode rules.\n        The response is either PasswordGenerateResponse or ErrorResponse.", "type": "core:OCIRequest", "schema": [[{"name": "systemAdministratorPassword", "required": false, "array": false, "type": "PasswordForSystemAdministrator", "schema": [[{"name": "administratorId", "required": false, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "generatePassword", "required": true, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}]]}, {"name": "serviceProviderAdministratorPassword", "required": false, "array": false, "type": "PasswordForServiceProviderAdministrator", "schema": [[{"name": "serviceProviderId", "required": true, "array": false, "type": "ServiceProviderId", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}, {"name": "administratorId", "required": false, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "generatePassword", "required": true, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}]]}, {"name": "groupAdministratorPassword", "required": false, "array": false, "type": "PasswordForGroupAdministrator", "schema": [[{"name": "serviceProviderId", "required": true, "array": false, "type": "ServiceProviderId", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}, {"name": "groupId", "required": true, "array": false, "type": "GroupId", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}, {"name": "administratorId", "required": false, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "generatePassword", "required": true, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}]]}, {"name": "userPassword", "required": false, "array": false, "type": "PasswordForUser", "schema": [[{"name": "serviceProviderId", "required": true, "array": false, "type": "ServiceProviderId", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}, {"name": "groupId", "required": true, "array": false, "type": "GroupId", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}, {"name": "userId", "required": false, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "generatePassword", "required": false, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}, {"name": "generatePasscode", "required": false, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}, {"name": "generateSipPassword", "required": false, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}]]}, {"name": "accessDeviceAuthenticationPassword", "required": false, "array": false, "type": "PasswordForAccessDevice", "schema": [[{"name": "serviceProviderId", "required": false, "array": false, "type": "ServiceProviderId", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}, {"name": "groupId", "required": false, "array": false, "type": "GroupId", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}, {"name": "deviceName", "required": false, "array": false, "type": "AccessDeviceName", "type_schema": "xs:token", "minLength": 1, "maxLength": 40}, {"name": "generateDeviceAuthenticationPassword", "required": true, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}]]}, {"name": "trunkGroupAuthenticationPassword", "required": false, "array": false, "type": "PasswordForTrunkGroup", "schema": [[{"name": "serviceProviderId", "required": true, "array": false, "type": "ServiceProviderId", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}, {"name": "groupId", "required": true, "array": false, "type": "GroupId", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}, {"name": "name", "required": false, "array": false, "type": "TrunkGroupName", "type_schema": "xs:token", "minLength": 1, "maxLength": 30}, {"name": "generateTrunkGroupAuthenticationPassword", "required": true, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}]]}]]}, {"name": "PasswordModifyRequest", "tags": ["Login"], "documentation": "Modify the password for a user/administrator.\n        When oldPassword is specified, password rule applies. If oldPassword in not specified,\n        any password rule related to old password does not apply.\n        The response is either a SuccessResponse or an ErrorResponse.", "type": "core:OCIRequest", "schema": [[{"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "oldPassword", "required": false, "array": false, "type": "Password", "type_schema": "xs:token", "minLength": 1, "maxLength": 60}, {"name": "newPassword", "required": true, "array": false, "type": "Password", "type_schema": "xs:token", "minLength": 1, "maxLength": 60}]]}, {"name": "PrimaryInfoGetRequest", "tags": ["Login"], "documentation": "Requests information about the primary server for high-availability support.", "type": "core:OCIRequest", "schema": [[{"name": "isPrivate", "required": true, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}, {"name": "isAddressInfoRequested", "required": true, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}]]}, {"name": "PublicClusterGetFullyQualifiedDomainNameRequest", "tags": ["Login"], "documentation": "Get the public cluster fully qualified domain name (FQDN).\n        The response is either a PublicClusterGetFullyQualifiedDomainNameResponse\n        or an ErrorResponse.", "type": "core:OCIRequest", "schema": ["core:OCIRequest"]}, {"name": "TutorialFlagGetRequest", "tags": ["Login"], "documentation": "Get the tutorial flag setting for a user or admin.\n        The response is either a TutorialFlagGetResponse or an ErrorResponse.", "type": "core:OCIRequest", "schema": [[{"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}]]}, {"name": "TutorialFlagModifyRequest", "tags": ["Login"], "documentation": "Modify the tutorial flag setting for a user or admin.\n        The response is either a SuccessResponse or an ErrorResponse.", "type": "core:OCIRequest", "schema": [[{"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "enableTutorial", "required": false, "array": false, "type": "xs:boolean", "type_schema": "xs:boolean"}]]}, {"name": "UserGetLoginInfoRequest22V4", "tags": ["Login"], "documentation": "UserGetLoginInfoRequest22V4 is used to access login information for a user\n        either by a userId, dn or lineport.\n        The phone number may be any DN associated with a user.\n        The lineport may be any lineport associated with a user.\n\n        The response is a UserGetLoginInfoResponse22V4 or an ErrorResponse.\n\n        The following elements are only used in AS data mode and ignored in XS and Amplify data mode.\n          loginRole", "type": "core:OCIRequest", "schema": [[{"choice": [{"name": "phoneNumber", "required": true, "array": false, "type": "DN", "type_schema": "xs:token", "minLength": 1, "maxLength": 23}, {"name": "linePort", "required": true, "array": false, "type": "AccessDeviceEndpointLinePort", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, [{"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "loginRole", "required": false, "array": false, "type": "LoginRole", "type_schema": "xs:token", "enum": ["Administrator", "User"]}]]}]]}, {"name": "UserSingleSignOnCreateDeviceTokenRequest", "tags": ["Login"], "documentation": "This command allows a BroadWorks or Third-Party Client Application to\n        create a Single Sign-On token for a device of a user.\n        The token is created only if:\n        1. the specified user is the owner of a lineport on the specified device\n           (including a trunk user on a trunk device).\n        2. and, the specified device is not in locked state.\n        3. and, the device type of the device does support Device Management.\n        The response is either UserSingleSignOnCreateDeviceTokenResponse\n        or ErrorResponse.", "type": "core:OCIRequest", "schema": [[{"name": "userId", "required": true, "array": false, "type": "UserId", "type_schema": "xs:token", "minLength": 1, "maxLength": 161}, {"name": "deviceLevel", "required": true, "array": false, "type": "AccessDeviceLevel", "type_schema": "xs:token", "enum": ["System", "Service Provider", "Group"]}, {"name": "deviceName", "required": true, "array": false, "type": "AccessDeviceName", "type_schema": "xs:token", "minLength": 1, "maxLength": 40}]]}, {"name": "VerifySessionIsValidRequest", "tags": ["Login"], "documentation": "Query the provisioning server to verify the session is authorized. Most\n        applications should not need this command, because the provisioning server\n        verifies the session is authorized for all commands.\n        The response is either a SuccessResponse or an ErrorResponse.", "type": "core:OCIRequest", "schema": ["core:OCIRequest"]}]
+[
+  {
+    "name": "AuthenticationVerifyRequest22V4",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "AuthenticationVerifyRequest22V4 is used to authenticate a user either by userId/password, userId/sip username/sip password,\n        dn/passcode, lineport/password or a token previously authorized with the ExternalAuthenticationAuthorizeTokenRequest.\n        The phone number may be any DN associated with a user.\n        The lineport may be any lineport associated with a user.\n        The password used for the lineport is the user's password associated with userId.\n\n        The response is a AuthenticationVerifyResponse22V4 or an ErrorResponse",
+    "type": "core:OCIRequest",
+    "schema": [
+      {
+        "choice": [
+          [
+            [
+              {
+                "name": "userId",
+                "required": true,
+                "array": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 161
+              },
+              {
+                "name": "password",
+                "required": true,
+                "array": false,
+                "type": "Password",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 60
+              }
+            ],
+            [
+              {
+                "name": "phoneNumber",
+                "required": true,
+                "array": false,
+                "type": "DN",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 23
+              },
+              {
+                "name": "passcode",
+                "required": true,
+                "array": false,
+                "type": "Passcode",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              }
+            ],
+            [
+              {
+                "name": "linePort",
+                "required": true,
+                "array": false,
+                "type": "AccessDeviceEndpointLinePort",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 161
+              },
+              {
+                "name": "password",
+                "required": true,
+                "array": false,
+                "type": "Password",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 60
+              }
+            ],
+            [
+              {
+                "name": "loginToken",
+                "required": true,
+                "array": false,
+                "type": "LoginToken",
+                "type_schema": "xs:token",
+                "minLength": 1
+              }
+            ],
+            [
+              {
+                "name": "sipAuthenticationUserName",
+                "required": true,
+                "array": false,
+                "type": "SIPAuthenticationUserName",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              {
+                "name": "sipAuthenticationPassword",
+                "required": true,
+                "array": false,
+                "type": "SIPAuthenticationPassword",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 60
+              },
+              {
+                "name": "userId",
+                "required": true,
+                "array": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 161
+              }
+            ]
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "name": "AvailabilityTestRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "AvailabilityTestRequest is for high-availability support. Response is either SuccessResponse\n        or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      "core:OCIRequest"
+    ]
+  },
+  {
+    "name": "DeviceManagementFileAuthLocationGetRequest22V3",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Get the address and credentials of the File Repository hosting the requested access device file.\n        Also get the file name and path on the File Repository.\n        The response is either DeviceManagementFileAuthLocationGetResponse22V3 or ErrorResponse.\n        The following elements are only used in AS data mode and will fail in XS data mode:\n          deviceToken\n        The following elements are only used in XS data mode and will be ignored in AS data mode:\n          fileNameLookup\n          fileNameOnDisk",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "deviceAccessProtocol",
+          "required": true,
+          "array": false,
+          "type": "DeviceAccessProtocol22",
+          "type_schema": "xs:token",
+          "enum": [
+            "Http",
+            "Https",
+            "FTP",
+            "FTPS",
+            "SFTP",
+            "TFTP"
+          ]
+        },
+        {
+          "name": "deviceAccessMethod",
+          "required": true,
+          "array": false,
+          "type": "FileRepositoryAccessType",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        {
+          "name": "deviceAccessURI",
+          "required": true,
+          "array": false,
+          "type": "DeviceManagementAccessURI",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        {
+          "name": "accessDeviceUserName",
+          "required": false,
+          "array": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 161
+        },
+        {
+          "name": "accessDeviceUserPassword",
+          "required": false,
+          "array": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        {
+          "name": "deviceToken",
+          "required": false,
+          "array": false,
+          "type": "LoginToken",
+          "type_schema": "xs:token",
+          "minLength": 1
+        },
+        {
+          "name": "signedPassword",
+          "required": false,
+          "array": false,
+          "type": "SignedPassword",
+          "type_schema": "xs:string",
+          "minLength": 1
+        },
+        {
+          "name": "macAddress",
+          "required": false,
+          "array": false,
+          "type": "AccessDeviceMACAddress",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 12
+        },
+        {
+          "name": "realmName",
+          "required": false,
+          "array": false,
+          "type": "RealmName",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 265
+        },
+        {
+          "name": "digestHa1Complement",
+          "required": false,
+          "array": false,
+          "type": "DigestHa1Complement",
+          "type_schema": "xs:token",
+          "minLength": 32,
+          "maxLength": 256
+        },
+        {
+          "name": "digestResponse",
+          "required": false,
+          "array": false,
+          "type": "Md5Hash",
+          "type_schema": "xs:token",
+          "minLength": 32,
+          "maxLength": 32
+        },
+        {
+          "name": "fileNameLookup",
+          "required": false,
+          "array": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "fileNameOnDisk",
+          "required": false,
+          "array": false,
+          "type": "CPESystemFileName",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 265
+        }
+      ]
+    ]
+  },
+  {
+    "name": "DeviceManagementPutFileRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Informs BroadWorks that a file was uploaded to the repository. The response is always a SuccessResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "deviceAccessURI",
+          "required": true,
+          "array": false,
+          "type": "DeviceManagementAccessURI",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        {
+          "name": "ipAddress",
+          "required": true,
+          "array": false,
+          "type": "NetAddress",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      ]
+    ]
+  },
+  {
+    "name": "ExternalAuthenticationAuthorizeTokenRequest22",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "This command is part of the Portal API.\n        Sent when a Web or CLI user logs in using external authentication.\n        The hashed password value in the request is supported only when the request is sent from the CommPilot web portal.\n        The response is either SuccessResponse or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "array": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 161
+        },
+        {
+          "name": "password",
+          "required": false,
+          "array": false,
+          "type": "Password256",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        {
+          "name": "isPasswordHashed",
+          "required": false,
+          "array": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "loginToken",
+          "required": true,
+          "array": false,
+          "type": "LoginToken",
+          "type_schema": "xs:token",
+          "minLength": 1
+        }
+      ]
+    ]
+  },
+  {
+    "name": "ExternalAuthenticationCreateLoginTokenRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "This command allows a BroadWorks or Third-Party Client Application to\n        create a Single Sign-On token for a user.\n        The response is either ExternalAuthenticationCreateLoginTokenResponse\n        or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "array": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 161
+        }
+      ]
+    ]
+  },
+  {
+    "name": "LoginRequest22V5",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Request to login to OCI.\n        password is not required for external authentication login from a trusted host (ACL).\n\n        The following data element is only used in XS data mode and will be ignored in AS data mode:\n          signedPassword",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "array": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 161
+        },
+        {
+          "name": "password",
+          "required": false,
+          "array": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        {
+          "name": "signedPassword",
+          "required": false,
+          "array": false,
+          "type": "SignedPassword",
+          "type_schema": "xs:string",
+          "minLength": 1
+        }
+      ]
+    ]
+  },
+  {
+    "name": "LogoutRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "LogoutRequest is sent when an OCI user logs out or when connection is lost.\n        This command can be sent either to the server, or to the client from OCS.\n        Response is either SuccessResponse or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "array": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 161
+        },
+        {
+          "name": "reason",
+          "required": false,
+          "array": false,
+          "type": "LogoutRequestReason",
+          "type_schema": "xs:token",
+          "enum": [
+            "Client Logout",
+            "Server Connection Failure",
+            "Open Client Server Forced Logout"
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "name": "LongLivedTokenRevokeRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Revoke all previously issued long lived tokens.\n        If the userId is not specified, revoke all tokens in the system.\n        If the userId is specified, revoke all tokens issued to the user.\n        The response is either a SuccessResponse or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": false,
+          "array": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 161
+        }
+      ]
+    ]
+  },
+  {
+    "name": "PasswordGenerateRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Generate passwords based on the corresponding password/passcode rules.\n        The response is either PasswordGenerateResponse or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "systemAdministratorPassword",
+          "required": false,
+          "array": false,
+          "type": "PasswordForSystemAdministrator",
+          "schema": [
+            [
+              {
+                "name": "administratorId",
+                "required": false,
+                "array": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 161
+              },
+              {
+                "name": "generatePassword",
+                "required": true,
+                "array": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "serviceProviderAdministratorPassword",
+          "required": false,
+          "array": false,
+          "type": "PasswordForServiceProviderAdministrator",
+          "schema": [
+            [
+              {
+                "name": "serviceProviderId",
+                "required": true,
+                "array": false,
+                "type": "ServiceProviderId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              {
+                "name": "administratorId",
+                "required": false,
+                "array": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 161
+              },
+              {
+                "name": "generatePassword",
+                "required": true,
+                "array": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "groupAdministratorPassword",
+          "required": false,
+          "array": false,
+          "type": "PasswordForGroupAdministrator",
+          "schema": [
+            [
+              {
+                "name": "serviceProviderId",
+                "required": true,
+                "array": false,
+                "type": "ServiceProviderId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              {
+                "name": "groupId",
+                "required": true,
+                "array": false,
+                "type": "GroupId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              {
+                "name": "administratorId",
+                "required": false,
+                "array": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 161
+              },
+              {
+                "name": "generatePassword",
+                "required": true,
+                "array": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "userPassword",
+          "required": false,
+          "array": false,
+          "type": "PasswordForUser",
+          "schema": [
+            [
+              {
+                "name": "serviceProviderId",
+                "required": true,
+                "array": false,
+                "type": "ServiceProviderId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              {
+                "name": "groupId",
+                "required": true,
+                "array": false,
+                "type": "GroupId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              {
+                "name": "userId",
+                "required": false,
+                "array": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 161
+              },
+              {
+                "name": "generatePassword",
+                "required": false,
+                "array": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              },
+              {
+                "name": "generatePasscode",
+                "required": false,
+                "array": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              },
+              {
+                "name": "generateSipPassword",
+                "required": false,
+                "array": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "accessDeviceAuthenticationPassword",
+          "required": false,
+          "array": false,
+          "type": "PasswordForAccessDevice",
+          "schema": [
+            [
+              {
+                "name": "serviceProviderId",
+                "required": false,
+                "array": false,
+                "type": "ServiceProviderId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              {
+                "name": "groupId",
+                "required": false,
+                "array": false,
+                "type": "GroupId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              {
+                "name": "deviceName",
+                "required": false,
+                "array": false,
+                "type": "AccessDeviceName",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 40
+              },
+              {
+                "name": "generateDeviceAuthenticationPassword",
+                "required": true,
+                "array": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "trunkGroupAuthenticationPassword",
+          "required": false,
+          "array": false,
+          "type": "PasswordForTrunkGroup",
+          "schema": [
+            [
+              {
+                "name": "serviceProviderId",
+                "required": true,
+                "array": false,
+                "type": "ServiceProviderId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              {
+                "name": "groupId",
+                "required": true,
+                "array": false,
+                "type": "GroupId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              {
+                "name": "name",
+                "required": false,
+                "array": false,
+                "type": "TrunkGroupName",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              {
+                "name": "generateTrunkGroupAuthenticationPassword",
+                "required": true,
+                "array": false,
+                "type": "xs:boolean",
+                "type_schema": "xs:boolean"
+              }
+            ]
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "name": "PasswordModifyRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Modify the password for a user/administrator.\n        When oldPassword is specified, password rule applies. If oldPassword in not specified,\n        any password rule related to old password does not apply.\n        The response is either a SuccessResponse or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "array": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 161
+        },
+        {
+          "name": "oldPassword",
+          "required": false,
+          "array": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        {
+          "name": "newPassword",
+          "required": true,
+          "array": false,
+          "type": "Password",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 60
+        }
+      ]
+    ]
+  },
+  {
+    "name": "PrimaryInfoGetRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Requests information about the primary server for high-availability support.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "isPrivate",
+          "required": true,
+          "array": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        },
+        {
+          "name": "isAddressInfoRequested",
+          "required": true,
+          "array": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "PublicClusterGetFullyQualifiedDomainNameRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Get the public cluster fully qualified domain name (FQDN).\n        The response is either a PublicClusterGetFullyQualifiedDomainNameResponse\n        or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      "core:OCIRequest"
+    ]
+  },
+  {
+    "name": "TutorialFlagGetRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Get the tutorial flag setting for a user or admin.\n        The response is either a TutorialFlagGetResponse or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "array": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 161
+        }
+      ]
+    ]
+  },
+  {
+    "name": "TutorialFlagModifyRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Modify the tutorial flag setting for a user or admin.\n        The response is either a SuccessResponse or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "array": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 161
+        },
+        {
+          "name": "enableTutorial",
+          "required": false,
+          "array": false,
+          "type": "xs:boolean",
+          "type_schema": "xs:boolean"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "UserGetLoginInfoRequest22V4",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "UserGetLoginInfoRequest22V4 is used to access login information for a user\n        either by a userId, dn or lineport.\n        The phone number may be any DN associated with a user.\n        The lineport may be any lineport associated with a user.\n\n        The response is a UserGetLoginInfoResponse22V4 or an ErrorResponse.\n\n        The following elements are only used in AS data mode and ignored in XS and Amplify data mode.\n          loginRole",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "choice": [
+            {
+              "name": "phoneNumber",
+              "required": true,
+              "array": false,
+              "type": "DN",
+              "type_schema": "xs:token",
+              "minLength": 1,
+              "maxLength": 23
+            },
+            {
+              "name": "linePort",
+              "required": true,
+              "array": false,
+              "type": "AccessDeviceEndpointLinePort",
+              "type_schema": "xs:token",
+              "minLength": 1,
+              "maxLength": 161
+            },
+            [
+              {
+                "name": "userId",
+                "required": true,
+                "array": false,
+                "type": "UserId",
+                "type_schema": "xs:token",
+                "minLength": 1,
+                "maxLength": 161
+              },
+              {
+                "name": "loginRole",
+                "required": false,
+                "array": false,
+                "type": "LoginRole",
+                "type_schema": "xs:token",
+                "enum": [
+                  "Administrator",
+                  "User"
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "name": "UserSingleSignOnCreateDeviceTokenRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "This command allows a BroadWorks or Third-Party Client Application to\n        create a Single Sign-On token for a device of a user.\n        The token is created only if:\n        1. the specified user is the owner of a lineport on the specified device\n           (including a trunk user on a trunk device).\n        2. and, the specified device is not in locked state.\n        3. and, the device type of the device does support Device Management.\n        The response is either UserSingleSignOnCreateDeviceTokenResponse\n        or ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      [
+        {
+          "name": "userId",
+          "required": true,
+          "array": false,
+          "type": "UserId",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 161
+        },
+        {
+          "name": "deviceLevel",
+          "required": true,
+          "array": false,
+          "type": "AccessDeviceLevel",
+          "type_schema": "xs:token",
+          "enum": [
+            "System",
+            "Service Provider",
+            "Group"
+          ]
+        },
+        {
+          "name": "deviceName",
+          "required": true,
+          "array": false,
+          "type": "AccessDeviceName",
+          "type_schema": "xs:token",
+          "minLength": 1,
+          "maxLength": 40
+        }
+      ]
+    ]
+  },
+  {
+    "name": "VerifySessionIsValidRequest",
+    "tags": [
+      "Login"
+    ],
+    "documentation": "Query the provisioning server to verify the session is authorized. Most\n        applications should not need this command, because the provisioning server\n        verifies the session is authorized for all commands.\n        The response is either a SuccessResponse or an ErrorResponse.",
+    "type": "core:OCIRequest",
+    "schema": [
+      "core:OCIRequest"
+    ]
+  }
+]
